@@ -39,6 +39,9 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.squareup.retrofit2:converter-jackson:2.5.0'
     implementation 'com.github.ybq:Android-SpinKit:1.2.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.1'   // RX
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1' // RX
+
 
     //SocMedAuth
     implementation 'com.facebook.android:facebook-login:[5,6)'
