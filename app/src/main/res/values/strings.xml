@@ -1,0 +1,14 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">SDK-AKG</string>
+
+    <!--Button Login-->
+    <string name="btn_login_facebook">Sign in with Facebook</string>
+    <string name="btn_login_gmail">Sign in with Google Play</string>
+    <string name="btn_login_guest">Guest Login</string>
+    <string name="btn_login_phone">Phone Login</string>
+
+    <string name="facebook_app_id" tools:ignore="ExtraTranslation">2116421908480837</string>
+    <string name="fb_login_protocol_scheme" tools:ignore="ExtraTranslation">fb2116421908480837</string>
+
+
+</resources>

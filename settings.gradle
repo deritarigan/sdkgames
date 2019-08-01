@@ -1,0 +1,1 @@
+include ':app', ':akg_sdk'

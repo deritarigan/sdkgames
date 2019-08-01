@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">akg-games</string>
+    <string name="facebook_app_id">2116421908480837</string>
+    <string name="fb_login_protocol_scheme">fb2116421908480837</string>
+
+
+    <!--Button Login-->
+    <string name="btn_login_facebook">Sign in with Facebook</string>
+    <string name="btn_login_gmail">Sign in with Google Play</string>
+    <string name="btn_login_guest">Guest Login</string>
+    <string name="btn_login_phone">Phone Login</string>
+    
+    <!--Button Relaunch-->
+    <string name="btn_continue">Continue in 1s</string>
+    <string name="btn_choose_account">Choose Account</string>
+    <string name="sign_in_with_another_account">Sign in with another account</string>
+
+    <string name="registration_desc">Input your phone number &amp; OTP’s code from your message that already been sent </string>
+    <string name="registration_desc2">Please input your password and verify your password</string>
+</resources>
