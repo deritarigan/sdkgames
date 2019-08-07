@@ -13,7 +13,7 @@ class SetPasswordDialog : BaseDialogFragment() {
     lateinit var mView: View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mView = inflater.inflate(R.layout.content_dialog_input_password, container, false)
+        mView = inflater.inflate(R.layout.content_dialog_input_password, container, true)
         return mView
     }
 
@@ -25,7 +25,7 @@ class SetPasswordDialog : BaseDialogFragment() {
     fun initialize(){
         mView.btnNext.setOnClickListener{
 
-//            this.dismiss()
+            this.dismiss()
         }
     }
 }

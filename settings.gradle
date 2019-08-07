@@ -1,1 +1,1 @@
-include ':app', ':akg_sdk'
+include ':app',':akg_sdk'

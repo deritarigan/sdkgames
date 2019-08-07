@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">akg-games</string>
+    <string name="app_name">SDK-AKG</string>
     <string name="facebook_app_id">2116421908480837</string>
     <string name="fb_login_protocol_scheme">fb2116421908480837</string>
 

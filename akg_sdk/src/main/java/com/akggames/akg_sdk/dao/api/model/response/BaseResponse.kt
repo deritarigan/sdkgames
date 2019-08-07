@@ -1,16 +1,18 @@
 package com.akggames.akg_sdk.dao.api.model.response
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonInclude
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-class FacebookAuthResponse : BaseResponse() {
+open class BaseResponse {
 
-    var data: DataBean? = null
-    var meta: MetaBean? = null
+    var BaseDataResponse: DataBean? = null
+    var BaseMetaResponse: MetaBean? = null
 
     class DataBean {
         var message: String? = null
-        var token:String? = null
+        var token:String?=null
     }
 
     class MetaBean {

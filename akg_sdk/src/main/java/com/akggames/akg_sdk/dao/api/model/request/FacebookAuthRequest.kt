@@ -17,4 +17,7 @@ class FacebookAuthRequest {
     var device_id: String? = null
     var phone_model: String? = null
     var operating_system: String? = null
+    var expires_in: Int? = 0
+    var refresh_token: String? = null
+
 }

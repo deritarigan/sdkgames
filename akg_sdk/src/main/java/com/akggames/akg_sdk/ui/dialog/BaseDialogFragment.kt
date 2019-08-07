@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import com.akggames.akg_sdk.ui.dialog.login.LoginDialogFragment
 import com.akggames.android.R
 
 open class BaseDialogFragment : DialogFragment() {
@@ -21,8 +22,7 @@ open class BaseDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val style = DialogFragment.STYLE_NO_FRAME
-        val theme = R.style.CoconutDialogScreen
+        val style = STYLE_NO_FRAME
         setStyle(style, theme)
     }
 
@@ -36,11 +36,4 @@ open class BaseDialogFragment : DialogFragment() {
             dialog.window?.setBackgroundDrawable(ColorDrawable(context?.resources!!.getColor(R.color.transparent)))
         }
     }
-
-//    fun changeToPhoneLogin(mFragmentManager: FragmentManager,dialogFragment: BaseDialogFragment) {
-//        val dialogFragment = BaseDialogFragment.newInstance(mFragmentManager)
-//        val ftransaction = mFragmentManager.beginTransaction()
-////        phoneLoginDialogFragment.show(ftransaction, "Phone")
-//        dialogFragment.show(mFragmentManager,"Tag")
-//    }
 }

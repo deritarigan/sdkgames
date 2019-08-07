@@ -1,21 +1,30 @@
 package com.akggames.akg_sdk.ui.dialog
 
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import com.akggames.akg_sdk.dao.api.model.request.PhoneAuthRequest
+import com.akggames.akg_sdk.presenter.AuthPresenter
+import com.akggames.akg_sdk.rx.IView
 import com.akggames.akg_sdk.ui.dialog.register.OTPDialog
+import com.akggames.akg_sdk.util.DeviceUtil
 import com.akggames.android.R
-import kotlinx.android.synthetic.main.content_dialog_registration.view.*
+import kotlinx.android.synthetic.main.content_dialog_login_phone.*
+import kotlinx.android.synthetic.main.content_dialog_login_phone.view.*
 
-class PhoneLoginDialogFragment : DialogFragment() {
+class PhoneLoginDialogFragment : BaseDialogFragment(), IView {
+    override fun handleError(message: String) {
+    }
+
+    override fun handleRetryConnection() {
+    }
 
     companion object {
         lateinit var myFragmentManager: FragmentManager
+
 
         fun newInstance(mFragmentManager: FragmentManager): PhoneLoginDialogFragment {
             myFragmentManager = mFragmentManager
@@ -25,15 +34,16 @@ class PhoneLoginDialogFragment : DialogFragment() {
     }
 
     private lateinit var mView: View
+    val presenter = AuthPresenter(this@PhoneLoginDialogFragment)
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mView = inflater.inflate(R.layout.content_dialog_login_phone, container, false)
+        mView = inflater.inflate(R.layout.content_dialog_login_phone, container, true)
         return mView
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val style = DialogFragment.STYLE_NO_FRAME
-        val theme = R.style.CoconutDialogScreen
         setStyle(style, theme)
     }
 
@@ -47,6 +57,17 @@ class PhoneLoginDialogFragment : DialogFragment() {
             val otpDialog = OTPDialog()
             otpDialog.show(requireFragmentManager(), "Registration")
             this.dismiss()
+        }
+        mView.btnLoginPhone.setOnClickListener {
+            val phoneAuthRequest = PhoneAuthRequest()
+            phoneAuthRequest.phone_number = etPhoneNumber.text.toString()
+            phoneAuthRequest.password = etPassword.text.toString()
+            phoneAuthRequest.auth_provider = "akg"
+            phoneAuthRequest.game_provider = "mobile-legend"
+            phoneAuthRequest.device_id = DeviceUtil().getImei(requireActivity())
+            phoneAuthRequest.phone_model = "Xiaomi"
+            phoneAuthRequest.operating_system = "Android"
+            presenter.phoneLogin(phoneAuthRequest, requireActivity())
         }
     }
 }
