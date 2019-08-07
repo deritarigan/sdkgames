@@ -61,7 +61,7 @@ class PhoneLoginDialogFragment : BaseDialogFragment(), IView {
         mView.btnLoginPhone.setOnClickListener {
             val phoneAuthRequest = PhoneAuthRequest()
             phoneAuthRequest.phone_number = etPhoneNumber.text.toString()
-            phoneAuthRequest.password = etPassword.text.toString()
+            phoneAuthRequest.password = etOtpCode.text.toString()
             phoneAuthRequest.auth_provider = "akg"
             phoneAuthRequest.game_provider = "mobile-legend"
             phoneAuthRequest.device_id = DeviceUtil().getImei(requireActivity())

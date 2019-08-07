@@ -9,12 +9,15 @@
     <string name="btn_login_gmail">Sign in with Google Play</string>
     <string name="btn_login_guest">Guest Login</string>
     <string name="btn_login_phone">Phone Login</string>
-    
+
     <!--Button Relaunch-->
     <string name="btn_continue">Continue in 1s</string>
     <string name="btn_choose_account">Choose Account</string>
     <string name="sign_in_with_another_account">Sign in with another account</string>
 
-    <string name="registration_desc">Input your phone number &amp; OTP’s code from your message that already been sent </string>
+    <string name="registration_desc">Input your phone number &amp; OTP’s code from your message that already been sent
+    </string>
     <string name="registration_desc2">Please input your password and verify your password</string>
+
+    <string name="success_placeholder">Your account with number +62 82112 5 XXX19 already been made</string>
 </resources>

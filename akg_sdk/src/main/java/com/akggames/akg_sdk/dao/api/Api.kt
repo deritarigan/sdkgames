@@ -47,7 +47,7 @@ class Api {
 
         @Synchronized
         fun onCheckOtp(model: SendOtpRequest): Observable<BaseResponse> {
-            return initApiDomain().callSendOtp(initHeader(), model)
+            return initApiDomain().callCheckOtp(initHeader(), model)
         }
 
         @Synchronized
