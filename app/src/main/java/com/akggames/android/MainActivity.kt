@@ -1,24 +1,15 @@
 package com.akggames.android
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.akggames.akg_sdk.dao.AuthDao
-import com.akggames.akg_sdk.dao.api.model.request.FacebookAuthRequest
-import com.akggames.akg_sdk.presenter.AuthPresenter
 import com.akggames.akg_sdk.rx.IView
 import com.akggames.akg_sdk.ui.dialog.login.LoginDialogFragment
-import com.akggames.akg_sdk.util.DeviceUtil
 import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.login.LoginResult
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.fbLoginButton
 
 
 class MainActivity : AppCompatActivity(), IView {

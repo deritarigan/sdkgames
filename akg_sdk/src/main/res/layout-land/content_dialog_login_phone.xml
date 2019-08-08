@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+
+            android:background="@color/grey"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            app:cardCornerRadius="16dp"
+            android:layout_width="400dp"
+            app:cardBackgroundColor="@color/grey"
+            android:maxWidth="400dp"
+            android:layout_margin="16dp"
+            android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:background="@mipmap/bg2"
+                android:padding="24dp"
+                android:layout_height="match_parent">
+
+            <TextView
+                    android:text="Phone Login"
+                    android:drawableLeft="@drawable/vector_ic_people"
+                    android:layout_width="wrap_content"
+                    android:textSize="24sp"
+                    android:drawablePadding="8dp"
+                    android:textColor="#000000"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvPhoneNumber"
+                    app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="42dp"
+            />
+
+            <TextView
+                    android:text="Please input your account for sign in"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvDesc"
+                    android:textColor="@color/black" app:layout_constraintStart_toStartOf="@+id/tvPhoneNumber"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPhoneNumber"/>
+            <EditText
+                    android:layout_width="83dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="text|phone"
+                    android:ems="10"
+                    android:drawableRight="@drawable/vector_ic_dropdown"
+                    android:hint="+62"
+                    android:background="@drawable/rounded_rectangle_white"
+                    android:id="@+id/etPhoneCode"
+                    app:layout_constraintStart_toStartOf="@+id/tvDesc" android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDesc"/>
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:ems="10"
+                    android:id="@+id/etPhoneNumber"
+                    app:layout_constraintStart_toEndOf="@+id/etPhoneCode" android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                    android:background="@drawable/rounded_rectangle_white"
+
+                    app:layout_constraintTop_toTopOf="@+id/etPhoneCode"
+                    app:layout_constraintBottom_toBottomOf="@+id/etPhoneCode" android:hint="Phone Number"/>
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:ems="10"
+                    android:background="@drawable/rounded_rectangle_white"
+                    android:id="@+id/etOtpCode"
+                    app:layout_constraintEnd_toEndOf="@+id/etPhoneNumber"
+                    app:layout_constraintStart_toStartOf="@+id/etPhoneCode" android:hint="Password"
+                    android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/etPhoneNumber"/>
+            <TextView
+                    android:text="Create a new account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/greeny_blue"
+
+                    android:id="@+id/tvCreateAccount" app:layout_constraintEnd_toEndOf="@+id/etOtpCode"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/etOtpCode"/>
+            <TextView
+                    android:text="Forgot Password ?"
+                    android:textColor="@color/greeny_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:id="@+id/tvForgotPassword" app:layout_constraintEnd_toEndOf="@+id/tvCreateAccount"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCreateAccount"/>
+            <Button
+                    android:id="@+id/btnLoginPhone"
+                    android:text="Phone Login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvForgotPassword"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    style="@style/ButtonLogin"
+                    android:drawableLeft="@drawable/vector_ic_btn_phone"
+                    android:background="@drawable/rounded_rectangle_tosca"
+                    android:drawablePadding="8dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:paddingRight="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="50dp"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

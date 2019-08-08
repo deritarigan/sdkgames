@@ -17,6 +17,8 @@
 
     <string name="registration_desc">Input your phone number &amp; OTP’s code from your message that already been sent
     </string>
+    <string name="forgot_desc">Input your new password
+    </string>
     <string name="registration_desc2">Please input your password and verify your password</string>
 
     <string name="success_placeholder">Your account with number +62 82112 5 XXX19 already been made</string>

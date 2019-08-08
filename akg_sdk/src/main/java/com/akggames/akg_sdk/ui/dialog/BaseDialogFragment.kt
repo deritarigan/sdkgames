@@ -5,10 +5,18 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import com.akggames.akg_sdk.rx.IView
 import com.akggames.akg_sdk.ui.dialog.login.LoginDialogFragment
 import com.akggames.android.R
 
-open class BaseDialogFragment : DialogFragment() {
+open class BaseDialogFragment : DialogFragment(),IView {
+    override fun handleError(message: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun handleRetryConnection() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     companion object {
         lateinit var myFragmentManager: FragmentManager

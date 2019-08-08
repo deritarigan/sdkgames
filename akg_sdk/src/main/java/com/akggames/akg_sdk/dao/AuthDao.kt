@@ -1,10 +1,7 @@
 package com.akggames.akg_sdk.dao
 
 import com.akggames.akg_sdk.dao.api.Api
-import com.akggames.akg_sdk.dao.api.model.request.FacebookAuthRequest
-import com.akggames.akg_sdk.dao.api.model.request.PhoneAuthRequest
-import com.akggames.akg_sdk.dao.api.model.request.SendOtpRequest
-import com.akggames.akg_sdk.dao.api.model.request.SignUpRequest
+import com.akggames.akg_sdk.dao.api.model.request.*
 import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
 import com.akggames.akg_sdk.dao.api.model.response.FacebookAuthResponse
 import com.akggames.akg_sdk.dao.api.model.response.PhoneAuthResponse
@@ -40,6 +37,12 @@ class AuthDao() {
 
     fun onSignUp(model:SignUpRequest):Observable<BaseResponse>{
         return Api.onSignUp(model)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun onUpdatePassword(model:UpdatePasswordRequest):Observable<BaseResponse>{
+        return Api.onUpdatePassword(model)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
