@@ -9,7 +9,7 @@ import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
 import com.akggames.akg_sdk.presenter.RegisterPresenter
 import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
 import com.akggames.akg_sdk.ui.dialog.register.SetPasswordDialog
-import com.akggames.android.R
+import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_registration.view.*
 
 class ForgetDialog : BaseDialogFragment(), ForgetIView {

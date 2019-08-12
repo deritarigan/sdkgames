@@ -3,7 +3,7 @@ package com.akggames.akg_sdk.ui.component
 import android.content.Context
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import com.akggames.android.R
+import com.akggames.android.sdk.R
 
 
 @DslMarker

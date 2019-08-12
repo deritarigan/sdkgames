@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.akggames.akg_sdk.rx.IView
 import com.akggames.akg_sdk.ui.dialog.login.LoginDialogFragment
-import com.akggames.android.R
+import com.akggames.android.sdk.R
 
 open class BaseDialogFragment : DialogFragment(), IView {
     override fun handleError(message: String) {

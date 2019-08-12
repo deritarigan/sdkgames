@@ -13,7 +13,7 @@ import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
 import com.akggames.akg_sdk.ui.dialog.PhoneLoginDialogFragment
 import com.akggames.akg_sdk.ui.dialog.SuccessDialogFragment
 import com.akggames.akg_sdk.util.DeviceUtil
-import com.akggames.android.R
+import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_input_password.*
 import kotlinx.android.synthetic.main.content_dialog_input_password.view.*
 import kotlinx.android.synthetic.main.content_dialog_input_password.view.btnNext

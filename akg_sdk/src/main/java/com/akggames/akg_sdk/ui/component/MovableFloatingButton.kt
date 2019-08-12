@@ -7,8 +7,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
-import com.akggames.android.R
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.akggames.android.sdk.R
 
 open class MovableFloatingButton : LinearLayout, View.OnTouchListener {
 

@@ -19,7 +19,7 @@ import com.akggames.akg_sdk.rx.IView
 //import com.akggames.akg_sdk.ui.BaseActivity
 import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
 import com.akggames.akg_sdk.ui.dialog.PhoneLoginDialogFragment
-import com.akggames.android.R
+import com.akggames.android.sdk.R
 import com.akggames.akg_sdk.util.DeviceUtil
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback

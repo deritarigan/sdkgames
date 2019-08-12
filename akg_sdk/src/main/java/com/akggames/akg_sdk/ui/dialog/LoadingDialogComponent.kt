@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.annotation.NonNull
 import com.akggames.akg_sdk.IConfig
 //import com.akggames.akg_sdk.ui.BaseActivity
-import com.akggames.android.R
+import com.akggames.android.sdk.R
 
 class LoadingDialogComponent(private val message: String, context: Context, style: Int) :
     Dialog(context, style) {

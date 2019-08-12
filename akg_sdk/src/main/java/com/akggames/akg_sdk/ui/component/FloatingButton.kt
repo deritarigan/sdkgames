@@ -22,7 +22,7 @@ import com.akggames.akg_sdk.ui.adapter.FloatingAdapter
 import com.akggames.akg_sdk.ui.adapter.FloatingAdapterListener
 import com.akggames.akg_sdk.updateLayoutParams
 import com.akggames.akg_sdk.visible
-import com.akggames.android.R
+import com.akggames.android.sdk.R
 import de.hdodenhof.circleimageview.CircleImageView
 
 class FloatingButton : FrameLayout {
@@ -500,5 +500,19 @@ class FloatingButton : FrameLayout {
     /** gets px size from the dp size. */
     private fun dp2Px(size: Float): Int {
         return context.dp2Px(size)
+    }
+
+    fun expandContainer(){
+        updateWidthParams(expandSize, radius)
+        animateScale(1.0f, 1.0f, duration / 2)
+            .doAfterAnimate {  beginDelayedTransition(duration)
+                    updateWidthParams(expandSize, radius)
+                    }
+    }
+    fun shrinkContainer(){
+        animateScale(1.0f, 1.0f, duration / 2)
+            .doAfterAnimate {  beginDelayedTransition(duration)
+                updateWidthParams(getCircleViewAllocation(),radius)
+            }
     }
 }

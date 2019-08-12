@@ -12,7 +12,7 @@ import com.akggames.akg_sdk.rx.IView
 import com.akggames.akg_sdk.ui.dialog.forget.ForgetDialog
 import com.akggames.akg_sdk.ui.dialog.register.OTPDialog
 import com.akggames.akg_sdk.util.DeviceUtil
-import com.akggames.android.R
+import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_login_phone.*
 import kotlinx.android.synthetic.main.content_dialog_login_phone.view.*
 

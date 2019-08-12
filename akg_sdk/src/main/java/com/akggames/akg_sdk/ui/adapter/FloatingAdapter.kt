@@ -1,10 +1,9 @@
 package com.akggames.akg_sdk.ui.adapter
 
 import android.view.View
-import android.view.ViewGroup
 import com.akggames.akg_sdk.dao.api.model.SectionRow
 import com.akggames.akg_sdk.ui.component.ItemWrapper
-import com.akggames.android.R
+import com.akggames.android.sdk.R
 
 class FloatingAdapter(private val listener:FloatingAdapterListener?=null) : BaseAdapter() {
 

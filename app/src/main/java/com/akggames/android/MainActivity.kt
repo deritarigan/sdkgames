@@ -146,9 +146,10 @@ class MainActivity : AppCompatActivity() {
                         } else {
                             if(floatingButton.recyclerView.visibility==View.GONE){
                                 floatingButton.recyclerView.visibility=View.VISIBLE
+                                floatingButton.expandContainer()
                             }else{
                                 floatingButton.recyclerView.visibility=View.GONE
-
+                                floatingButton.shrinkContainer()
                             }
                         }
                         false

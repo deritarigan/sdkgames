@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.core.content.ContextCompat
 import com.akggames.akg_sdk.dao.api.model.FloatingItem
 import com.akggames.akg_sdk.ui.component.FloatingButton
-import com.akggames.android.R
+import com.akggames.android.sdk.R
 
 object AKG_SDK {
 

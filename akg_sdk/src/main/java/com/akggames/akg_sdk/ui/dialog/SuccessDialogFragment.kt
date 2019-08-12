@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import com.akggames.akg_sdk.ui.dialog.register.SetPasswordDialog
-import com.akggames.android.R
+import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_success.view.*
 
 class SuccessDialogFragment : BaseDialogFragment() {
