@@ -8,7 +8,7 @@
         tools:context=".MainActivity">
 
     <Button
-            android:text="Button"
+            android:text="Auth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnShow"
@@ -16,11 +16,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintVertical_bias="0.88"
             app:layout_constraintHorizontal_bias="0.26"/>
+    <com.akggames.akg_sdk.ui.component.FloatingButton
+            android:id="@+id/floatingButton"
+            android:layout_width="wrap_content"
+            android:background="@color/greeny_blue"
+            android:layout_height="wrap_content"
+            app:floating_button_animation="scale"
+            app:floating_button_autoDip="false"
+            app:floating_button_autoNavigate="true"
+            app:floating_button_borderColor="@color/transparent"
+            app:floating_button_borderSize="1dp"
+            app:floating_button_circleAnchor="left"
+            app:floating_button_circlePadding="2dp"
+            app:floating_button_circleSize="30dp"
+            app:floating_button_duration="300"
+            app:floating_button_orientation="horizontal"
+            android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"/>
+
+
+
     <Button
-            android:text="Dismiss"
+            android:text="FloatingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btnDismiss" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:id="@+id/btnDismiss"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
             android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.83"

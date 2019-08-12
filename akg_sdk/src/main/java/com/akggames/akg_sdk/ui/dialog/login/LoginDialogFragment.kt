@@ -134,7 +134,7 @@ class LoginDialogFragment : BaseDialogFragment(), IView {
             .build()
 
         val mGoogleAPIClient = GoogleApiClient.Builder(requireActivity())
-            .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+            .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
             .build()
 //
 
@@ -161,7 +161,7 @@ class LoginDialogFragment : BaseDialogFragment(), IView {
         setGoogleLogin()
         setFacebookLogin()
         mView.btnLoginPhone.setOnClickListener {
-            this.dismiss()
+            this.customDismiss()
 //            showsDialog = true
             changeToPhoneLogin()
         }
@@ -169,12 +169,14 @@ class LoginDialogFragment : BaseDialogFragment(), IView {
         mView.btnGuest.setOnClickListener {
             this.dismiss()
         }
+
     }
 
     fun changeToPhoneLogin() {
         val phoneLoginDialogFragment =
             PhoneLoginDialogFragment.newInstance(myFragmentManager)
-        val ftransaction = myFragmentManager.beginTransaction()
+        val ftransaction = fragmentManager?.beginTransaction()
+        ftransaction!!.addToBackStack("dialog")
         phoneLoginDialogFragment.show(ftransaction, "Phone")
     }
 
@@ -189,11 +191,12 @@ class LoginDialogFragment : BaseDialogFragment(), IView {
             model.operating_system = "android"
             model.phone_model = "samsung"
             model.expires_in = 3600
-            AuthPresenter(this@LoginDialogFragment).googleLogin(model,requireActivity())
+            AuthPresenter(this@LoginDialogFragment).googleLogin(model, requireActivity())
 
         } catch (e: ApiException) {
             Log.w("FRAGMENT_GOOGLE", "signInResult:failed code=" + e.statusCode)
         }
     }
+
 
 }

@@ -17,9 +17,16 @@
         <item name="android:windowTranslucentNavigation" tools:ignore="NewApi">true</item>
     </style>
 
-    <style name="DialogAnimation" >
+    <style name="DialogAnimation">
         <!--<item name="android:windowEnterAnimation">@anim/slide_up_dialog</item>-->
         <!--<item name="android:windowExitAnimation">@anim/slide_down_dialog</item>-->
     </style>
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light"/>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
 </resources>

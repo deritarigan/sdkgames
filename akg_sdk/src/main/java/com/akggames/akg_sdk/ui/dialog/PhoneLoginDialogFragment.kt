@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager
 import com.akggames.akg_sdk.dao.api.model.request.PhoneAuthRequest
 import com.akggames.akg_sdk.presenter.AuthPresenter
 import com.akggames.akg_sdk.rx.IView
+import com.akggames.akg_sdk.ui.dialog.forget.ForgetDialog
 import com.akggames.akg_sdk.ui.dialog.register.OTPDialog
 import com.akggames.akg_sdk.util.DeviceUtil
 import com.akggames.android.R
@@ -55,8 +56,11 @@ class PhoneLoginDialogFragment : BaseDialogFragment(), IView {
     fun initView() {
         mView.tvCreateAccount.setOnClickListener {
             val otpDialog = OTPDialog()
+            val ftransaction =fragmentManager?.beginTransaction()
+            ftransaction?.addToBackStack("dialog")
             otpDialog.show(requireFragmentManager(), "Registration")
-            this.dismiss()
+            this.customDismiss()
+//            this.dismiss()
         }
         mView.btnLoginPhone.setOnClickListener {
             val phoneAuthRequest = PhoneAuthRequest()
@@ -68,6 +72,10 @@ class PhoneLoginDialogFragment : BaseDialogFragment(), IView {
             phoneAuthRequest.phone_model = "Xiaomi"
             phoneAuthRequest.operating_system = "Android"
             presenter.phoneLogin(phoneAuthRequest, requireActivity())
+        }
+        mView.tvForgotPassword.setOnClickListener{
+            val forgetDialog = ForgetDialog()
+            forgetDialog.show(requireFragmentManager(), "Forget")
         }
     }
 }
