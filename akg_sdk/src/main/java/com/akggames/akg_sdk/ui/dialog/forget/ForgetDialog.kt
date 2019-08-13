@@ -41,7 +41,7 @@ class ForgetDialog : BaseDialogFragment(), ForgetIView {
 
     fun initialize() {
         sendOtpRequest.auth_provider = "akg"
-        sendOtpRequest.game_provider = "mobile-legend"
+        sendOtpRequest.game_provider = "mobile-legends"
         sendOtpRequest.otp_type = "forgot_password"
 
         mView.btnNext.setOnClickListener {

@@ -6,14 +6,17 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.akggames.akg_sdk.AKG_SDK
 import com.akggames.akg_sdk.dao.api.model.FloatingItem
 import com.akggames.akg_sdk.rx.IView
+import com.akggames.akg_sdk.ui.adapter.FloatingAdapterListener
 import com.akggames.akg_sdk.ui.component.onTouchUtil
 import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
 import com.akggames.akg_sdk.ui.dialog.login.LoginDialogFragment
+import com.akggames.akg_sdk.ui.dialog.menu.InfoDialog
 import com.facebook.CallbackManager
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -22,7 +25,18 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FloatingAdapterListener {
+    override fun onItemClick(position: Int, floatingItem: FloatingItem) {
+        val contactUsDialog = InfoDialog()
+
+        when (position) {
+            0-> Toast.makeText(this,"nol",Toast.LENGTH_LONG).show()
+            1->Toast.makeText(this,"satu",Toast.LENGTH_LONG).show()
+            2->Toast.makeText(this,"dua",Toast.LENGTH_LONG).show()
+            3->Toast.makeText(this,"tiga",Toast.LENGTH_LONG).show()
+            4->{contactUsDialog.show(supportFragmentManager,"contactUs")}
+        }
+    }
 
     private var downRawX: Float = 0.toFloat()
     private var downRawY: Float = 0.toFloat()
@@ -66,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        }
         btnDismiss.setOnClickListener {
-//            if (flFloatingButton.visibility==View.VISIBLE) {
+            //            if (flFloatingButton.visibility==View.VISIBLE) {
 //                flFloatingButton.visibility=View.GONE
 //            } else {
 //                flFloatingButton.visibility=View.VISIBLE
@@ -80,8 +94,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun handleOnTouch(){
-        floatingButton.setOnTouchListener(object:View.OnTouchListener{
+    fun handleOnTouch() {
+        floatingButton.setOnTouchListener(object : View.OnTouchListener {
             private var downRawX: Float = 0.toFloat()
             private var downRawY: Float = 0.toFloat()
             private var dX: Float = 0.toFloat()
@@ -144,11 +158,9 @@ class MainActivity : AppCompatActivity() {
                             floatingButton.float()
 
                         } else {
-                            if(floatingButton.recyclerView.visibility==View.GONE){
-                                floatingButton.recyclerView.visibility=View.VISIBLE
+                            if (floatingButton.recyclerView.visibility == View.GONE) {
                                 floatingButton.expandContainer()
-                            }else{
-                                floatingButton.recyclerView.visibility=View.GONE
+                            } else {
                                 floatingButton.shrinkContainer()
                             }
                         }
@@ -168,7 +180,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun subMarine() {
-        AKG_SDK.setFloatingButton(floatingButton,this)
+        AKG_SDK.setFloatingButton(floatingButton, this)
     }
 
     fun init() {
@@ -177,59 +189,7 @@ class MainActivity : AppCompatActivity() {
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this@MainActivity, gso)
 
-
-//        val gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
-//            override fun onSingleTapUp(e: MotionEvent?): Boolean {
-//                if (lyMenu.visibility == View.VISIBLE) lyMenu.visibility = View.GONE
-//                else lyMenu.visibility = View.VISIBLE
-//                return super.onSingleTapUp(e)
-//            }
-//
-//        })
-
-
-//        var listener = View.OnTouchListener(function = { view, motionEvent ->
-//            if (motionEvent.action == MotionEvent.ACTION_MOVE) {
-//                if (motionEvent.rawY - view.y > view.height) {
-//                    view.y = view.y + (motionEvent.rawY - (view.y + view.height)) - view.height / 2
-//                    view.x = motionEvent.rawX - view.width / 2
-//                } else {
-//                    if (lyMenu.visibility == View.VISIBLE) lyMenu.visibility = View.GONE
-//                    else lyMenu.visibility = View.VISIBLE
-//                }
-//            }
-//
-//            true
-//        })
-
-//        fab.setOnTouchListener { view, motionEvent ->
-//            if (motionEvent?.action == MotionEvent.ACTION_MOVE) {
-//                view?.y = view!!.y + (motionEvent.rawY - (view.y + view.height)) - view.height / 2
-//                view?.x = motionEvent.rawX - view.width / 2
-//                //                    if (motionEvent.rawY - view!!.y > view.height) {
-//                //
-//                //                    } else {
-//                //                        if (lyMenu.visibility == View.VISIBLE) lyMenu.visibility = View.GONE
-//                //                        else lyMenu.visibility = View.VISIBLE
-//                //                    }
-//            }
-//            gestureDetector.onTouchEvent(motionEvent)
-//            true
-//        }
-//        moveableButton.setOnTouchListener { view, motionEvent ->
-//            if (motionEvent?.action == MotionEvent.ACTION_MOVE) {
-//                view?.y = view!!.y + (motionEvent.rawY - (view.y + view.height)) - view.height / 2
-//                view?.x = motionEvent.rawX - view.width / 2
-//                //                    if (motionEvent.rawY - view!!.y > view.height) {
-//                //
-//                //                    } else {
-//                //                        if (lyMenu.visibility == View.VISIBLE) lyMenu.visibility = View.GONE
-//                //                        else lyMenu.visibility = View.VISIBLE
-//                //                    }
-//            }
-//            gestureDetector.onTouchEvent(motionEvent)
-//            true
-//        }
+        floatingButton.floatingAdapterListener= this
     }
 
     override fun onBackPressed() {

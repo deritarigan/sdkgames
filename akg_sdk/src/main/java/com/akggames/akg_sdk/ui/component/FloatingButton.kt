@@ -503,13 +503,16 @@ class FloatingButton : FrameLayout {
     }
 
     fun expandContainer(){
-        updateWidthParams(expandSize, radius)
+
+        this.recyclerView.visibility=View.VISIBLE
         animateScale(1.0f, 1.0f, duration / 2)
             .doAfterAnimate {  beginDelayedTransition(duration)
                     updateWidthParams(expandSize, radius)
                     }
     }
+
     fun shrinkContainer(){
+        this.recyclerView.visibility=View.GONE
         animateScale(1.0f, 1.0f, duration / 2)
             .doAfterAnimate {  beginDelayedTransition(duration)
                 updateWidthParams(getCircleViewAllocation(),radius)

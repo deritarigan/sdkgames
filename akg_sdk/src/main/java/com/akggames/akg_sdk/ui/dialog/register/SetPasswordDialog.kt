@@ -82,7 +82,7 @@ class SetPasswordDialog : BaseDialogFragment(), SetPasswordIView {
         mView.btnNext.setOnClickListener {
             model.phone_model = "Samsung"
             model.auth_provider = "akg"
-            model.game_provider = "mobile-legend"
+            model.game_provider = "mobile-legends"
             model.device_id = DeviceUtil().getImei(requireActivity())
             model.operating_system = "android"
             model.password = etPassword.text.toString()

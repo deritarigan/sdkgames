@@ -38,7 +38,7 @@ class UpdatePasswordDialog:BaseDialogFragment(),UpdatePasswordIView {
         val model = UpdatePasswordRequest()
         mView.btnNext.setOnClickListener {
             model.auth_provider = "akg"
-            model.game_provider = "mobile-legend"
+            model.game_provider = "mobile-legends"
             model.password = etPassword.text.toString()
             model.phone_number = "087708180002"
             presenter.onUpdatePassword(model,requireActivity())

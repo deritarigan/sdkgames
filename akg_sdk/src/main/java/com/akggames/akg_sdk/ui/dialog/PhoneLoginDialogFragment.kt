@@ -67,7 +67,7 @@ class PhoneLoginDialogFragment : BaseDialogFragment(), IView {
             phoneAuthRequest.phone_number = etPhoneNumber.text.toString()
             phoneAuthRequest.password = etOtpCode.text.toString()
             phoneAuthRequest.auth_provider = "akg"
-            phoneAuthRequest.game_provider = "mobile-legend"
+            phoneAuthRequest.game_provider = "mobile-legends"
             phoneAuthRequest.device_id = DeviceUtil().getImei(requireActivity())
             phoneAuthRequest.phone_model = "Xiaomi"
             phoneAuthRequest.operating_system = "Android"

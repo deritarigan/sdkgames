@@ -17,7 +17,6 @@
             android:layout_height="wrap_content">
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:paddingBottom="24dp"
                 android:background="@mipmap/bg"
                 android:layout_height="match_parent">
             <com.facebook.login.widget.LoginButton
@@ -30,7 +29,7 @@
                     android:layout_width="210dp"
                     android:layout_height="70dp"
                     android:background="@drawable/vector_logo"
-                    android:id="@+id/ivLogo" android:layout_marginTop="24dp"
+                    android:id="@+id/ivLogo" android:layout_marginTop="48dp"
                     app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="8dp"
@@ -40,19 +39,21 @@
                     android:paddingLeft="36dp"
                     android:paddingRight="36dp"
                     android:layout_width="0dp"
+                    android:textSize="14sp"
                     style="@style/ButtonLogin"
                     android:drawablePadding="24dp"
                     android:drawableLeft="@drawable/vector_ic_btn_fb"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_rectangle_blue"
                     android:id="@+id/btnLoginFacebook"
-                    android:layout_marginTop="36dp"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintTop_toBottomOf="@+id/ivLogo" app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="36dp" app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="36dp"/>
+                    android:layout_marginEnd="24dp" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="24dp"/>
             <Button
                     android:text="@string/btn_login_gmail"
                     android:layout_width="0dp"
+                    android:textSize="14sp"
                     android:layout_height="wrap_content"
                     android:paddingLeft="36dp"
                     android:paddingRight="36dp"
@@ -69,41 +70,57 @@
                     android:text="Other Login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                    android:id="@+id/textView" app:layout_constraintEnd_toEndOf="parent"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="8dp"
                     app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/btnLoginGoogle"/>
-            <Button
-                    android:text="@string/btn_login_guest"
-                    android:layout_width="150dp"
+                    app:layout_constraintTop_toBottomOf="@+id/btnLoginGoogle" android:layout_marginTop="14dp"/>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:weightSum="2"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btnGuest"
-                    android:layout_marginTop="16dp"
-                    android:drawablePadding="8dp"
-                    android:drawableLeft="@drawable/vector_ic_btn_guest"
-                    app:layout_constraintTop_toBottomOf="@+id/textView"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    app:layout_constraintStart_toStartOf="@+id/btnLoginGoogle"
-                    style="@style/ButtonLogin"
-                    android:background="@drawable/rounded_rectangle_tosca"
-                    android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0" app:layout_constraintBottom_toBottomOf="parent"/>
-            <Button
-                    android:text="@string/btn_login_phone"
-                    android:layout_width="150dp"
-                    style="@style/ButtonLogin"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btnLoginPhone" app:layout_constraintEnd_toEndOf="@+id/btnLoginGoogle"
-                    android:layout_marginTop="16dp"
-                    android:drawableLeft="@drawable/vector_ic_btn_phone"
-                    android:drawablePadding="8dp"
-                    android:background="@drawable/rounded_rectangle_tosca"
-                    app:layout_constraintTop_toBottomOf="@+id/textView"
-                    android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    android:layout_marginBottom="48dp"
+                    android:paddingLeft="24dp"
+                    android:paddingRight="24dp"
+                    app:layout_constraintTop_toBottomOf="@id/textView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.06999999"
+                    android:layout_marginTop="14dp">
+
+                <Button
+                        android:layout_weight="1"
+                        android:text="@string/btn_login_guest"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btnGuest"
+                        android:textSize="12sp"
+                        android:drawablePadding="8dp"
+                        android:layout_marginRight="8dp"
+                        android:drawableLeft="@drawable/vector_ic_btn_guest"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        style="@style/ButtonLogin"
+                        android:background="@drawable/rounded_rectangle_tosca"
+                />
+                <Button
+                        android:text="@string/btn_login_phone"
+                        android:layout_weight="1"
+                        android:layout_width="150dp"
+                        style="@style/ButtonLogin"
+                        android:textSize="12sp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btnLoginPhone"
+                        android:drawableLeft="@drawable/vector_ic_btn_phone"
+                        android:drawablePadding="8dp"
+                        android:background="@drawable/rounded_rectangle_tosca"
+                />
+            </LinearLayout>
             <View
                     android:layout_width="0dp"
                     android:background="@color/light_grey"
