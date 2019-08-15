@@ -17,6 +17,7 @@
 
     <string name="registration_desc">Input your phone number &amp; OTP’s code from your message that already been sent
     </string>
+    <string name="forgot_title">Forgot Password</string>
     <string name="forgot_desc">Input your new password
     </string>
     <string name="registration_desc2">Please input your password and verify your password</string>
@@ -24,7 +25,7 @@
     <string name="success_placeholder">Your account with number +62 82112 5 XXX19 already been made</string>
     <string name="title_activity_main">MainActivity</string>
 
-    <string name="logout_desc">Do you wan to get out from this account?</string>
+    <string name="logout_desc">Do you want to get out from this account?</string>
     <string name="check_update_desc">Your SDK\'s Version is 3.92, and already been updated </string>
 
     <string name="contact_us_desc">Contact us to our email admin@akggames.com</string>
@@ -33,4 +34,7 @@
     <string name="verification_desc">Input your old password and verify your password</string>
 
     <string name="verify_account">Please input your sign in account</string>
+    <string name="bind_account">Secure your progress by binding your account</string>
+
+    <string name="change_password_desc">Input your old password and input your new password</string>
 </resources>

@@ -41,14 +41,7 @@ import kotlinx.android.synthetic.main.content_dialog_login.*
 import kotlinx.android.synthetic.main.content_dialog_login.view.*
 
 
-class LoginDialogFragment : BaseDialogFragment(), IView {
-    override fun handleError(message: String) {
-
-    }
-
-    override fun handleRetryConnection() {
-
-    }
+class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), IView {
 
     lateinit var mView: View
     lateinit var callbackManager: CallbackManager
@@ -61,18 +54,20 @@ class LoginDialogFragment : BaseDialogFragment(), IView {
     var onViewDestroyed = true
 
     companion object {
-        lateinit var myFragmentManager: FragmentManager
-
         fun newInstance(mFragmentManager: FragmentManager): LoginDialogFragment {
-            val mDialogFragment = LoginDialogFragment()
-            myFragmentManager = mFragmentManager
+            val mDialogFragment = LoginDialogFragment(mFragmentManager)
             return mDialogFragment
         }
+    }
+
+    init {
+        myFragmentManager = fm
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mView =
             LayoutInflater.from(requireActivity() as Context).inflate(R.layout.content_dialog_login, container, true)
+
         return mView
     }
 
@@ -106,23 +101,19 @@ class LoginDialogFragment : BaseDialogFragment(), IView {
                 model.access_token = result?.accessToken?.token
                 model.auth_provider = "facebook"
                 model.device_id = DeviceUtil().getImei(requireActivity())
-                model.game_provider = "tes"
+                model.game_provider = "mobile-legends"
                 model.operating_system = "android"
                 model.phone_model = "samsung"
                 presenter.facebookLogin(model, requireActivity())
             }
 
             override fun onCancel() {
-                //Cancel
             }
 
             override fun onError(error: FacebookException?) {
-                //App Code
             }
         })
-
     }
-
 
     /*
      * GOOGLE SIGN IN----------------------------------------->
@@ -162,7 +153,6 @@ class LoginDialogFragment : BaseDialogFragment(), IView {
         setFacebookLogin()
         mView.btnLoginPhone.setOnClickListener {
             this.customDismiss()
-//            showsDialog = true
             changeToPhoneLogin()
         }
 
@@ -175,9 +165,9 @@ class LoginDialogFragment : BaseDialogFragment(), IView {
     fun changeToPhoneLogin() {
         val phoneLoginDialogFragment =
             PhoneLoginDialogFragment.newInstance(myFragmentManager)
-        val ftransaction = fragmentManager?.beginTransaction()
-        ftransaction!!.addToBackStack("dialog")
-        phoneLoginDialogFragment.show(ftransaction, "Phone")
+        val ftransaction = myFragmentManager?.beginTransaction()
+        ftransaction?.addToBackStack("phone")
+        phoneLoginDialogFragment.show(ftransaction, "phone")
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
@@ -187,7 +177,7 @@ class LoginDialogFragment : BaseDialogFragment(), IView {
             model.access_token = account?.idToken
             model.auth_provider = "google"
             model.device_id = DeviceUtil().getImei(requireActivity())
-            model.game_provider = "tes"
+            model.game_provider = "mobile-legends"
             model.operating_system = "android"
             model.phone_model = "samsung"
             model.expires_in = 3600

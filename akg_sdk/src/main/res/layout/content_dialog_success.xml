@@ -33,7 +33,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tvPhoneNumber"
                     app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="20dp"/>
+                    android:layout_marginTop="16dp"/>
 
             <TextView
                     android:text="@string/success_placeholder"

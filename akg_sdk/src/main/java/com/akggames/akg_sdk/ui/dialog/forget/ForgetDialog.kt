@@ -4,16 +4,36 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.FragmentManager
+import com.akggames.akg_sdk.animateScale
+import com.akggames.akg_sdk.beginDelayedTransition
 import com.akggames.akg_sdk.dao.api.model.request.SendOtpRequest
 import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
+import com.akggames.akg_sdk.doAfterAnimate
 import com.akggames.akg_sdk.presenter.RegisterPresenter
 import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
+import com.akggames.akg_sdk.ui.dialog.register.OTPIView
 import com.akggames.akg_sdk.ui.dialog.register.SetPasswordDialog
 import com.akggames.android.sdk.R
+import kotlinx.android.synthetic.main.content_dialog_forgot.*
+import kotlinx.android.synthetic.main.content_dialog_forgot.view.*
+import kotlinx.android.synthetic.main.content_dialog_forgot.view.btnNext
+import kotlinx.android.synthetic.main.content_dialog_forgot.view.etOtpCode
+import kotlinx.android.synthetic.main.content_dialog_forgot.view.etPhoneNumber
 import kotlinx.android.synthetic.main.content_dialog_registration.view.*
 
-class ForgetDialog : BaseDialogFragment(), ForgetIView {
+class ForgetDialog(fm:FragmentManager?) : BaseDialogFragment(), OTPIView {
 
+    companion object {
+        fun newInstance(fm: FragmentManager?): ForgetDialog {
+            return ForgetDialog(fm)
+        }
+    }
+
+    init {
+        myFragmentManager = fm
+    }
 
     lateinit var mView: View
     var isGenerateOTP: Boolean = false
@@ -31,12 +51,21 @@ class ForgetDialog : BaseDialogFragment(), ForgetIView {
 
     override fun doOnSuccessGenerate(data: BaseResponse) {
         isGenerateOTP = true
+        clOtp.animateScale(1.0f, 1.0f, 350L / 2)
+            .doAfterAnimate {
+                clOtp.beginDelayedTransition(350L)
+                clOtp.visibility = View.VISIBLE
+            }
     }
 
     override fun doOnSuccessCheck(data: BaseResponse) {
-        val setPasswordDialog = SetPasswordDialog()
-        setPasswordDialog.show(requireFragmentManager(), "Set Password")
-        this.dismiss()
+        var bundle = Bundle()
+        bundle.putString("phone","0"+mView.etPhoneNumber.text.toString())
+        val updatePassword = UpdatePasswordDialog.newInstance(myFragmentManager,bundle)
+        val ftransaction = myFragmentManager?.beginTransaction()
+        ftransaction?.addToBackStack("update password")
+        updatePassword.show(ftransaction, "update password")
+        customDismiss()
     }
 
     fun initialize() {
@@ -45,14 +74,18 @@ class ForgetDialog : BaseDialogFragment(), ForgetIView {
         sendOtpRequest.otp_type = "forgot_password"
 
         mView.btnNext.setOnClickListener {
-            val presenter = RegisterPresenter(this@ForgetDialog)
-            sendOtpRequest.phone_number = mView.etPhoneNumber.text.toString()
-            if (!isGenerateOTP) {
-                presenter.sendOtp(sendOtpRequest, requireActivity())
-                isGenerateOTP = true
+            if (mView.etPhoneNumber.text.isNotEmpty()) {
+                val presenter = RegisterPresenter(this@ForgetDialog)
+                sendOtpRequest.phone_number = "0"+mView.etPhoneNumber.text.toString()
+                if (!isGenerateOTP) {
+                    presenter.sendOtp(sendOtpRequest, requireActivity())
+                    isGenerateOTP = true
+                } else {
+                    sendOtpRequest.otp_code = mView.etOtpCode.text.toString()
+                    presenter.checkOtp(sendOtpRequest, requireActivity())
+                }
             } else {
-                sendOtpRequest.otp_code = mView.etOtpCode.text.toString()
-                presenter.checkOtp(sendOtpRequest, requireActivity())
+                Toast.makeText(requireActivity(), "field cannot be empty", Toast.LENGTH_LONG).show()
             }
         }
     }

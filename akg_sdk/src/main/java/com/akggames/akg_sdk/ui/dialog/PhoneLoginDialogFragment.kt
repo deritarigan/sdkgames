@@ -16,22 +16,16 @@ import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_login_phone.*
 import kotlinx.android.synthetic.main.content_dialog_login_phone.view.*
 
-class PhoneLoginDialogFragment : BaseDialogFragment(), IView {
-    override fun handleError(message: String) {
-    }
-
-    override fun handleRetryConnection() {
-    }
+class PhoneLoginDialogFragment(fm:FragmentManager?) : BaseDialogFragment(), IView {
 
     companion object {
-        lateinit var myFragmentManager: FragmentManager
-
-
-        fun newInstance(mFragmentManager: FragmentManager): PhoneLoginDialogFragment {
-            myFragmentManager = mFragmentManager
-            return PhoneLoginDialogFragment()
+        fun newInstance(fm: FragmentManager?): PhoneLoginDialogFragment {
+            return PhoneLoginDialogFragment(fm)
         }
+    }
 
+    init {
+        myFragmentManager = fm
     }
 
     private lateinit var mView: View
@@ -55,16 +49,15 @@ class PhoneLoginDialogFragment : BaseDialogFragment(), IView {
 
     fun initView() {
         mView.tvCreateAccount.setOnClickListener {
-            val otpDialog = OTPDialog()
-            val ftransaction =fragmentManager?.beginTransaction()
-            ftransaction?.addToBackStack("dialog")
-            otpDialog.show(requireFragmentManager(), "Registration")
-            this.customDismiss()
-//            this.dismiss()
+            val otpDialog = OTPDialog.newInstance(myFragmentManager)
+            val ftransaction =myFragmentManager?.beginTransaction()
+            ftransaction?.addToBackStack("registration")
+            otpDialog.show(ftransaction, "registration")
+            customDismiss()
         }
         mView.btnLoginPhone.setOnClickListener {
             val phoneAuthRequest = PhoneAuthRequest()
-            phoneAuthRequest.phone_number = etPhoneNumber.text.toString()
+            phoneAuthRequest.phone_number = "0"+etPhoneNumber.text.toString()
             phoneAuthRequest.password = etOtpCode.text.toString()
             phoneAuthRequest.auth_provider = "akg"
             phoneAuthRequest.game_provider = "mobile-legends"
@@ -74,8 +67,11 @@ class PhoneLoginDialogFragment : BaseDialogFragment(), IView {
             presenter.phoneLogin(phoneAuthRequest, requireActivity())
         }
         mView.tvForgotPassword.setOnClickListener{
-            val forgetDialog = ForgetDialog()
-            forgetDialog.show(requireFragmentManager(), "Forget")
+            val forgetDialog = ForgetDialog.newInstance(myFragmentManager)
+            val ftransaction =myFragmentManager?.beginTransaction()
+            ftransaction?.addToBackStack("forget")
+            forgetDialog.show(ftransaction, "forget")
+            customDismiss()
         }
     }
 }

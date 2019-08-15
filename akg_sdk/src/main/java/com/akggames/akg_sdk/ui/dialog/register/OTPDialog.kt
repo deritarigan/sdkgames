@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import androidx.transition.TransitionManager.beginDelayedTransition
 import com.akggames.akg_sdk.animateScale
 import com.akggames.akg_sdk.beginDelayedTransition
@@ -18,7 +20,18 @@ import kotlinx.android.synthetic.main.content_dialog_registration.*
 import kotlinx.android.synthetic.main.content_dialog_registration.view.*
 import kotlinx.android.synthetic.main.content_dialog_registration.view.clOtp
 
-class OTPDialog : BaseDialogFragment(), OTPIView {
+class OTPDialog(fm:FragmentManager?) : BaseDialogFragment(), OTPIView {
+
+    companion object {
+        fun newInstance(fm: FragmentManager?): OTPDialog {
+            return OTPDialog(fm)
+        }
+    }
+
+    init {
+        myFragmentManager = fm
+    }
+
     override fun doOnSuccessGenerate(data: BaseResponse) {
         isGenerateOTP = true
         clOtp.animateScale(1.0f, 1.0f, 350L / 2)
@@ -28,23 +41,16 @@ class OTPDialog : BaseDialogFragment(), OTPIView {
     }
 
     override fun doOnSuccessCheck(data: BaseResponse) {
-        var bundle: Bundle = Bundle()
+        var bundle = Bundle()
         bundle.putString("phone","0"+mView.etPhoneNumber.text.toString())
-        val setPasswordDialog = SetPasswordDialog.newInstance(fragmentManager,bundle)
-        val ftransaction =fragmentManager?.beginTransaction()
-        ftransaction?.addToBackStack("dialog")
-        setPasswordDialog.show(requireFragmentManager(), "Set Password")
-//        this.dismiss()
+        val setPasswordDialog = SetPasswordDialog.newInstance(myFragmentManager,bundle)
+        val ftransaction =myFragmentManager?.beginTransaction()
+        ftransaction?.addToBackStack("set password")
+        setPasswordDialog.show(ftransaction, "set password")
         customDismiss()
     }
 
-    override fun handleError(message: String) {
 
-    }
-
-    override fun handleRetryConnection() {
-
-    }
 
     lateinit var mView: View
     var isGenerateOTP: Boolean = false
@@ -65,13 +71,17 @@ class OTPDialog : BaseDialogFragment(), OTPIView {
         sendOtpRequest.otp_type = "registration"
 
         mView.btnNext.setOnClickListener {
-            val presenter = RegisterPresenter(this@OTPDialog)
-            sendOtpRequest.phone_number = "0"+mView.etPhoneNumber.text.toString()
-            if (!isGenerateOTP) {
-                presenter.sendOtp(sendOtpRequest, requireActivity())
+            if(mView.etPhoneNumber.text.isNotEmpty()){
+                val presenter = RegisterPresenter(this@OTPDialog)
+                sendOtpRequest.phone_number = "0"+mView.etPhoneNumber.text.toString()
+                if (!isGenerateOTP) {
+                    presenter.sendOtp(sendOtpRequest, requireActivity())
+                }else{
+                    sendOtpRequest.otp_code = mView.etOtpCode.text.toString()
+                    presenter.checkOtp(sendOtpRequest,requireActivity())
+                }
             }else{
-                sendOtpRequest.otp_code = mView.etOtpCode.text.toString()
-                presenter.checkOtp(sendOtpRequest,requireActivity())
+                Toast.makeText(requireActivity(),"field cannot be empty",Toast.LENGTH_LONG).show()
             }
         }
     }

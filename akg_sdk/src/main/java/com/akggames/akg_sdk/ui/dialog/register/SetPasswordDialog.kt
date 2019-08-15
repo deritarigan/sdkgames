@@ -4,41 +4,38 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
+import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import com.akggames.akg_sdk.dao.api.model.request.SignUpRequest
 import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
 import com.akggames.akg_sdk.presenter.RegisterPresenter
 import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
-import com.akggames.akg_sdk.ui.dialog.PhoneLoginDialogFragment
 import com.akggames.akg_sdk.ui.dialog.SuccessDialogFragment
 import com.akggames.akg_sdk.util.DeviceUtil
 import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_input_password.*
-import kotlinx.android.synthetic.main.content_dialog_input_password.view.*
 import kotlinx.android.synthetic.main.content_dialog_input_password.view.btnNext
+import kotlinx.android.synthetic.main.content_dialog_input_password.view.etConfPassword
 import kotlinx.android.synthetic.main.content_dialog_input_password.view.etPassword
-import kotlinx.android.synthetic.main.content_dialog_registration.view.*
 
 
-class SetPasswordDialog : BaseDialogFragment(), SetPasswordIView {
+class SetPasswordDialog(fm:FragmentManager?) : BaseDialogFragment(), SetPasswordIView {
 
 
     lateinit var mView: View
     val presenter = RegisterPresenter(this@SetPasswordDialog)
-    var phone : String? = ""
+    var phone: String? = ""
 
     companion object {
-         var myFragmentManager: FragmentManager?= null
-
-
         fun newInstance(mFragmentManager: FragmentManager?, bundle: Bundle): SetPasswordDialog {
-            myFragmentManager = mFragmentManager
-            val mDialog = SetPasswordDialog()
+            val mDialog = SetPasswordDialog(mFragmentManager)
             mDialog.arguments = bundle
-                return mDialog
+            return mDialog
         }
+    }
 
+    init{
+        myFragmentManager=fm
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -61,34 +58,45 @@ class SetPasswordDialog : BaseDialogFragment(), SetPasswordIView {
     }
 
     override fun doOnSuccess(data: BaseResponse) {
-        val bundle: Bundle = Bundle()
-        bundle.putString("phone",phone)
-        val successDialog = SuccessDialogFragment.newInstance(null,bundle)
-        successDialog.show(requireFragmentManager(), "Success")
-//        this.dismiss()
+        val bundle = Bundle()
+        bundle.putString("phone", phone)
+        val successDialog = SuccessDialogFragment.newInstance(myFragmentManager, bundle)
+        val ftransaction = myFragmentManager?.beginTransaction()
+        clearBackStack()
+        ftransaction?.addToBackStack("success")
+        successDialog.show(ftransaction, "success")
         customDismiss()
-    }
-
-    override fun handleError(message: String) {
-
-    }
-
-    override fun handleRetryConnection() {
-
     }
 
     fun initialize() {
         val model = SignUpRequest()
         mView.btnNext.setOnClickListener {
-            model.phone_model = "Samsung"
-            model.auth_provider = "akg"
-            model.game_provider = "mobile-legends"
-            model.device_id = DeviceUtil().getImei(requireActivity())
-            model.operating_system = "android"
-            model.password = etPassword.text.toString()
-            model.phone_number = phone
-            presenter.onSignUp(model, requireActivity())
-            //            this.dismiss()
+            if (mView.etPassword.text.isNotEmpty() && mView.etConfPassword.text.isNotEmpty()) {
+                if (etPassword.text.toString().length > 7 && etConfPassword.text.toString().length > 7) {
+                    if (etPassword.text.toString().equals(etConfPassword.text.toString())) {
+                        model.phone_model = "Samsung"
+                        model.auth_provider = "akg"
+                        model.game_provider = "mobile-legends"
+                        model.device_id = DeviceUtil().getImei(requireActivity())
+                        model.operating_system = "android"
+                        model.password = etPassword.text.toString()
+                        model.phone_number = phone
+                        presenter.onSignUp(model, requireActivity())
+                    } else {
+                        Toast.makeText(requireActivity(), "Please check your password", Toast.LENGTH_LONG).show()
+                    }
+                }else{
+                    if(!(etPassword.text.toString().length > 7)){
+                        etPassword.error = "Password must be at least 8 characters"
+                    }
+                    if(!(etConfPassword.text.toString().length > 7)){
+                        etConfPassword.error = "Password must be at least 8 characters"
+                    }
+                }
+
+            } else {
+                Toast.makeText(requireActivity(), "Fields cannot be empty", Toast.LENGTH_LONG).show()
+            }
         }
     }
 }

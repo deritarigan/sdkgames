@@ -9,23 +9,22 @@ import com.akggames.akg_sdk.ui.dialog.register.SetPasswordDialog
 import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_success.view.*
 
-class SuccessDialogFragment : BaseDialogFragment() {
+class SuccessDialogFragment(fm: FragmentManager?) : BaseDialogFragment() {
 
     lateinit var mView: View
-    var phone : String? = ""
+    var phone: String? = ""
 
 
     companion object {
-        var myFragmentManager: FragmentManager? = null
-
-
         fun newInstance(mFragmentManager: FragmentManager?, bundle: Bundle): SuccessDialogFragment {
-            myFragmentManager = mFragmentManager
-            val mDialog = SuccessDialogFragment()
+            val mDialog = SuccessDialogFragment(mFragmentManager)
             mDialog.arguments = bundle
             return mDialog
         }
+    }
 
+    init {
+        myFragmentManager = fm
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -45,7 +44,8 @@ class SuccessDialogFragment : BaseDialogFragment() {
 
     fun initialize() {
         mView.btnNext.setOnClickListener {
-            this.dismiss()
+            customDismiss()
+            clearBackStack()
         }
         mView.tvDesc.setText("Your account with number " + phone + " already been made")
 

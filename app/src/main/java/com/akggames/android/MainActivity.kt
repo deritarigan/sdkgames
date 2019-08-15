@@ -1,40 +1,54 @@
 package com.akggames.android
 
 import android.os.Bundle
-import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import com.akggames.akg_sdk.AKG_SDK
 import com.akggames.akg_sdk.dao.api.model.FloatingItem
-import com.akggames.akg_sdk.rx.IView
 import com.akggames.akg_sdk.ui.adapter.FloatingAdapterListener
-import com.akggames.akg_sdk.ui.component.onTouchUtil
 import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
 import com.akggames.akg_sdk.ui.dialog.login.LoginDialogFragment
-import com.akggames.akg_sdk.ui.dialog.menu.InfoDialog
+import com.akggames.akg_sdk.ui.dialog.menu.*
+import com.crashlytics.android.Crashlytics
 import com.facebook.CallbackManager
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
+
+
 
 
 class MainActivity : AppCompatActivity(), FloatingAdapterListener {
     override fun onItemClick(position: Int, floatingItem: FloatingItem) {
         val contactUsDialog = InfoDialog()
-
+        val checkVersionDialog = CheckVersionDialog()
+        val bindAccountDialog = BindAccountDialog()
+        val logoutDialog = LogoutDialog()
+        val accountDialog = AccountDialog()
         when (position) {
-            0-> Toast.makeText(this,"nol",Toast.LENGTH_LONG).show()
-            1->Toast.makeText(this,"satu",Toast.LENGTH_LONG).show()
-            2->Toast.makeText(this,"dua",Toast.LENGTH_LONG).show()
-            3->Toast.makeText(this,"tiga",Toast.LENGTH_LONG).show()
-            4->{contactUsDialog.show(supportFragmentManager,"contactUs")}
+            0 -> {
+                bindAccountDialog.show(supportFragmentManager, "bind account")
+            }
+            1 -> {
+                accountDialog.show(supportFragmentManager, "account")
+            }
+            2 -> Toast.makeText(this, "fb", Toast.LENGTH_LONG).show()
+            3 -> Toast.makeText(this, "eula", Toast.LENGTH_LONG).show()
+            4 -> {
+                contactUsDialog.show(supportFragmentManager, "contact us")
+            }
+            5 -> {
+                checkVersionDialog.show(supportFragmentManager, "check version")
+            }
+            6 -> {
+                logoutDialog.show(supportFragmentManager, "logout")
+            }
         }
     }
 
@@ -50,18 +64,18 @@ class MainActivity : AppCompatActivity(), FloatingAdapterListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Fabric.with(this, Crashlytics())
         setContentView(R.layout.activity_main)
         floatingButton.float()
 
         val f = supportFragmentManager
         val loginDialogFragment = LoginDialogFragment.newInstance(f)
+
         btnShow.setOnClickListener {
             val ftransaction = f.beginTransaction()
-            ftransaction?.addToBackStack("dialog")
-            loginDialogFragment.show(ftransaction, "Login")
+            ftransaction?.addToBackStack("login")
+            loginDialogFragment.show(ftransaction, "login")
         }
-
-
 
         init()
         subMarine()
@@ -71,20 +85,7 @@ class MainActivity : AppCompatActivity(), FloatingAdapterListener {
 
     override fun onStart() {
         super.onStart()
-//        btnLogo.setOnClickListener {
-//            if (!floatingButton.isFloating) {
-//                floatingButton.float()
-//            } else {
-//                floatingButton.dip()
-//
-//            }
-//        }
         btnDismiss.setOnClickListener {
-            //            if (flFloatingButton.visibility==View.VISIBLE) {
-//                flFloatingButton.visibility=View.GONE
-//            } else {
-//                flFloatingButton.visibility=View.VISIBLE
-//            }
 
             if (!floatingButton.isFloating) {
                 floatingButton.float()
@@ -189,10 +190,7 @@ class MainActivity : AppCompatActivity(), FloatingAdapterListener {
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this@MainActivity, gso)
 
-        floatingButton.floatingAdapterListener= this
+        floatingButton.floatingAdapterListener = this
     }
 
-    override fun onBackPressed() {
-        BaseDialogFragment().onBackPressed()
-    }
 }

@@ -1,40 +1,33 @@
 package com.akggames.akg_sdk.ui.dialog
 
+import android.content.DialogInterface
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.akggames.akg_sdk.rx.IView
 import com.akggames.akg_sdk.ui.dialog.login.LoginDialogFragment
 import com.akggames.android.sdk.R
 
-open class BaseDialogFragment : DialogFragment(), IView {
-    override fun handleError(message: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
-    override fun handleRetryConnection() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
-    companion object {
-        lateinit var myFragmentManager: FragmentManager
+open class BaseDialogFragment() : DialogFragment(), IView {
 
-        fun newInstance(mFragmentManager: FragmentManager): LoginDialogFragment {
-            val mDialogFragment = LoginDialogFragment()
-            this.myFragmentManager = mFragmentManager
-            return mDialogFragment
-        }
-    }
+    var myFragmentManager: FragmentManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val style = STYLE_NO_FRAME
         setStyle(style, theme)
     }
+
 
     override fun onStart() {
         super.onStart()
@@ -43,41 +36,71 @@ open class BaseDialogFragment : DialogFragment(), IView {
             val height = ViewGroup.LayoutParams.MATCH_PARENT
             this.dialog?.window?.setLayout(width, height)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                this.dialog?.window?.setBackgroundDrawable(ColorDrawable(context?.resources!!.getColor(R.color.transparent,null)))
+                this.dialog?.window?.setBackgroundDrawable(
+                    ColorDrawable(
+                        context?.resources!!.getColor(
+                            R.color.transparent,
+                            null
+                        )
+                    )
+                )
             }
         }
+
+        dialog.setOnKeyListener(object : View.OnKeyListener, DialogInterface.OnKeyListener {
+            override fun onKey(p0: View?, keyCode: Int, event: KeyEvent?): Boolean {
+                return false
+            }
+
+            override fun onKey(p0: DialogInterface?, keyCode: Int, event: KeyEvent?): Boolean {
+                if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+                    onBackPressed()
+                    return true
+                } else {
+                    return false
+                }
+            }
+        })
     }
 
-    fun moveToAnotherDialog() {
-        fragmentManager?.beginTransaction()
+    override fun handleError(message: String) {
     }
 
-    protected fun changeFragment(container: Int, fragment: Fragment) {
-        fragmentManager?.beginTransaction()
-            ?.addToBackStack(null)
-            ?.replace(container, fragment, fragment.javaClass.simpleName)
-            ?.commit()
-    }
-
-    fun showFragment(fragment: Fragment?, fragmentResourceID: Int) {
+    override fun handleRetryConnection() {
     }
 
     fun customDismiss() {
-        val ft = fragmentManager!!.beginTransaction()
+        val ft = myFragmentManager!!.beginTransaction()
         ft.remove(this)
         ft.commit()
     }
 
+    fun clearBackStack(){
+        val count = myFragmentManager?.getBackStackEntryCount()!!
+        for (i in 0 until count) {
+            myFragmentManager?.popBackStack()
+        }
+    }
 
+    fun onBackPressed() {
+        var backStackSize = myFragmentManager?.backStackEntryCount
 
-     fun onBackPressed() {
-        var stackEntry = fragmentManager?.backStackEntryCount
-        if (stackEntry != null) {
-            if (stackEntry > 1) {
-//                val dialog = fragmentManager?.getBackStackEntryAt(stackEntry-2) as BaseDialogFragment
-//                dialog?.show(fragmentManager?.beginTransaction(),"tes")
+        if (backStackSize != null) {
+            if (backStackSize > 1) {
+                var backEntry = myFragmentManager?.getBackStackEntryAt(backStackSize - 2)
                 customDismiss()
+                myFragmentManager?.popBackStack(this.tag,FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                val mDialog =
+                    myFragmentManager?.findFragmentByTag(backEntry?.name) as BaseDialogFragment
+                if (myFragmentManager != null) {
+                    myFragmentManager!!.beginTransaction().remove(mDialog)
+                    mDialog.show(myFragmentManager!!.beginTransaction(),null)
+                }
+            }else{
+                dialog.onBackPressed()
+                myFragmentManager?.popBackStack()
             }
         }
     }
+
 }
