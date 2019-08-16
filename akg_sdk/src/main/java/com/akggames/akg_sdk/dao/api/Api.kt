@@ -25,7 +25,7 @@ class Api {
 
         private fun initHeader(context: Context):Map<String,String>{
             val map = HashMap<String, String>()
-            map["Token"]=CacheUtil.getPreferenceString(IConfig.SESSION_TOKEN,context).toString()
+            map["Authorization"]=CacheUtil.getPreferenceString(IConfig.SESSION_TOKEN,context).toString()
             map["Platform"] = "website"
             map["Cache-Control"] = "no-store"
             map["Content-Type"] = "application/json"

@@ -6,6 +6,7 @@ import android.graphics.Point
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.WindowManager
@@ -25,7 +26,8 @@ import com.akggames.akg_sdk.visible
 import com.akggames.android.sdk.R
 import de.hdodenhof.circleimageview.CircleImageView
 
-class FloatingButton : FrameLayout {
+class FloatingButton : FrameLayout{
+
 
     enum class ORIENTATION {
         HORIZONTAL,
@@ -160,6 +162,91 @@ class FloatingButton : FrameLayout {
 
     constructor(context: Context, attributeSet: AttributeSet, defStyle: Int) : super(context, attributeSet, defStyle) {
         getAttrs(attributeSet, defStyle)
+    }
+
+    init {
+        this.setOnTouchListener(object:OnTouchListener{
+            private var downRawX: Float = 0.toFloat()
+            private var downRawY: Float = 0.toFloat()
+            private var dX: Float = 0.toFloat()
+            private var dY: Float = 0.toFloat()
+            private lateinit var mView: View
+
+            override fun onTouch(view: View?, motionEvent: MotionEvent?): Boolean {
+                val action = motionEvent?.action
+                if (action == MotionEvent.ACTION_DOWN) {
+
+                    downRawX = motionEvent.rawX
+                    downRawY = motionEvent.rawY
+                    dX = view!!.x - downRawX
+                    dY = view.y - downRawY
+
+                    return true // Consumed
+
+                } else if (action == MotionEvent.ACTION_MOVE) {
+
+                    val viewWidth = view?.width
+                    val viewHeight = view?.height
+
+                    val viewParent = view?.parent as View
+                    val parentWidth = viewParent.width
+                    val parentHeight = viewParent.height
+
+                    var newX = motionEvent.rawX + dX
+                    newX = Math.max(0f, newX) // Don't allow the FAB past the left hand side of the parent
+                    newX = Math.min(
+                        (parentWidth - viewWidth!!).toFloat(),
+                        newX
+                    ) // Don't allow the FAB past the right hand side of the parent
+
+                    var newY = motionEvent.rawY + dY
+                    newY = Math.max(0f, newY) // Don't allow the FAB past the top of the parent
+                    newY = Math.min(
+                        (parentHeight - viewHeight!!).toFloat(),
+                        newY
+                    ) // Don't allow the FAB past the bottom of the parent
+
+                    view.animate()
+                        .x(newX)
+                        .y(newY)
+                        .setDuration(0)
+                        .start()
+
+                    return true // Consumed
+
+                } else if (action == MotionEvent.ACTION_UP) {
+
+                    val upRawX = motionEvent.rawX
+                    val upRawY = motionEvent.rawY
+
+                    val upDX = upRawX - downRawX
+                    val upDY = upRawY - downRawY
+
+                    return if (Math.abs(upDX) < CLICK_DRAG_TOLERANCE && Math.abs(upDY) < CLICK_DRAG_TOLERANCE) { // A click
+//                performClick()
+                        if (!isFloating) {
+                            float()
+
+                        } else {
+                            if (recyclerView.visibility == View.GONE) {
+                                expandContainer()
+                            } else {
+                                shrinkContainer()
+                            }
+                        }
+                        false
+                    } else { // A drag
+                        true // Consumed
+                    }
+
+                } else {
+                    return view!!.onTouchEvent(motionEvent)
+                }
+            }
+
+            private val CLICK_DRAG_TOLERANCE = 10f
+
+        })
     }
 
     private fun setTypeArray(a: TypedArray) {

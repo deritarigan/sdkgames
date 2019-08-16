@@ -17,6 +17,7 @@ interface IConfig {
         val LOGIN_PHONE="loginPhone"
 
         val SESSION_TOKEN = "auth_token"
+        val SESSION_LOGIN = "isLogin"
 
 
         val monthLabels = arrayOf(

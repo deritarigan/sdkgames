@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import com.akggames.akg_sdk.IConfig
+import com.akggames.akg_sdk.LoginSDKCallback
 import com.akggames.akg_sdk.dao.api.model.request.FacebookAuthRequest
 import com.akggames.akg_sdk.presenter.LoginPresenter
 import com.akggames.akg_sdk.rx.IView
@@ -37,7 +38,7 @@ import kotlinx.android.synthetic.main.content_dialog_login.*
 import kotlinx.android.synthetic.main.content_dialog_login.view.*
 
 
-class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), IView {
+class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), LoginIView {
 
     lateinit var mView: View
     lateinit var callbackManager: CallbackManager
@@ -50,8 +51,11 @@ class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), IView {
     var onViewDestroyed = true
 
     companion object {
-        fun newInstance(mFragmentManager: FragmentManager): LoginDialogFragment {
+        private lateinit var mLoginCallback: LoginSDKCallback
+
+        fun newInstance(mFragmentManager: FragmentManager, loginCallback: LoginSDKCallback): LoginDialogFragment {
             val mDialogFragment = LoginDialogFragment(mFragmentManager)
+            mLoginCallback = loginCallback
             return mDialogFragment
         }
     }
@@ -73,10 +77,21 @@ class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), IView {
         mShownByMe = true
         onViewDestroyed = false
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(requireActivity().application);
 
         initialize()
+    }
+
+    override fun doOnSuccess(token: String) {
+        mLoginCallback.onResponseSuccess(token)
+        customDismiss()
+        clearBackStack()
+    }
+
+    override fun doOnError(message: String) {
+       mLoginCallback.onResponseFailed(message)
+        customDismiss()
+        clearBackStack()
     }
 
     /*
@@ -173,7 +188,6 @@ class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), IView {
             model.phone_model = "samsung"
             model.expires_in = 3600
             LoginPresenter(this@LoginDialogFragment).googleLogin(model, requireActivity())
-
         } catch (e: ApiException) {
             Log.w("FRAGMENT_GOOGLE", "signInResult:failed code=" + e.statusCode)
         }

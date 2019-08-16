@@ -13,16 +13,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.GoogleApiClient
 
 object SocmedDao {
-    lateinit var presenter :LogoutPresenter
 
-    fun logoutFacebook(activity: Activity,iView : IView){
-        presenter = LogoutPresenter(iView)
+    fun logoutFacebook(activity: Activity,iView : IView,presenter: LogoutPresenter){
+
         LoginManager.getInstance().logOut()
         presenter.logout(activity)
     }
 
-    fun logoutGoogle(activity: Activity,iView : IView){
-        presenter = LogoutPresenter(iView)
+    fun logoutGoogle(activity: Activity,iView : IView,presenter: LogoutPresenter){
+
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .requestIdToken(IConfig.GOOGLE_CLIENT_ID)
@@ -35,8 +34,7 @@ object SocmedDao {
         }
     }
 
-    fun logoutPhone(activity: Activity,iView : IView){
-        presenter = LogoutPresenter(iView)
+    fun logoutPhone(activity: Activity,iView : IView,presenter: LogoutPresenter){
         presenter.logout(activity)
     }
 }

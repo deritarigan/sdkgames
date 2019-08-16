@@ -19,12 +19,12 @@ import com.akggames.akg_sdk.dao.api.model.response.PhoneAuthResponse
 import com.akggames.akg_sdk.rx.IView
 import com.akggames.akg_sdk.rx.RxObserver
 import com.akggames.akg_sdk.ui.dialog.PhoneLoginDialogFragment
+import com.akggames.akg_sdk.ui.dialog.login.LoginIView
 import com.akggames.akg_sdk.util.CacheUtil
 //import com.akggames.akg_sdk.ui.BaseActivity
 import io.reactivex.disposables.Disposable
 
 class LoginPresenter(val mIView: IView) {
-
 
 
     fun phoneLogin(model: PhoneAuthRequest, context: Context) {
@@ -45,11 +45,13 @@ class LoginPresenter(val mIView: IView) {
 
                 Log.d("TESTING API", "onNext")
                 if (t.meta?.code == 200) {
-                    Toast.makeText(context, t.data?.token, Toast.LENGTH_LONG).show()
-                    CacheUtil.putPreferenceString(LOGIN_TYPE, LOGIN_PHONE,context)
-                    CacheUtil.putPreferenceString(SESSION_TOKEN,t.data?.token!!,context)
+                    (mIView as LoginIView).doOnSuccess("phone: "+t.data?.token!!)
+                    CacheUtil.putPreferenceString(LOGIN_TYPE, LOGIN_PHONE, context)
+                    CacheUtil.putPreferenceString(SESSION_TOKEN, t.data?.token!!, context)
+                    CacheUtil.putPreferenceBoolean(IConfig.SESSION_LOGIN,true,context)
+
                 } else {
-                    Toast.makeText(context, t.data?.message, Toast.LENGTH_LONG).show()
+                    (mIView as LoginIView).doOnError(t.data?.message!!)
                 }
             }
 
@@ -67,22 +69,19 @@ class LoginPresenter(val mIView: IView) {
                 Log.d("TESTING API", "onSubscribe")
             }
 
-            override fun onComplete() {
-                super.onComplete()
-            }
-
             override fun onNext(t: BaseResponse) {
                 super.onNext(t)
                 t as FacebookAuthResponse
 
                 Log.d("TESTING API", "onNext")
                 if (t.meta?.code == 200) {
-                    Toast.makeText(context, (t as FacebookAuthResponse).data?.token, Toast.LENGTH_LONG).show()
-                    CacheUtil.putPreferenceString(LOGIN_TYPE, LOGIN_GOOGLE,context)
-                    CacheUtil.putPreferenceString(SESSION_TOKEN,t.data?.token!!,context)
+                    (mIView as LoginIView).doOnSuccess("google: "+t.data?.token!!)
+                    CacheUtil.putPreferenceString(LOGIN_TYPE, LOGIN_GOOGLE, context)
+                    CacheUtil.putPreferenceString(SESSION_TOKEN, t.data?.token!!, context)
+                    CacheUtil.putPreferenceBoolean(IConfig.SESSION_LOGIN,true,context)
 
                 } else {
-                    Toast.makeText(context, (t as FacebookAuthResponse).data?.message, Toast.LENGTH_LONG).show()
+                    (mIView as LoginIView).doOnError(t.data?.message!!)
                 }
             }
 
@@ -110,12 +109,13 @@ class LoginPresenter(val mIView: IView) {
                 t as FacebookAuthResponse
                 Log.d("TESTING API", "onNext")
                 if (t.meta?.code == 200) {
-                    Toast.makeText(context, (t as FacebookAuthResponse).data?.token, Toast.LENGTH_LONG).show()
-                    CacheUtil.putPreferenceString(LOGIN_TYPE, LOGIN_FACEBOOK,context)
-                    CacheUtil.putPreferenceString(SESSION_TOKEN,t.data?.token!!,context)
+                    (mIView as LoginIView).doOnSuccess("facebook: "+t.data?.token!!)
+                    CacheUtil.putPreferenceString(LOGIN_TYPE, LOGIN_FACEBOOK, context)
+                    CacheUtil.putPreferenceString(SESSION_TOKEN, t.data?.token!!, context)
+                    CacheUtil.putPreferenceBoolean(IConfig.SESSION_LOGIN,true,context)
 
                 } else {
-                    Toast.makeText(context, (t as FacebookAuthResponse).data?.message, Toast.LENGTH_LONG).show()
+                    (mIView as LoginIView).doOnError(t.data?.message!!)
                 }
             }
 

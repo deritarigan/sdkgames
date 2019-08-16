@@ -89,17 +89,18 @@ open class BaseDialogFragment() : DialogFragment(), IView {
             if (backStackSize > 1) {
                 var backEntry = myFragmentManager?.getBackStackEntryAt(backStackSize - 2)
                 customDismiss()
-                myFragmentManager?.popBackStack(this.tag,FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                myFragmentManager?.popBackStack(this.tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 val mDialog =
                     myFragmentManager?.findFragmentByTag(backEntry?.name) as BaseDialogFragment
                 if (myFragmentManager != null) {
                     myFragmentManager!!.beginTransaction().remove(mDialog)
-                    mDialog.show(myFragmentManager!!.beginTransaction(),null)
+                    mDialog.show(myFragmentManager!!.beginTransaction(), null)
                 }
-            }else{
-                dialog.onBackPressed()
-                myFragmentManager?.popBackStack()
             }
+//            }else{
+//                dialog.onBackPressed()
+//                myFragmentManager?.popBackStack()
+//            }
         }
     }
 
