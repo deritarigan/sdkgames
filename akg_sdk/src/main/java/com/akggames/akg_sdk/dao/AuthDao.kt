@@ -1,5 +1,6 @@
 package com.akggames.akg_sdk.dao
 
+import android.content.Context
 import com.akggames.akg_sdk.dao.api.Api
 import com.akggames.akg_sdk.dao.api.model.request.*
 import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
@@ -19,6 +20,12 @@ class AuthDao() {
 
     fun onPhoneAuth(model: PhoneAuthRequest): Observable<PhoneAuthResponse> {
         return Api.onPhoneLogin(model)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun onLogout(context: Context):Observable<BaseResponse>{
+        return Api.onLogout(context)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

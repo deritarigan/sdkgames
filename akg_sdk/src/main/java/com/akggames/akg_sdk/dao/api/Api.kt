@@ -1,10 +1,13 @@
 package com.akggames.akg_sdk.dao.api
 
+import android.app.Application
+import android.content.Context
 import com.akggames.akg_sdk.IConfig
 import com.akggames.akg_sdk.dao.api.model.request.*
 import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
 import com.akggames.akg_sdk.dao.api.model.response.FacebookAuthResponse
 import com.akggames.akg_sdk.dao.api.model.response.PhoneAuthResponse
+import com.akggames.akg_sdk.util.CacheUtil
 import io.reactivex.Observable
 import java.util.HashMap
 
@@ -13,8 +16,16 @@ class Api {
 
         private fun initHeader(): Map<String, String> {
             val map = HashMap<String, String>()
-            map["Token"] =
-                "eyJhbGciOiJIUzUxMiJ9.eyJkYXRhIjoxLCJlbWFpbCI6InJhbmlhQGNsYXBwaW5nYXBlLmNvbSIsInBsYXRmb3JtIjoid2Vic2l0ZSIsImtleSI6IjdYdk0xYmJuc3I3V0VjbU9ubFNjTnpvcElnMm5MQStjbld5SDc0Z1oiLCJ0aW1lc3RhbXAiOiIyMDE4LTExLTA2IDExOjI0OjQwICswNzAwIn0.wSPAcZJV8VBUSG8DAp_laovF7dFDhLxVJGQZmmDs3PsEz6SBn7FE2qF7k1UoY5Qq30wqjTDZAho1a55Yy2Fctg"
+            map["Platform"] = "website"
+            map["Cache-Control"] = "no-store"
+            map["Content-Type"] = "application/json"
+
+            return map
+        }
+
+        private fun initHeader(context: Context):Map<String,String>{
+            val map = HashMap<String, String>()
+            map["Token"]=CacheUtil.getPreferenceString(IConfig.SESSION_TOKEN,context).toString()
             map["Platform"] = "website"
             map["Cache-Control"] = "no-store"
             map["Content-Type"] = "application/json"
@@ -38,6 +49,11 @@ class Api {
         @Synchronized
         fun onPhoneLogin(model: PhoneAuthRequest): Observable<PhoneAuthResponse> {
             return initApiDomain().callPhoneLogin(initHeader(), model)
+        }
+
+        @Synchronized
+        fun onLogout(context: Context):Observable<BaseResponse>{
+            return initApiDomain().callLogout(initHeader(context))
         }
 
         @Synchronized

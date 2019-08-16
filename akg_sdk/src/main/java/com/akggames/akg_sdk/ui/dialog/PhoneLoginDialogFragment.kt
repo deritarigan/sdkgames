@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.akggames.akg_sdk.dao.api.model.request.PhoneAuthRequest
-import com.akggames.akg_sdk.presenter.AuthPresenter
+import com.akggames.akg_sdk.presenter.LoginPresenter
 import com.akggames.akg_sdk.rx.IView
 import com.akggames.akg_sdk.ui.dialog.forget.ForgetDialog
 import com.akggames.akg_sdk.ui.dialog.register.OTPDialog
@@ -29,7 +29,7 @@ class PhoneLoginDialogFragment(fm:FragmentManager?) : BaseDialogFragment(), IVie
     }
 
     private lateinit var mView: View
-    val presenter = AuthPresenter(this@PhoneLoginDialogFragment)
+    val presenter = LoginPresenter(this@PhoneLoginDialogFragment)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mView = inflater.inflate(R.layout.content_dialog_login_phone, container, true)

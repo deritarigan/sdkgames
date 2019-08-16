@@ -1,20 +1,17 @@
 package com.akggames.akg_sdk.ui.dialog.login
 
 import android.app.Activity.RESULT_OK
-import android.app.Application
 import android.content.Context
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
 import com.akggames.akg_sdk.IConfig
 import com.akggames.akg_sdk.dao.api.model.request.FacebookAuthRequest
-import com.akggames.akg_sdk.presenter.AuthPresenter
+import com.akggames.akg_sdk.presenter.LoginPresenter
 import com.akggames.akg_sdk.rx.IView
 //import com.akggames.akg_sdk.ui.BaseActivity
 import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
@@ -28,7 +25,6 @@ import com.facebook.FacebookSdk
 import com.facebook.FacebookSdk.getApplicationContext
 import com.facebook.appevents.AppEventsLogger
 import com.facebook.login.LoginResult
-import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -46,7 +42,7 @@ class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), IView {
     lateinit var mView: View
     lateinit var callbackManager: CallbackManager
     lateinit var mGoogleSignInClient: GoogleSignInClient
-    val presenter = AuthPresenter(this@LoginDialogFragment)
+    val presenter = LoginPresenter(this@LoginDialogFragment)
 
 
     var mDismissed: Boolean = true
@@ -124,11 +120,6 @@ class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), IView {
             .requestIdToken(IConfig.GOOGLE_CLIENT_ID)
             .build()
 
-        val mGoogleAPIClient = GoogleApiClient.Builder(requireActivity())
-            .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-            .build()
-//
-
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         btnLoginGoogle.setOnClickListener {
@@ -181,7 +172,7 @@ class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), IView {
             model.operating_system = "android"
             model.phone_model = "samsung"
             model.expires_in = 3600
-            AuthPresenter(this@LoginDialogFragment).googleLogin(model, requireActivity())
+            LoginPresenter(this@LoginDialogFragment).googleLogin(model, requireActivity())
 
         } catch (e: ApiException) {
             Log.w("FRAGMENT_GOOGLE", "signInResult:failed code=" + e.statusCode)

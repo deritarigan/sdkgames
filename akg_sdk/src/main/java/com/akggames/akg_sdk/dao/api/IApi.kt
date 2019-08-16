@@ -27,4 +27,7 @@ interface IApi {
 
     @POST("auth/update_password")
     fun callUpdatePassword(@HeaderMap map: Map<String, String>, @Body body: UpdatePasswordRequest): Observable<BaseResponse>
+
+    @DELETE("auth/logout")
+    fun callLogout(@HeaderMap map:Map<String,String>):Observable<BaseResponse>
 }
