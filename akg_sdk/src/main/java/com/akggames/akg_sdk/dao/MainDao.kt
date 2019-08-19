@@ -4,13 +4,14 @@ import android.content.Context
 import com.akggames.akg_sdk.dao.api.Api
 import com.akggames.akg_sdk.dao.api.model.request.*
 import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
+import com.akggames.akg_sdk.dao.api.model.response.CurrentUserResponse
 import com.akggames.akg_sdk.dao.api.model.response.FacebookAuthResponse
 import com.akggames.akg_sdk.dao.api.model.response.PhoneAuthResponse
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class AuthDao() {
+class MainDao() {
 
     fun onProviderAuth(model: FacebookAuthRequest): Observable<FacebookAuthResponse> {
         return Api.onProviderLogin(model)
@@ -50,6 +51,18 @@ class AuthDao() {
 
     fun onUpdatePassword(model:UpdatePasswordRequest):Observable<BaseResponse>{
         return Api.onUpdatePassword(model)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun onCheckCurrentUser(context: Context):Observable<CurrentUserResponse>{
+        return Api.onGetCurrentUser(context)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun onChangePassword(body:ChangePasswordRequest,context: Context):Observable<BaseResponse>{
+        return Api.onChangePassword(body,context)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

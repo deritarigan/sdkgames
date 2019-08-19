@@ -21,6 +21,9 @@ import kotlinx.android.synthetic.main.content_dialog_registration.view.*
 import kotlinx.android.synthetic.main.content_dialog_registration.view.clOtp
 
 class OTPDialog(fm:FragmentManager?) : BaseDialogFragment(), OTPIView {
+    lateinit var mView: View
+    var isGenerateOTP: Boolean = false
+    var sendOtpRequest: SendOtpRequest = SendOtpRequest()
 
     companion object {
         fun newInstance(fm: FragmentManager?): OTPDialog {
@@ -30,6 +33,16 @@ class OTPDialog(fm:FragmentManager?) : BaseDialogFragment(), OTPIView {
 
     init {
         myFragmentManager = fm
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        mView = inflater.inflate(R.layout.content_dialog_registration, container, true)
+        return mView
+    }
+
+    override fun onStart() {
+        super.onStart()
+        initialize()
     }
 
     override fun doOnSuccessGenerate(data: BaseResponse) {
@@ -48,21 +61,6 @@ class OTPDialog(fm:FragmentManager?) : BaseDialogFragment(), OTPIView {
         ftransaction?.addToBackStack("set password")
         setPasswordDialog.show(ftransaction, "set password")
         customDismiss()
-    }
-
-
-
-    lateinit var mView: View
-    var isGenerateOTP: Boolean = false
-    var sendOtpRequest: SendOtpRequest = SendOtpRequest()
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mView = inflater.inflate(R.layout.content_dialog_registration, container, true)
-        return mView
-    }
-
-    override fun onStart() {
-        super.onStart()
-        initialize()
     }
 
     fun initialize() {

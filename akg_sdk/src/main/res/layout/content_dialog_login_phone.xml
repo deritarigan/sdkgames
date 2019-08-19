@@ -97,7 +97,7 @@
                     android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/tvCreateAccount"/>
             <Button
-                    android:id="@+id/btnLoginPhone"
+                    android:id="@+id/btnBindingPhone"
                     android:text="Phone Login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

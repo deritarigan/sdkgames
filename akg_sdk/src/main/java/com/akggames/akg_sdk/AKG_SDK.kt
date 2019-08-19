@@ -26,9 +26,9 @@ class AKG_SDK(val activity: AppCompatActivity) {
             override fun onItemClick(position: Int, floatingItem: FloatingItem) {
                 val contactUsDialog = InfoDialog()
                 val checkVersionDialog = CheckVersionDialog()
-                val bindAccountDialog = BindAccountDialog()
+                val bindAccountDialog = BindAccountDialog.newInstance(activity.supportFragmentManager)
                 val logoutDialog = LogoutDialog.newInstance(menuCallback)
-                val accountDialog = AccountDialog()
+                val accountDialog = AccountDialog.newInstance(activity.supportFragmentManager)
                 when (position) {
                     0 -> {
                         bindAccountDialog.show(activity.supportFragmentManager, "bind account")

@@ -116,7 +116,7 @@
                     android:paddingLeft="8dp"
                     android:paddingRight="20dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btnLoginPhone"
+                    android:id="@+id/btnBindingPhone"
                     android:drawableLeft="@drawable/vector_ic_btn_phone"
                     android:drawablePadding="8dp"
                     android:background="@drawable/rounded_rectangle_tosca"

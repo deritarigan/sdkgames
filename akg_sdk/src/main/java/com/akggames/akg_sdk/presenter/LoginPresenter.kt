@@ -2,15 +2,13 @@ package com.akggames.akg_sdk.presenter
 
 import android.content.Context
 import android.util.Log
-import android.view.View
-import android.widget.Toast
 import com.akggames.akg_sdk.IConfig
 import com.akggames.akg_sdk.IConfig.Companion.LOGIN_FACEBOOK
 import com.akggames.akg_sdk.IConfig.Companion.LOGIN_GOOGLE
 import com.akggames.akg_sdk.IConfig.Companion.LOGIN_PHONE
 import com.akggames.akg_sdk.IConfig.Companion.LOGIN_TYPE
 import com.akggames.akg_sdk.IConfig.Companion.SESSION_TOKEN
-import com.akggames.akg_sdk.dao.AuthDao
+import com.akggames.akg_sdk.dao.MainDao
 import com.akggames.akg_sdk.dao.api.model.request.FacebookAuthRequest
 import com.akggames.akg_sdk.dao.api.model.request.PhoneAuthRequest
 import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
@@ -18,7 +16,6 @@ import com.akggames.akg_sdk.dao.api.model.response.FacebookAuthResponse
 import com.akggames.akg_sdk.dao.api.model.response.PhoneAuthResponse
 import com.akggames.akg_sdk.rx.IView
 import com.akggames.akg_sdk.rx.RxObserver
-import com.akggames.akg_sdk.ui.dialog.PhoneLoginDialogFragment
 import com.akggames.akg_sdk.ui.dialog.login.LoginIView
 import com.akggames.akg_sdk.util.CacheUtil
 //import com.akggames.akg_sdk.ui.BaseActivity
@@ -28,7 +25,7 @@ class LoginPresenter(val mIView: IView) {
 
 
     fun phoneLogin(model: PhoneAuthRequest, context: Context) {
-        AuthDao().onPhoneAuth(model).subscribe(object : RxObserver<PhoneAuthResponse>(mIView, "") {
+        MainDao().onPhoneAuth(model).subscribe(object : RxObserver<PhoneAuthResponse>(mIView, "") {
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
                 Log.d("TESTING API", "onSubscribe")
@@ -63,7 +60,7 @@ class LoginPresenter(val mIView: IView) {
     }
 
     fun googleLogin(model: FacebookAuthRequest, context: Context) {
-        AuthDao().onProviderAuth(model).subscribe(object : RxObserver<FacebookAuthResponse>(mIView, "") {
+        MainDao().onProviderAuth(model).subscribe(object : RxObserver<FacebookAuthResponse>(mIView, "") {
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
                 Log.d("TESTING API", "onSubscribe")
@@ -93,7 +90,7 @@ class LoginPresenter(val mIView: IView) {
     }
 
     fun facebookLogin(model: FacebookAuthRequest, context: Context) {
-        AuthDao().onProviderAuth(model).subscribe(object : RxObserver<FacebookAuthResponse>(mIView, "") {
+        MainDao().onProviderAuth(model).subscribe(object : RxObserver<FacebookAuthResponse>(mIView, "") {
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
                 Log.d("TESTING API", "onSubscribe")

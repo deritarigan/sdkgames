@@ -53,7 +53,8 @@
             <Button
                     android:text="Next"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" android:id="@+id/btnLogout"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnLogout"
                     style="@style/ButtonMenu"
                     android:background="@drawable/rounded_rectangle_deepblue"
                     app:layout_constraintBottom_toBottomOf="parent"

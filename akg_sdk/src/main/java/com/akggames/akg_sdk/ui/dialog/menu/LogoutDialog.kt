@@ -17,11 +17,12 @@ import kotlinx.android.synthetic.main.content_dialog_logout.*
 import kotlinx.android.synthetic.main.content_dialog_logout.view.*
 import kotlinx.android.synthetic.main.content_dialog_logout.view.btnLogout
 
-class LogoutDialog : BaseDialogFragment(), LogoutIView {
+class LogoutDialog() : BaseDialogFragment(), LogoutIView {
 
 
     lateinit var mView: View
     val presenter = LogoutPresenter(this)
+
     companion object {
         private lateinit var menuSDKCallback: MenuSDKCallback
 
@@ -51,13 +52,16 @@ class LogoutDialog : BaseDialogFragment(), LogoutIView {
             if (CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN, requireActivity())) {
                 val loginType = CacheUtil.getPreferenceString(IConfig.LOGIN_TYPE, requireActivity())
                 when (loginType) {
-                    IConfig.LOGIN_PHONE -> SocmedDao.logoutPhone(requireActivity(), this,presenter)
-                    IConfig.LOGIN_GOOGLE -> SocmedDao.logoutGoogle(requireActivity(), this,presenter)
-                    IConfig.LOGIN_FACEBOOK -> SocmedDao.logoutFacebook(requireActivity(), this,presenter)
+                    IConfig.LOGIN_PHONE -> SocmedDao.logoutPhone(requireActivity(), this, presenter)
+                    IConfig.LOGIN_GOOGLE -> SocmedDao.logoutGoogle(requireActivity(), this, presenter)
+                    IConfig.LOGIN_FACEBOOK -> SocmedDao.logoutFacebook(requireActivity(), this, presenter)
                 }
-            }else{
-                Toast.makeText(requireActivity(),"You are not logged in",Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(requireActivity(), "You are not logged in", Toast.LENGTH_LONG).show()
             }
+        }
+        btnBack.setOnClickListener {
+           this.dismiss()
         }
     }
 
@@ -67,6 +71,6 @@ class LogoutDialog : BaseDialogFragment(), LogoutIView {
     }
 
     override fun doError() {
-       Toast.makeText(requireActivity(),"Error logout",Toast.LENGTH_LONG).show()
+        Toast.makeText(requireActivity(), "Error logout", Toast.LENGTH_LONG).show()
     }
 }

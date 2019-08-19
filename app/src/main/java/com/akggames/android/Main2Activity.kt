@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.akggames.akg_sdk.AKG_SDK
 import com.akggames.akg_sdk.MenuSDKCallback
+import com.akggames.akg_sdk.ui.activity.PaymentActivity
 import kotlinx.android.synthetic.main.activity_main2.*
 
 class Main2Activity : AppCompatActivity(),MenuSDKCallback {
@@ -24,5 +25,10 @@ class Main2Activity : AppCompatActivity(),MenuSDKCallback {
         setContentView(R.layout.activity_main2)
         sdkgames.setFloatingButton(floatingButton, this,this)
         floatingButton.float()
+
+        btnPayment.setOnClickListener {
+            startActivity(Intent(this@Main2Activity,PaymentActivity::class.java))
+
+        }
     }
 }

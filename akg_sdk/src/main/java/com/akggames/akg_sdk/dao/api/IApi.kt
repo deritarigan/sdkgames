@@ -2,6 +2,7 @@ package com.akggames.akg_sdk.dao.api
 
 import com.akggames.akg_sdk.dao.api.model.request.*
 import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
+import com.akggames.akg_sdk.dao.api.model.response.CurrentUserResponse
 import com.akggames.akg_sdk.dao.api.model.response.FacebookAuthResponse
 import com.akggames.akg_sdk.dao.api.model.response.PhoneAuthResponse
 import retrofit2.http.*
@@ -30,4 +31,10 @@ interface IApi {
 
     @DELETE("auth/logout")
     fun callLogout(@HeaderMap map:Map<String,String>):Observable<BaseResponse>
+
+    @GET("auth/current_user")
+    fun callGetCurrentUser(@HeaderMap map:Map<String,String>):Observable<CurrentUserResponse>
+
+    @PUT("auth/change_password")
+    fun callChangePassword(@HeaderMap map:Map<String,String>,@Body body:ChangePasswordRequest):Observable<BaseResponse>
 }

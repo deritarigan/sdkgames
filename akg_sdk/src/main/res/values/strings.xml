@@ -26,7 +26,7 @@
     <string name="title_activity_main">MainActivity</string>
 
     <string name="logout_desc">Do you want to get out from this account?</string>
-    <string name="check_update_desc">Your SDK\'s Version is 3.92, and already been updated </string>
+    <string name="check_update_desc">Your SDK\'s Version is 3.92, and already been updated</string>
 
     <string name="contact_us_desc">Contact us to our email admin@akggames.com</string>
 

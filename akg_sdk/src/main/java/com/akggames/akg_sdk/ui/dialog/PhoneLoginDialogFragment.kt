@@ -6,20 +6,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import com.akggames.akg_sdk.LoginSDKCallback
 import com.akggames.akg_sdk.dao.api.model.request.PhoneAuthRequest
 import com.akggames.akg_sdk.presenter.LoginPresenter
-import com.akggames.akg_sdk.rx.IView
 import com.akggames.akg_sdk.ui.dialog.forget.ForgetDialog
+import com.akggames.akg_sdk.ui.dialog.login.LoginIView
 import com.akggames.akg_sdk.ui.dialog.register.OTPDialog
 import com.akggames.akg_sdk.util.DeviceUtil
 import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_login_phone.*
 import kotlinx.android.synthetic.main.content_dialog_login_phone.view.*
 
-class PhoneLoginDialogFragment(fm:FragmentManager?) : BaseDialogFragment(), IView {
+class PhoneLoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), LoginIView {
+
 
     companion object {
-        fun newInstance(fm: FragmentManager?): PhoneLoginDialogFragment {
+        private lateinit var mLoginCallback: LoginSDKCallback
+
+        fun newInstance(fm: FragmentManager?, loginCallback: LoginSDKCallback): PhoneLoginDialogFragment {
+            mLoginCallback = loginCallback
+
             return PhoneLoginDialogFragment(fm)
         }
     }
@@ -47,17 +53,25 @@ class PhoneLoginDialogFragment(fm:FragmentManager?) : BaseDialogFragment(), IVie
         initView()
     }
 
+    override fun doOnSuccess(token: String) {
+        mLoginCallback.onResponseSuccess(token)
+    }
+
+    override fun doOnError(message: String) {
+        mLoginCallback.onResponseFailed(message)
+    }
+
     fun initView() {
         mView.tvCreateAccount.setOnClickListener {
             val otpDialog = OTPDialog.newInstance(myFragmentManager)
-            val ftransaction =myFragmentManager?.beginTransaction()
+            val ftransaction = myFragmentManager?.beginTransaction()
             ftransaction?.addToBackStack("registration")
             otpDialog.show(ftransaction, "registration")
             customDismiss()
         }
-        mView.btnLoginPhone.setOnClickListener {
+        mView.btnBindingPhone.setOnClickListener {
             val phoneAuthRequest = PhoneAuthRequest()
-            phoneAuthRequest.phone_number = "0"+etPhoneNumber.text.toString()
+            phoneAuthRequest.phone_number = "0" + etPhoneNumber.text.toString()
             phoneAuthRequest.password = etOtpCode.text.toString()
             phoneAuthRequest.auth_provider = "akg"
             phoneAuthRequest.game_provider = "mobile-legends"
@@ -66,9 +80,9 @@ class PhoneLoginDialogFragment(fm:FragmentManager?) : BaseDialogFragment(), IVie
             phoneAuthRequest.operating_system = "Android"
             presenter.phoneLogin(phoneAuthRequest, requireActivity())
         }
-        mView.tvForgotPassword.setOnClickListener{
+        mView.tvForgotPassword.setOnClickListener {
             val forgetDialog = ForgetDialog.newInstance(myFragmentManager)
-            val ftransaction =myFragmentManager?.beginTransaction()
+            val ftransaction = myFragmentManager?.beginTransaction()
             ftransaction?.addToBackStack("forget")
             forgetDialog.show(ftransaction, "forget")
             customDismiss()

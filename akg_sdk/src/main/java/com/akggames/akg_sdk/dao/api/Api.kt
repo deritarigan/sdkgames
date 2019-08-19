@@ -5,6 +5,7 @@ import android.content.Context
 import com.akggames.akg_sdk.IConfig
 import com.akggames.akg_sdk.dao.api.model.request.*
 import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
+import com.akggames.akg_sdk.dao.api.model.response.CurrentUserResponse
 import com.akggames.akg_sdk.dao.api.model.response.FacebookAuthResponse
 import com.akggames.akg_sdk.dao.api.model.response.PhoneAuthResponse
 import com.akggames.akg_sdk.util.CacheUtil
@@ -74,6 +75,16 @@ class Api {
         @Synchronized
         fun onUpdatePassword(model:UpdatePasswordRequest):Observable<BaseResponse>{
             return initApiDomain().callUpdatePassword(initHeader(),model)
+        }
+
+        @Synchronized
+        fun onGetCurrentUser(context: Context):Observable<CurrentUserResponse>{
+            return initApiDomain().callGetCurrentUser(initHeader(context))
+        }
+
+        @Synchronized
+        fun onChangePassword(body:ChangePasswordRequest,context: Context):Observable<BaseResponse>{
+            return initApiDomain().callChangePassword(initHeader(context),body)
         }
     }
 }

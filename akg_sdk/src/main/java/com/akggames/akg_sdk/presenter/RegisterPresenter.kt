@@ -3,12 +3,11 @@ package com.akggames.akg_sdk.presenter
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import com.akggames.akg_sdk.dao.AuthDao
+import com.akggames.akg_sdk.dao.MainDao
 import com.akggames.akg_sdk.dao.api.model.request.SendOtpRequest
 import com.akggames.akg_sdk.dao.api.model.request.SignUpRequest
 import com.akggames.akg_sdk.dao.api.model.request.UpdatePasswordRequest
 import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
-import com.akggames.akg_sdk.dao.api.model.response.PhoneAuthResponse
 import com.akggames.akg_sdk.rx.IView
 import com.akggames.akg_sdk.rx.RxObserver
 import com.akggames.akg_sdk.ui.dialog.forget.UpdatePasswordDialog
@@ -19,7 +18,7 @@ import io.reactivex.disposables.Disposable
 class RegisterPresenter(val iView: IView) {
 
     fun sendOtp(model:SendOtpRequest,context:Context){
-        AuthDao().onSendOtp(model).subscribe(object:RxObserver<BaseResponse>(iView,""){
+        MainDao().onSendOtp(model).subscribe(object:RxObserver<BaseResponse>(iView,""){
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
                 Log.d("TESTING API", "onSubscribe")
@@ -49,7 +48,7 @@ class RegisterPresenter(val iView: IView) {
     }
 
     fun onUpdatePassword(model:UpdatePasswordRequest,context: Context){
-        AuthDao().onUpdatePassword(model).subscribe(object : RxObserver<BaseResponse>(iView,""){
+        MainDao().onUpdatePassword(model).subscribe(object : RxObserver<BaseResponse>(iView,""){
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
                 Log.d("TESTING API", "onSubscribe")
@@ -79,7 +78,7 @@ class RegisterPresenter(val iView: IView) {
     }
 
     fun onSignUp(model:SignUpRequest,context: Context){
-        AuthDao().onSignUp(model).subscribe(object : RxObserver<BaseResponse>(iView,""){
+        MainDao().onSignUp(model).subscribe(object : RxObserver<BaseResponse>(iView,""){
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
                 Log.d("TESTING API", "onSubscribe")
@@ -109,7 +108,7 @@ class RegisterPresenter(val iView: IView) {
     }
 
     fun checkOtp(model:SendOtpRequest,context:Context){
-        AuthDao().onCheckOtp(model).subscribe(object:RxObserver<BaseResponse>(iView,""){
+        MainDao().onCheckOtp(model).subscribe(object:RxObserver<BaseResponse>(iView,""){
             override fun onSubscribe(d: Disposable) {
                 super.onSubscribe(d)
                 Log.d("TESTING API", "onSubscribe")

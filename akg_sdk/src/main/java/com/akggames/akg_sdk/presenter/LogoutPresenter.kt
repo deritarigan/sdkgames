@@ -1,11 +1,9 @@
 package com.akggames.akg_sdk.presenter
 
 import android.content.Context
-import android.widget.Toast
 import com.akggames.akg_sdk.IConfig
-import com.akggames.akg_sdk.dao.AuthDao
+import com.akggames.akg_sdk.dao.MainDao
 import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
-import com.akggames.akg_sdk.dao.api.model.response.FacebookAuthResponse
 import com.akggames.akg_sdk.rx.IView
 import com.akggames.akg_sdk.rx.RxObserver
 import com.akggames.akg_sdk.ui.dialog.menu.LogoutIView
@@ -15,7 +13,7 @@ import io.reactivex.disposables.Disposable
 class LogoutPresenter(val mIView: IView) {
 
     fun logout(context: Context){
-        AuthDao().onLogout(context).subscribe(object: RxObserver<BaseResponse>(mIView,""){
+        MainDao().onLogout(context).subscribe(object: RxObserver<BaseResponse>(mIView,""){
             override fun onComplete() {
                 super.onComplete()
             }

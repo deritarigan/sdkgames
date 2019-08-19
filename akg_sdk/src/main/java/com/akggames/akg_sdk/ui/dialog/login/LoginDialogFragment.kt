@@ -13,7 +13,6 @@ import com.akggames.akg_sdk.IConfig
 import com.akggames.akg_sdk.LoginSDKCallback
 import com.akggames.akg_sdk.dao.api.model.request.FacebookAuthRequest
 import com.akggames.akg_sdk.presenter.LoginPresenter
-import com.akggames.akg_sdk.rx.IView
 //import com.akggames.akg_sdk.ui.BaseActivity
 import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
 import com.akggames.akg_sdk.ui.dialog.PhoneLoginDialogFragment
@@ -22,17 +21,13 @@ import com.akggames.akg_sdk.util.DeviceUtil
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
-import com.facebook.FacebookSdk
-import com.facebook.FacebookSdk.getApplicationContext
 import com.facebook.appevents.AppEventsLogger
 import com.facebook.login.LoginResult
-import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.tasks.Task
 import kotlinx.android.synthetic.main.content_dialog_login.*
 import kotlinx.android.synthetic.main.content_dialog_login.view.*
@@ -157,7 +152,7 @@ class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), LoginIVi
     fun initialize() {
         setGoogleLogin()
         setFacebookLogin()
-        mView.btnLoginPhone.setOnClickListener {
+        mView.btnBindingPhone.setOnClickListener {
             this.customDismiss()
             changeToPhoneLogin()
         }
@@ -170,7 +165,7 @@ class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), LoginIVi
 
     fun changeToPhoneLogin() {
         val phoneLoginDialogFragment =
-            PhoneLoginDialogFragment.newInstance(myFragmentManager)
+            PhoneLoginDialogFragment.newInstance(myFragmentManager,mLoginCallback)
         val ftransaction = myFragmentManager?.beginTransaction()
         ftransaction?.addToBackStack("phone")
         phoneLoginDialogFragment.show(ftransaction, "phone")
