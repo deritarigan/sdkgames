@@ -1,5 +1,7 @@
 package com.akggames.akg_sdk.dao
 
+import com.google.android.gms.wallet.PaymentMethodTokenizationParameters
+import com.google.android.gms.wallet.WalletConstants
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -17,7 +19,7 @@ class PaymentDao() {
         tokenizationSpecification.put(
             "parameters",
             JSONObject()
-                .put("gateway", "example")
+                .put("gateway", "www.example.com")
                 .put("gatewayMerchantId", "exampleMerchantId")
         )
 
@@ -45,15 +47,63 @@ class PaymentDao() {
                 .put("allowedAuthMethods", getAllowedCardAuthMethods())
                 .put("allowedCardNetworks", getAllowedCardNetworks())
         )
-
+        cardPaymentMethod.put("tokenizationSpecification", getTokenizationSpecification())
         return cardPaymentMethod
+    }
+
+    fun getIsReadyToPayRequest(): JSONObject {
+        val isReadyToPayRequest = getBaseRequest()
+        isReadyToPayRequest.put(
+            "allowedPaymentMethods",
+            JSONArray()
+                .put(getBaseCardPaymentMethod())
+        )
+
+        return isReadyToPayRequest
     }
 
     private fun getCardPaymentMethod(): JSONObject {
         val cardPaymentMethod = getBaseCardPaymentMethod()
-        cardPaymentMethod.put("tokenizationSpecification", getTokenizationSpecification())
 
         return cardPaymentMethod
     }
+
+    fun getPaymentMethodTokenizationParameters(): PaymentMethodTokenizationParameters.Builder {
+        var parameter = PaymentMethodTokenizationParameters.newBuilder()
+        parameter.setPaymentMethodTokenizationType(WalletConstants.PAYMENT_METHOD_CARD)
+            .addParameter("gateway", "example")
+            .addParameter("gatewayMerchantId", "exampleGatewayMerchantId")
+            .build()
+        return parameter
+    }
+
+    private fun getTransactionInfo(): JSONObject {
+        val transactionInfo = JSONObject()
+        transactionInfo.put("totalPrice", "12.34")
+        transactionInfo.put("totalPriceStatus", "FINAL")
+        transactionInfo.put("currencyCode", "USD")
+
+        return transactionInfo
+    }
+
+    private fun getMerchantInfo(): JSONObject {
+        return JSONObject()
+            .put("merchantName", "Example Merchant")
+            .put("merchantId", "01234567890123456789")
+    }
+
+    fun getPaymentDataRequest(): JSONObject {
+        val paymentDataRequest = getBaseRequest()
+        paymentDataRequest.put(
+            "allowedPaymentMethods",
+            JSONArray()
+                .put(getCardPaymentMethod())
+        )
+        paymentDataRequest.put("transactionInfo", getTransactionInfo())
+        paymentDataRequest.put("merchantInfo", getMerchantInfo())
+
+        return paymentDataRequest
+    }
+
 
 }

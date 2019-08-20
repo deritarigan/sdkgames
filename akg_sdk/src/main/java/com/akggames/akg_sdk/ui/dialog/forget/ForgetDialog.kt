@@ -60,7 +60,7 @@ class ForgetDialog(fm:FragmentManager?) : BaseDialogFragment(), OTPIView {
 
     override fun doOnSuccessCheck(data: BaseResponse) {
         var bundle = Bundle()
-        bundle.putString("phone","0"+mView.etPhoneNumber.text.toString())
+        bundle.putString("phone","+62"+mView.etPhoneNumber.text.toString())
         val updatePassword = UpdatePasswordDialog.newInstance(myFragmentManager,bundle)
         val ftransaction = myFragmentManager?.beginTransaction()
         ftransaction?.addToBackStack("update password")
@@ -76,7 +76,7 @@ class ForgetDialog(fm:FragmentManager?) : BaseDialogFragment(), OTPIView {
         mView.btnNext.setOnClickListener {
             if (mView.etPhoneNumber.text.isNotEmpty()) {
                 val presenter = RegisterPresenter(this@ForgetDialog)
-                sendOtpRequest.phone_number = "0"+mView.etPhoneNumber.text.toString()
+                sendOtpRequest.phone_number = "+62"+mView.etPhoneNumber.text.toString()
                 if (!isGenerateOTP) {
                     presenter.sendOtp(sendOtpRequest, requireActivity())
                     isGenerateOTP = true

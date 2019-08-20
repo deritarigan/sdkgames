@@ -28,7 +28,6 @@ class Main2Activity : AppCompatActivity(),MenuSDKCallback {
 
         btnPayment.setOnClickListener {
             startActivity(Intent(this@Main2Activity,PaymentActivity::class.java))
-
         }
     }
 }

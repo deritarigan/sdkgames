@@ -7,6 +7,9 @@
     <application>
         <activity android:name="com.akggames.akg_sdk.ui.activity.PaymentActivity">
         </activity>
+        <meta-data
+                android:name="com.google.android.gms.wallet.api.enabled"
+                android:value="true" />
     </application>
 
 </manifest>
