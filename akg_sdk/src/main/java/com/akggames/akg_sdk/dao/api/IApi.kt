@@ -1,10 +1,7 @@
 package com.akggames.akg_sdk.dao.api
 
 import com.akggames.akg_sdk.dao.api.model.request.*
-import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
-import com.akggames.akg_sdk.dao.api.model.response.CurrentUserResponse
-import com.akggames.akg_sdk.dao.api.model.response.FacebookAuthResponse
-import com.akggames.akg_sdk.dao.api.model.response.PhoneAuthResponse
+import com.akggames.akg_sdk.dao.api.model.response.*
 import retrofit2.http.*
 import java.util.*
 import  io.reactivex.Observable
@@ -16,6 +13,9 @@ interface IApi {
 
     @POST("auth/login")
     fun callPhoneLogin(@HeaderMap map: Map<String, String>, @Body body: PhoneAuthRequest): Observable<PhoneAuthResponse>
+
+    @POST("auth/guest/login")
+    fun callGuestLogin(@HeaderMap map: Map<String, String>, @Body body: GuestLoginRequest): Observable<PhoneAuthResponse>
 
     @POST("auth/signup/send_otp")
     fun callSendOtp(@HeaderMap map: Map<String, String>, @Body body: SendOtpRequest): Observable<BaseResponse>
@@ -29,12 +29,16 @@ interface IApi {
     @POST("auth/update_password")
     fun callUpdatePassword(@HeaderMap map: Map<String, String>, @Body body: UpdatePasswordRequest): Observable<BaseResponse>
 
+
     @DELETE("auth/logout")
-    fun callLogout(@HeaderMap map:Map<String,String>):Observable<BaseResponse>
+    fun callLogout(@HeaderMap map: Map<String, String>): Observable<BaseResponse>
 
     @GET("auth/current_user")
-    fun callGetCurrentUser(@HeaderMap map:Map<String,String>):Observable<CurrentUserResponse>
+    fun callGetCurrentUser(@HeaderMap map: Map<String, String>): Observable<CurrentUserResponse>
 
     @PUT("auth/change_password")
-    fun callChangePassword(@HeaderMap map:Map<String,String>,@Body body:ChangePasswordRequest):Observable<BaseResponse>
+    fun callChangePassword(@HeaderMap map: Map<String, String>, @Body body: ChangePasswordRequest): Observable<BaseResponse>
+
+    @GET("game_products/android/{game-provider}")
+    fun callGetProduct(@HeaderMap map: Map<String, String>, @Path("game-provider") gameProvider: String) :Observable<GameProductsResponse>
 }

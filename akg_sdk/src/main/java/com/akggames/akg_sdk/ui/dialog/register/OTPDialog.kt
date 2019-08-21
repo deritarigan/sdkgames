@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.content_dialog_registration.*
 import kotlinx.android.synthetic.main.content_dialog_registration.view.*
 import kotlinx.android.synthetic.main.content_dialog_registration.view.clOtp
 
-class OTPDialog(fm:FragmentManager?) : BaseDialogFragment(), OTPIView {
+class OTPDialog() : BaseDialogFragment(), OTPIView {
     lateinit var mView: View
     var isGenerateOTP: Boolean = false
     var sendOtpRequest: SendOtpRequest = SendOtpRequest()
@@ -31,7 +31,7 @@ class OTPDialog(fm:FragmentManager?) : BaseDialogFragment(), OTPIView {
         }
     }
 
-    init {
+    constructor(fm: FragmentManager?) : this() {
         myFragmentManager = fm
     }
 

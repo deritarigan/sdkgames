@@ -14,7 +14,7 @@ import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_change_password.*
 import kotlinx.android.synthetic.main.content_dialog_change_password.view.*
 
-class ChangePasswordDialog(fm: FragmentManager?) : BaseDialogFragment(),ChangeIView {
+class ChangePasswordDialog() : BaseDialogFragment(),ChangeIView {
 
     lateinit var mView: View
     val presenter = UpdatePresenter(this)
@@ -25,7 +25,7 @@ class ChangePasswordDialog(fm: FragmentManager?) : BaseDialogFragment(),ChangeIV
         }
     }
 
-    init {
+    constructor(fm: FragmentManager?):this(){
         myFragmentManager = fm
     }
 
@@ -53,7 +53,7 @@ class ChangePasswordDialog(fm: FragmentManager?) : BaseDialogFragment(),ChangeIV
             this.dismiss()
         }
 
-        btnBindingPhone.setOnClickListener {
+        btnBack.setOnClickListener {
             var model  = ChangePasswordRequest()
             model.old_password = etOldPassword.text.toString()
             model.password = etNewPassword.text.toString()

@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.content_dialog_forgot.view.etOtpCode
 import kotlinx.android.synthetic.main.content_dialog_forgot.view.etPhoneNumber
 import kotlinx.android.synthetic.main.content_dialog_registration.view.*
 
-class ForgetDialog(fm:FragmentManager?) : BaseDialogFragment(), OTPIView {
+class ForgetDialog() : BaseDialogFragment(), OTPIView {
 
     companion object {
         fun newInstance(fm: FragmentManager?): ForgetDialog {
@@ -31,7 +31,7 @@ class ForgetDialog(fm:FragmentManager?) : BaseDialogFragment(), OTPIView {
         }
     }
 
-    init {
+    constructor(fm: FragmentManager?):this(){
         myFragmentManager = fm
     }
 

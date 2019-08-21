@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.content_dialog_input_password.view.etConfP
 import kotlinx.android.synthetic.main.content_dialog_input_password.view.etPassword
 
 
-class SetPasswordDialog(fm:FragmentManager?) : BaseDialogFragment(), SetPasswordIView {
+class SetPasswordDialog() : BaseDialogFragment(), SetPasswordIView {
 
 
     lateinit var mView: View
@@ -34,8 +34,8 @@ class SetPasswordDialog(fm:FragmentManager?) : BaseDialogFragment(), SetPassword
         }
     }
 
-    init{
-        myFragmentManager=fm
+    constructor(fm: FragmentManager?) : this() {
+        myFragmentManager = fm
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

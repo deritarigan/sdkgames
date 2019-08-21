@@ -14,7 +14,7 @@ import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_account.*
 import kotlinx.android.synthetic.main.content_dialog_account.view.*
 
-class AccountDialog(fm: FragmentManager?) : BaseDialogFragment(), AccountIView {
+class AccountDialog() : BaseDialogFragment(), AccountIView {
 
     lateinit var mView: View
     val presenter: InfoPresenter = InfoPresenter(this)
@@ -25,7 +25,7 @@ class AccountDialog(fm: FragmentManager?) : BaseDialogFragment(), AccountIView {
         }
     }
 
-    init {
+    constructor(fm: FragmentManager?):this(){
         myFragmentManager = fm
     }
 
@@ -54,14 +54,17 @@ class AccountDialog(fm: FragmentManager?) : BaseDialogFragment(), AccountIView {
 
     fun initialize() {
         mView.ivClose.setOnClickListener {
-           customDismiss()
-            clearBackStack()
+          dismiss()
         }
 
         mView.tvChangePassword.setOnClickListener {
             val changePasswordDialog = ChangePasswordDialog.newInstance(myFragmentManager)
             changePasswordDialog.show(myFragmentManager, "change password")
             customDismiss()
+        }
+
+        btnBack.setOnClickListener {
+            dismiss()
         }
     }
 }

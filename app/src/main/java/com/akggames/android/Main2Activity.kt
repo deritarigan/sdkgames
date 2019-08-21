@@ -27,7 +27,7 @@ class Main2Activity : AppCompatActivity(),MenuSDKCallback {
         floatingButton.float()
 
         btnPayment.setOnClickListener {
-            startActivity(Intent(this@Main2Activity,PaymentActivity::class.java))
+            sdkgames.onSDKPayment()
         }
     }
 }

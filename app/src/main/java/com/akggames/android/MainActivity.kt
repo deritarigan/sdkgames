@@ -1,6 +1,7 @@
 package com.akggames.android
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -41,17 +42,17 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity,Main2Activity::class.java))
             finish()
         }
+
         sdkgames.onLogin(object : LoginSDKCallback{
             override fun onResponseSuccess(token: String) {
                 Toast.makeText(this@MainActivity, token, Toast.LENGTH_LONG).show()
                 startActivity(Intent(this@MainActivity,Main2Activity::class.java))
                 finish()
             }
+
             override fun onResponseFailed(message: String) {
                 Toast.makeText(this@MainActivity, message, Toast.LENGTH_LONG).show()
             }
         })
     }
-
-
 }

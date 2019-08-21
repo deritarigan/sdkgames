@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import com.akggames.akg_sdk.IConfig
 import com.akggames.akg_sdk.MenuSDKCallback
 import com.akggames.akg_sdk.dao.SocmedDao
@@ -19,9 +20,12 @@ import kotlinx.android.synthetic.main.content_dialog_logout.view.btnLogout
 
 class LogoutDialog() : BaseDialogFragment(), LogoutIView {
 
-
     lateinit var mView: View
     val presenter = LogoutPresenter(this)
+
+    constructor(fm: FragmentManager?):this(){
+        myFragmentManager = fm
+    }
 
     companion object {
         private lateinit var menuSDKCallback: MenuSDKCallback
@@ -53,6 +57,7 @@ class LogoutDialog() : BaseDialogFragment(), LogoutIView {
                 val loginType = CacheUtil.getPreferenceString(IConfig.LOGIN_TYPE, requireActivity())
                 when (loginType) {
                     IConfig.LOGIN_PHONE -> SocmedDao.logoutPhone(requireActivity(), this, presenter)
+                    IConfig.LOGIN_GUEST -> SocmedDao.logoutGuest(requireActivity(), this, presenter)
                     IConfig.LOGIN_GOOGLE -> SocmedDao.logoutGoogle(requireActivity(), this, presenter)
                     IConfig.LOGIN_FACEBOOK -> SocmedDao.logoutFacebook(requireActivity(), this, presenter)
                 }

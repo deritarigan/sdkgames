@@ -16,7 +16,7 @@ import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_input_password.*
 import kotlinx.android.synthetic.main.content_dialog_input_password.view.*
 
-class UpdatePasswordDialog(fm:FragmentManager?):BaseDialogFragment(),UpdatePasswordIView {
+class UpdatePasswordDialog():BaseDialogFragment(),UpdatePasswordIView {
 
     companion object {
         fun newInstance(mFragmentManager: FragmentManager?, bundle: Bundle): UpdatePasswordDialog {
@@ -26,7 +26,7 @@ class UpdatePasswordDialog(fm:FragmentManager?):BaseDialogFragment(),UpdatePassw
         }
     }
 
-    init {
+    constructor(fm: FragmentManager?):this(){
         myFragmentManager = fm
     }
 

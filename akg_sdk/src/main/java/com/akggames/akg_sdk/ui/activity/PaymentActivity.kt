@@ -20,13 +20,19 @@ import android.app.Activity
 import android.content.Intent
 import android.location.Geocoder.isPresent
 import android.view.View
+import com.akggames.akg_sdk.dao.api.model.response.GameProductsResponse
+import com.akggames.akg_sdk.presenter.ProductPresenter
+import com.akggames.akg_sdk.rx.IView
 import com.google.android.gms.wallet.*
 import io.reactivex.plugins.RxJavaPlugins.onError
 import org.json.JSONObject
 
 
-class PaymentActivity : AppCompatActivity() {
+class PaymentActivity : AppCompatActivity(), PaymentIView {
+
     lateinit var mPaymentsClient: PaymentsClient
+    val presenter = ProductPresenter(this)
+    lateinit var adapter : PaymentAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +43,7 @@ class PaymentActivity : AppCompatActivity() {
                 .setEnvironment(WalletConstants.ENVIRONMENT_TEST)
                 .build()
         )
-
+        adapter = PaymentAdapter(this,mPaymentsClient)
         val request = IsReadyToPayRequest.fromJson(PaymentDao().getIsReadyToPayRequest().toString())
         val task = mPaymentsClient.isReadyToPay(request)
         task.addOnCompleteListener(
@@ -47,11 +53,7 @@ class PaymentActivity : AppCompatActivity() {
                         val result = task.getResult(ApiException::class.java)
                         if (result!!) {
                             Toast.makeText(this@PaymentActivity, "onCompletePayment", Toast.LENGTH_LONG).show()
-
-                            googlePlayButton.setOnClickListener {
-                                requestPayment(it)
-                            }
-
+                            adapter.setPayment(true)
                         }
                     } catch (e: ApiException) {
                     }
@@ -59,6 +61,10 @@ class PaymentActivity : AppCompatActivity() {
                 }
             })
 
+    }
+
+    fun onGetProduct() {
+        presenter.getProducts("mobile-legends",this)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -73,23 +79,28 @@ class PaymentActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         rvProduct.layoutManager = GridLayoutManager(this, 2)
-
-        rvProduct.adapter = PaymentAdapter(this)
+        rvProduct.adapter = adapter
         rvProduct.setHasFixedSize(true)
+        onGetProduct()
     }
 
-    fun requestPayment(view: View) {
-        val paymentDataRequestJson = PaymentDao().getPaymentDataRequest()
-//        if (!paymentDataRequestJson.) {
-//            return
-//        }
-        val request = PaymentDataRequest.fromJson(paymentDataRequestJson.toString())
-        if (request != null) {
-            AutoResolveHelper.resolveTask(
-                mPaymentsClient.loadPaymentData(request), this, 133
-            )
-        }
+    override fun handleError(message: String) {
+
     }
+
+    override fun handleRetryConnection() {
+
+    }
+
+    override fun doOnSuccess(data: GameProductsResponse) {
+        adapter.setData(data.data as MutableList<GameProductsResponse.DataBean>)
+    }
+
+    override fun doOnError(message: String) {
+
+    }
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
@@ -105,7 +116,6 @@ class PaymentActivity : AppCompatActivity() {
                     AutoResolveHelper.RESULT_ERROR -> {
                     }
                 }
-                googlePlayButton.isClickable = true
             }
         }
     }

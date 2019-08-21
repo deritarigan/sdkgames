@@ -17,7 +17,7 @@ import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_login_phone.*
 import kotlinx.android.synthetic.main.content_dialog_login_phone.view.*
 
-class PhoneLoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), LoginIView {
+class PhoneLoginDialogFragment() : BaseDialogFragment(), LoginIView {
 
 
     companion object {
@@ -30,7 +30,7 @@ class PhoneLoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), Log
         }
     }
 
-    init {
+    constructor(fm: FragmentManager?) : this() {
         myFragmentManager = fm
     }
 
@@ -69,7 +69,7 @@ class PhoneLoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), Log
             otpDialog.show(ftransaction, "registration")
             customDismiss()
         }
-        mView.btnBindingPhone.setOnClickListener {
+        mView.btnBack.setOnClickListener {
             val phoneAuthRequest = PhoneAuthRequest()
             phoneAuthRequest.phone_number = "+62" + etPhoneNumber.text.toString()
             phoneAuthRequest.password = etOtpCode.text.toString()
@@ -87,5 +87,6 @@ class PhoneLoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), Log
             forgetDialog.show(ftransaction, "forget")
             customDismiss()
         }
+
     }
 }

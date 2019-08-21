@@ -37,4 +37,7 @@ object SocmedDao {
     fun logoutPhone(activity: Activity,iView : IView,presenter: LogoutPresenter){
         presenter.logout(activity)
     }
+    fun logoutGuest(activity: Activity,iView : IView,presenter: LogoutPresenter){
+        presenter.logout(activity)
+    }
 }

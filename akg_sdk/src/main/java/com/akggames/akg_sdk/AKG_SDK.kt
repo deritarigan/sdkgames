@@ -1,26 +1,37 @@
 package com.akggames.akg_sdk
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
+import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.akggames.akg_sdk.dao.api.model.FloatingItem
+import com.akggames.akg_sdk.ui.activity.PaymentActivity
 import com.akggames.akg_sdk.ui.adapter.FloatingAdapterListener
 import com.akggames.akg_sdk.ui.component.FloatingButton
 import com.akggames.akg_sdk.ui.component.FloatingItemClickListener
 import com.akggames.akg_sdk.ui.dialog.login.LoginDialogFragment
 import com.akggames.akg_sdk.ui.dialog.menu.*
 import com.akggames.akg_sdk.util.CacheUtil
+import com.akggames.akg_sdk.util.DeviceUtil
 import com.akggames.android.sdk.R
 
 class AKG_SDK(val activity: AppCompatActivity) {
 
     private lateinit var customCallback: LoginSDKCallback
-    private lateinit var menuCallback:MenuSDKCallback
+    private lateinit var menuCallback: MenuSDKCallback
+    private lateinit var configuration: Configuration
 
-    fun setFloatingButton(floatingButton: FloatingButton, context: Context,menuSDKCallback: MenuSDKCallback) {
+    companion object {
+        val SDK_PAYMENT_CODE = 199
+    }
+
+
+    fun setFloatingButton(floatingButton: FloatingButton, context: Context, menuSDKCallback: MenuSDKCallback) {
         menuCallback = menuSDKCallback
         val onItemClickListener: FloatingAdapterListener = object : FloatingAdapterListener {
             override fun onItemClick(position: Int, floatingItem: FloatingItem) {
@@ -65,19 +76,25 @@ class AKG_SDK(val activity: AppCompatActivity) {
     }
 
     fun onLogin(loginSDKCallback: LoginSDKCallback) {
-        if (!CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN, activity)) {
-            this.customCallback = loginSDKCallback
-            val loginDialogFragment = LoginDialogFragment.newInstance(activity.supportFragmentManager, customCallback)
-            val ftransaction = activity.supportFragmentManager.beginTransaction()
-            ftransaction?.addToBackStack("login")
-            loginDialogFragment.show(ftransaction, "login")
-        } else {
-            Toast.makeText(activity, "You already logged in", Toast.LENGTH_LONG).show()
-        }
+            if (!CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN, activity)) {
+                this.customCallback = loginSDKCallback
+                val loginDialogFragment =
+                    LoginDialogFragment.newInstance(activity.supportFragmentManager, customCallback)
+                val ftransaction = activity.supportFragmentManager.beginTransaction()
+                ftransaction?.addToBackStack("login")
+                loginDialogFragment.show(ftransaction, "login")
+            } else {
+                Toast.makeText(activity, "You already logged in", Toast.LENGTH_LONG).show()
+            }
     }
 
-    fun checkIsLogin(context: Context):Boolean{
-        return CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN,context)
+    fun checkIsLogin(context: Context): Boolean {
+        return CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN, context)
     }
 
+
+    fun onSDKPayment() {
+        val intent = Intent(activity, PaymentActivity::class.java)
+        activity.startActivityForResult(intent, SDK_PAYMENT_CODE)
+    }
 }

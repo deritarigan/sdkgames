@@ -5,15 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
-import com.akggames.akg_sdk.presenter.InfoPresenter
 import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
 import com.akggames.akg_sdk.ui.dialog.menu.binding.VerifyAccountDialog
 import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_bind_account.*
 import kotlinx.android.synthetic.main.content_dialog_bind_account.view.*
-import kotlinx.android.synthetic.main.content_dialog_bind_account.view.btnBindingPhone
 
-class BindAccountDialog(fm:FragmentManager?) : BaseDialogFragment() {
+class BindAccountDialog() : BaseDialogFragment() {
 
     lateinit var mView: View
 
@@ -23,7 +21,7 @@ class BindAccountDialog(fm:FragmentManager?) : BaseDialogFragment() {
         }
     }
 
-    init {
+    constructor(fm: FragmentManager?):this(){
         myFragmentManager = fm
     }
 
@@ -42,7 +40,7 @@ class BindAccountDialog(fm:FragmentManager?) : BaseDialogFragment() {
             this.dismiss()
         }
 
-        btnBindingPhone.setOnClickListener {
+        btnBack.setOnClickListener {
             val verifyDialog = VerifyAccountDialog.newInstance(myFragmentManager)
             val ftransaction =myFragmentManager?.beginTransaction()
             ftransaction?.addToBackStack("verify account")

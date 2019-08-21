@@ -4,10 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.akggames.akg_sdk.IConfig
 import com.akggames.akg_sdk.dao.api.model.request.*
-import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
-import com.akggames.akg_sdk.dao.api.model.response.CurrentUserResponse
-import com.akggames.akg_sdk.dao.api.model.response.FacebookAuthResponse
-import com.akggames.akg_sdk.dao.api.model.response.PhoneAuthResponse
+import com.akggames.akg_sdk.dao.api.model.response.*
 import com.akggames.akg_sdk.util.CacheUtil
 import io.reactivex.Observable
 import java.util.HashMap
@@ -53,6 +50,10 @@ class Api {
         }
 
         @Synchronized
+        fun onGuestLogin(model:GuestLoginRequest,context: Context):Observable<PhoneAuthResponse>{
+            return initApiDomain().callGuestLogin(initHeader(context),model)
+        }
+        @Synchronized
         fun onLogout(context: Context):Observable<BaseResponse>{
             return initApiDomain().callLogout(initHeader(context))
         }
@@ -85,6 +86,11 @@ class Api {
         @Synchronized
         fun onChangePassword(body:ChangePasswordRequest,context: Context):Observable<BaseResponse>{
             return initApiDomain().callChangePassword(initHeader(context),body)
+        }
+
+        @Synchronized
+        fun onGetProduct(gameProvider:String,context:Context):Observable<GameProductsResponse>{
+            return initApiDomain().callGetProduct(initHeader(context),gameProvider)
         }
     }
 }

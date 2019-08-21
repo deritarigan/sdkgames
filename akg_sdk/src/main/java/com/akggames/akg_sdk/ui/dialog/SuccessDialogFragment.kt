@@ -9,7 +9,7 @@ import com.akggames.akg_sdk.ui.dialog.register.SetPasswordDialog
 import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_success.view.*
 
-class SuccessDialogFragment(fm: FragmentManager?) : BaseDialogFragment() {
+class SuccessDialogFragment() : BaseDialogFragment() {
 
     lateinit var mView: View
     var phone: String? = ""
@@ -23,9 +23,10 @@ class SuccessDialogFragment(fm: FragmentManager?) : BaseDialogFragment() {
         }
     }
 
-    init {
+    constructor(fm: FragmentManager?):this(){
         myFragmentManager = fm
     }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mView = inflater.inflate(R.layout.content_dialog_success, container, true)

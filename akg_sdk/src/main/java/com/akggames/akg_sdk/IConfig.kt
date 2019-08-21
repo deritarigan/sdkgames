@@ -15,6 +15,7 @@ interface IConfig {
         val LOGIN_GOOGLE="loginGoogle"
         val LOGIN_FACEBOOK="loginFacebook"
         val LOGIN_PHONE="loginPhone"
+        val LOGIN_GUEST = "loginGuest"
 
         val SESSION_TOKEN = "auth_token"
         val SESSION_LOGIN = "isLogin"

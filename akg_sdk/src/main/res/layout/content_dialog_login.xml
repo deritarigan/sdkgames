@@ -23,7 +23,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    tools:ignore="MissingConstraints"/>
+                    tools:ignore="MissingConstraints" app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="379dp" android:layout_marginBottom="387dp"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
             <ImageView
                     android:layout_width="210dp"
                     android:layout_height="70dp"
@@ -116,7 +119,7 @@
                         android:paddingRight="8dp"
                         android:layout_marginLeft="8dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/btnBindingPhone"
+                        android:id="@+id/btnBack"
                         android:drawableLeft="@drawable/vector_ic_btn_phone"
                         android:drawablePadding="8dp"
                         android:background="@drawable/rounded_rectangle_tosca"

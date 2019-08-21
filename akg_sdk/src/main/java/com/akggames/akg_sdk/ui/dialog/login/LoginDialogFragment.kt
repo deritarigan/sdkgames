@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager
 import com.akggames.akg_sdk.IConfig
 import com.akggames.akg_sdk.LoginSDKCallback
 import com.akggames.akg_sdk.dao.api.model.request.FacebookAuthRequest
+import com.akggames.akg_sdk.dao.api.model.request.GuestLoginRequest
 import com.akggames.akg_sdk.presenter.LoginPresenter
 //import com.akggames.akg_sdk.ui.BaseActivity
 import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
@@ -33,7 +34,7 @@ import kotlinx.android.synthetic.main.content_dialog_login.*
 import kotlinx.android.synthetic.main.content_dialog_login.view.*
 
 
-class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), LoginIView {
+class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
 
     lateinit var mView: View
     lateinit var callbackManager: CallbackManager
@@ -45,6 +46,11 @@ class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), LoginIVi
     var mShownByMe = false
     var onViewDestroyed = true
 
+    constructor(fm: FragmentManager?) : this() {
+        myFragmentManager = fm
+    }
+
+
     companion object {
         private lateinit var mLoginCallback: LoginSDKCallback
 
@@ -55,13 +61,9 @@ class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), LoginIVi
         }
     }
 
-    init {
-        myFragmentManager = fm
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mView =
-            LayoutInflater.from(requireActivity() as Context).inflate(R.layout.content_dialog_login, container, true)
+            LayoutInflater.from(requireActivity() as Context).inflate(R.layout.content_dialog_login, null, false)
 
         return mView
     }
@@ -84,7 +86,7 @@ class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), LoginIVi
     }
 
     override fun doOnError(message: String) {
-       mLoginCallback.onResponseFailed(message)
+        mLoginCallback.onResponseFailed(message)
         customDismiss()
         clearBackStack()
     }
@@ -98,7 +100,9 @@ class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), LoginIVi
         mView.fbLoginButton.setPermissions(arrayListOf())
 
         mView.btnLoginFacebook.setOnClickListener {
-            mView.fbLoginButton.performClick()
+            if (DeviceUtil().getImei(requireActivity()).isNotEmpty()) {
+                mView.fbLoginButton.performClick()
+            }
         }
 
         fbLoginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
@@ -133,8 +137,10 @@ class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), LoginIVi
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         btnLoginGoogle.setOnClickListener {
-            val signInIntent = mGoogleSignInClient.getSignInIntent()
-            startActivityForResult(signInIntent, 101)
+            if (DeviceUtil().getImei(requireActivity()).isNotEmpty()) {
+                val signInIntent = mGoogleSignInClient.getSignInIntent()
+                startActivityForResult(signInIntent, 101)
+            }
         }
     }
 
@@ -152,20 +158,34 @@ class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), LoginIVi
     fun initialize() {
         setGoogleLogin()
         setFacebookLogin()
-        mView.btnBindingPhone.setOnClickListener {
-            this.customDismiss()
-            changeToPhoneLogin()
+        mView.btnBack.setOnClickListener {
+            if (DeviceUtil().getImei(requireActivity()).isNotEmpty()) {
+                this.customDismiss()
+                changeToPhoneLogin()
+            }
         }
 
         mView.btnGuest.setOnClickListener {
-            this.dismiss()
+            if (DeviceUtil().getImei(requireActivity()).isNotEmpty()) {
+
+                val model = GuestLoginRequest(
+                    "guest",
+                    DeviceUtil().getImei(requireActivity()),
+                    "mobile-legends",
+                    "Android",
+                    "Samsung"
+                )
+
+                presenter.guestLogin(model, requireActivity())
+            }
         }
+
 
     }
 
     fun changeToPhoneLogin() {
         val phoneLoginDialogFragment =
-            PhoneLoginDialogFragment.newInstance(myFragmentManager,mLoginCallback)
+            PhoneLoginDialogFragment.newInstance(myFragmentManager, mLoginCallback)
         val ftransaction = myFragmentManager?.beginTransaction()
         ftransaction?.addToBackStack("phone")
         phoneLoginDialogFragment.show(ftransaction, "phone")
@@ -187,6 +207,5 @@ class LoginDialogFragment(fm: FragmentManager?) : BaseDialogFragment(), LoginIVi
             Log.w("FRAGMENT_GOOGLE", "signInResult:failed code=" + e.statusCode)
         }
     }
-
 
 }

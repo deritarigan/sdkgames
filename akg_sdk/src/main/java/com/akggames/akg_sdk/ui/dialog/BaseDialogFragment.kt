@@ -1,6 +1,7 @@
 package com.akggames.akg_sdk.ui.dialog
 
 import android.content.DialogInterface
+import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
@@ -81,7 +82,22 @@ open class BaseDialogFragment() : DialogFragment(), IView {
             myFragmentManager?.popBackStack()
         }
     }
-
+    fun onRelauch(){
+        var backStackSize = myFragmentManager?.backStackEntryCount
+        if (backStackSize != null) {
+            if (backStackSize > 0) {
+                var backEntry = myFragmentManager?.getBackStackEntryAt(backStackSize-1)
+                customDismiss()
+                myFragmentManager?.popBackStack(this.tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                val mDialog =
+                    myFragmentManager?.findFragmentByTag(backEntry?.name) as BaseDialogFragment
+                if (myFragmentManager != null) {
+                    myFragmentManager!!.beginTransaction().remove(mDialog)
+                    mDialog.show(myFragmentManager!!.beginTransaction(), backEntry?.name)
+                }
+            }
+        }
+    }
     fun onBackPressed() {
         var backStackSize = myFragmentManager?.backStackEntryCount
 
@@ -104,4 +120,8 @@ open class BaseDialogFragment() : DialogFragment(), IView {
         }
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        onRelauch()
+    }
 }
