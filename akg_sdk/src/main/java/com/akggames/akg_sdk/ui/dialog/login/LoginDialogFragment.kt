@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
+import com.adjust.sdk.Adjust
+import com.adjust.sdk.AdjustEvent
 import com.akggames.akg_sdk.IConfig
 import com.akggames.akg_sdk.LoginSDKCallback
 import com.akggames.akg_sdk.dao.api.model.request.FacebookAuthRequest
@@ -80,6 +82,8 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
 
     override fun doOnSuccess(token: String) {
         mLoginCallback.onResponseSuccess(token)
+        val adjustLogin = AdjustEvent("gxl8cb")
+        Adjust.trackEvent(adjustLogin)
         customDismiss()
         clearBackStack()
     }
