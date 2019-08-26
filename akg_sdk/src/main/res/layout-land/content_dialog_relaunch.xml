@@ -3,21 +3,22 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
-    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+    <androidx.cardview.widget.CardView
+            android:background="@color/grey"
             android:layout_gravity="center"
             android:orientation="vertical"
             app:cardCornerRadius="16dp"
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:maxWidth="400dp"
             android:layout_margin="16dp"
             android:layout_height="wrap_content">
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:background="@mipmap/bg"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
             <ImageView
                     android:layout_width="210dp"
                     android:layout_height="70dp"
@@ -34,17 +35,16 @@
                     android:paddingRight="36dp"
                     android:layout_width="0dp"
                     style="@style/ButtonLogin"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
                     android:gravity="center"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:drawablePadding="24dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_rectangle_red"
                     android:id="@+id/btnTimer"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="36dp" app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="36dp"
-                    app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="24dp"
+                    app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="16dp"
                     app:layout_constraintTop_toBottomOf="@+id/tvUID"/>
             <Button
                     android:text="@string/btn_choose_account"
@@ -54,8 +54,8 @@
                     android:paddingRight="36dp"
                     android:id="@+id/btnRelogin"
                     android:gravity="center"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
                     android:layout_marginTop="8dp"
                     style="@style/ButtonLogin"
                     android:drawablePadding="24dp"
@@ -63,14 +63,15 @@
                     app:layout_constraintEnd_toEndOf="@+id/btnTimer"
                     app:layout_constraintStart_toStartOf="@+id/btnTimer"
                     app:layout_constraintTop_toBottomOf="@+id/tvChangePassword" android:layout_marginBottom="48dp"
-                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.00999999"/>
+                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.01999998"/>
             <TextView
                     android:text="@string/sign_in_with_another_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tvChangePassword" app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="8dp"
+                    android:id="@+id/tvChangePassword"
                     android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
                     app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/btnTimer"/>
 
@@ -98,14 +99,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:id="@+id/tvPhoneNumber" android:layout_marginTop="32dp"
+                    android:id="@+id/tvPhoneNumber" android:layout_marginTop="24dp"
                     app:layout_constraintTop_toBottomOf="@+id/ivLogo"
                     app:layout_constraintStart_toStartOf="@+id/btnTimer"/>
             <TextView
                     android:text="UID : 20182874108b3147839"
-                    android:textColor="@color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+
                     android:id="@+id/tvUID" app:layout_constraintStart_toStartOf="@+id/btnTimer"
                     android:layout_marginTop="4dp"
                     app:layout_constraintTop_toBottomOf="@+id/tvPhoneNumber"/>

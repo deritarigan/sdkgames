@@ -20,9 +20,13 @@ import android.app.Activity
 import android.content.Intent
 import android.location.Geocoder.isPresent
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.akggames.akg_sdk.dao.BillingDao
 import com.akggames.akg_sdk.dao.api.model.response.GameProductsResponse
 import com.akggames.akg_sdk.presenter.ProductPresenter
 import com.akggames.akg_sdk.rx.IView
+import com.android.billingclient.api.*
+import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
 import com.google.android.gms.wallet.*
 import io.reactivex.plugins.RxJavaPlugins.onError
 import org.json.JSONObject
@@ -30,55 +34,44 @@ import org.json.JSONObject
 
 class PaymentActivity : AppCompatActivity(), PaymentIView {
 
+
     lateinit var mPaymentsClient: PaymentsClient
     val presenter = ProductPresenter(this)
-    lateinit var adapter : PaymentAdapter
+    lateinit var adapter: PaymentAdapter
+    lateinit private var billingDao: BillingDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.akggames.android.sdk.R.layout.activity_payment)
-        mPaymentsClient = Wallet.getPaymentsClient(
-            this,
-            Wallet.WalletOptions.Builder()
-                .setEnvironment(WalletConstants.ENVIRONMENT_TEST)
-                .build()
-        )
-        adapter = PaymentAdapter(this,mPaymentsClient)
-        val request = IsReadyToPayRequest.fromJson(PaymentDao().getIsReadyToPayRequest().toString())
-        val task = mPaymentsClient.isReadyToPay(request)
-        task.addOnCompleteListener(
-            object : OnCompleteListener<Boolean> {
-                override fun onComplete(@NonNull task: Task<Boolean>) {
-                    try {
-                        val result = task.getResult(ApiException::class.java)
-                        if (result!!) {
-                            Toast.makeText(this@PaymentActivity, "onCompletePayment", Toast.LENGTH_LONG).show()
-                            adapter.setPayment(true)
-                        }
-                    } catch (e: ApiException) {
-                    }
-
+        billingDao = BillingDao(application, object : BillingDao.BillingDaoQuerySKU {
+            override fun onQuerySKU(skuDetails: SkuDetails) {
+                if (skuDetails.sku == BillingDao.SKU.janjiDoang) {
+                    tvProd1.text = skuDetails.title + " -->" + skuDetails.price
+                }else{
+                    tvProd1.text = skuDetails.title + " -->" + skuDetails.price
                 }
-            })
+                if (skuDetails.sku == BillingDao.SKU.tempeOrek) {
+                    tvProd2.text = skuDetails.title + " -->" + skuDetails.price
+                }else{
+                    tvProd2.text = skuDetails.title + " -->" + skuDetails.price
+                }
+            }
 
+        })
+        adapter = PaymentAdapter(this,billingDao)
+
+
+        billingDao.onInitiateBillingClient()
     }
+
 
     fun onGetProduct() {
-        presenter.getProducts("mobile-legends",this)
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            rvProduct.layoutManager = GridLayoutManager(this, 2, RecyclerView.VERTICAL, false)
-        } else {
-            rvProduct.layoutManager = GridLayoutManager(this, 2, RecyclerView.HORIZONTAL, false)
-        }
+        presenter.getProducts("mobile-legends", this)
     }
 
     override fun onStart() {
         super.onStart()
-        rvProduct.layoutManager = GridLayoutManager(this, 2)
+        rvProduct.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false)
         rvProduct.adapter = adapter
         rvProduct.setHasFixedSize(true)
         onGetProduct()
@@ -98,25 +91,5 @@ class PaymentActivity : AppCompatActivity(), PaymentIView {
 
     override fun doOnError(message: String) {
 
-    }
-
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
-            133 -> {
-                when (resultCode) {
-                    Activity.RESULT_OK -> {
-                        data?.let {
-                            //                            onPaymentSuccess(PaymentData.getFromIntent(data))
-                        }
-                    }
-                    Activity.RESULT_CANCELED -> {
-                    }
-                    AutoResolveHelper.RESULT_ERROR -> {
-                    }
-                }
-            }
-        }
     }
 }

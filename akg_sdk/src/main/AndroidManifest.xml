@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.akggames.android.sdk">
-
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="com.android.vending.BILLING "/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application>
-        <activity android:name="com.akggames.akg_sdk.ui.activity.PaymentActivity">
+        <activity android:name="com.akggames.akg_sdk.ui.activity.PaymentActivity"
+                  android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize">
         </activity>
         <meta-data
                 android:name="com.google.android.gms.wallet.api.enabled"

@@ -50,7 +50,6 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
         myFragmentManager = fm
     }
 
-
     companion object {
         private lateinit var mLoginCallback: LoginSDKCallback
 
@@ -99,7 +98,7 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
         mView.fbLoginButton.setFragment(this)
         mView.fbLoginButton.setPermissions(arrayListOf())
 
-        mView.btnLoginFacebook.setOnClickListener {
+        mView.btnTimer.setOnClickListener {
             if (DeviceUtil().getImei(requireActivity()).isNotEmpty()) {
                 mView.fbLoginButton.performClick()
             }
@@ -136,7 +135,7 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
 
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
-        btnLoginGoogle.setOnClickListener {
+        btnRelogin.setOnClickListener {
             if (DeviceUtil().getImei(requireActivity()).isNotEmpty()) {
                 val signInIntent = mGoogleSignInClient.getSignInIntent()
                 startActivityForResult(signInIntent, 101)

@@ -19,7 +19,8 @@ interface IConfig {
 
         val SESSION_TOKEN = "auth_token"
         val SESSION_LOGIN = "isLogin"
-
+        val SESSION_USERNAME = "uName"
+        val SESSION_UID = "yuaidi"
 
         val monthLabels = arrayOf(
             "January_Januari",

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import com.akggames.akg_sdk.IConfig
 import com.akggames.akg_sdk.dao.api.model.response.CurrentUserResponse
@@ -25,7 +26,7 @@ class AccountDialog() : BaseDialogFragment(), AccountIView {
         }
     }
 
-    constructor(fm: FragmentManager?):this(){
+    constructor(fm: FragmentManager?) : this() {
         myFragmentManager = fm
     }
 
@@ -50,11 +51,12 @@ class AccountDialog() : BaseDialogFragment(), AccountIView {
     }
 
     override fun doOnError(message: String?) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     fun initialize() {
         mView.ivClose.setOnClickListener {
-          dismiss()
+            dismiss()
         }
 
         mView.tvChangePassword.setOnClickListener {

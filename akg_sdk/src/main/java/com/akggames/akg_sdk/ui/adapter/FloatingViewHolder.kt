@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.RelativeLayout
 import androidx.core.widget.ImageViewCompat
 import com.akggames.akg_sdk.dao.api.model.FloatingItem
-import com.akggames.akg_sdk.dp2Px
+import com.akggames.akg_sdk.extension.dp2Px
 import com.akggames.akg_sdk.ui.component.FloatingButton
 import com.akggames.akg_sdk.ui.component.ItemWrapper
 import kotlinx.android.synthetic.main.item_floating_button.view.*

@@ -22,10 +22,8 @@ class InfoPresenter(val mIView: IView) {
                 Log.d("TESTING API", "onNext")
                 t as CurrentUserResponse
                 if (t.meta?.code == 200) {
-                    Toast.makeText(context, t.data?.id, Toast.LENGTH_LONG).show()
                     (mIView as AccountIView).doOnSuccess(t)
                 } else {
-                    Toast.makeText(context, t.data?.message, Toast.LENGTH_LONG).show()
                     (mIView as AccountIView).doOnError(t.data?.message)
                 }
             }

@@ -35,7 +35,7 @@
                     android:text="@string/registration_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tvDesc"
+                    android:id="@+id/tvUID"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     style="@style/DescriptionStyle"

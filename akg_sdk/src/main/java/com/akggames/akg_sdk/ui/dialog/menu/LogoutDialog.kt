@@ -28,7 +28,7 @@ class LogoutDialog() : BaseDialogFragment(), LogoutIView {
     }
 
     companion object {
-        private lateinit var menuSDKCallback: MenuSDKCallback
+        internal lateinit var menuSDKCallback: MenuSDKCallback
 
         fun newInstance(callback: MenuSDKCallback): LogoutDialog {
             val mDialogFragment = LogoutDialog()

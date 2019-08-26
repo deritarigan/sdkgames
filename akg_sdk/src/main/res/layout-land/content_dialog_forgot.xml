@@ -40,7 +40,7 @@
                     android:text="@string/registration_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tvDesc"
+                    android:id="@+id/tvUID"
                     android:textColor="@color/black" app:layout_constraintStart_toStartOf="@+id/tvPhoneNumber"
                     android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/tvPhoneNumber"

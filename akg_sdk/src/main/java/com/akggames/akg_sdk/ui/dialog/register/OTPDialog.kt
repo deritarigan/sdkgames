@@ -6,19 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
-import androidx.transition.TransitionManager.beginDelayedTransition
-import com.akggames.akg_sdk.animateScale
-import com.akggames.akg_sdk.beginDelayedTransition
+import com.akggames.akg_sdk.extension.animateScale
+import com.akggames.akg_sdk.extension.beginDelayedTransition
 import com.akggames.akg_sdk.dao.api.model.request.SendOtpRequest
 import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
-import com.akggames.akg_sdk.doAfterAnimate
+import com.akggames.akg_sdk.extension.doAfterAnimate
 import com.akggames.akg_sdk.presenter.RegisterPresenter
-import com.akggames.akg_sdk.rx.IView
 import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
 import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_registration.*
 import kotlinx.android.synthetic.main.content_dialog_registration.view.*
-import kotlinx.android.synthetic.main.content_dialog_registration.view.clOtp
 
 class OTPDialog() : BaseDialogFragment(), OTPIView {
     lateinit var mView: View

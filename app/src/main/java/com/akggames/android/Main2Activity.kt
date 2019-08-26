@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.akggames.akg_sdk.AKG_SDK
 import com.akggames.akg_sdk.MenuSDKCallback
 import com.akggames.akg_sdk.ui.activity.PaymentActivity
+import com.akggames.akg_sdk.ui.dialog.login.RelaunchDialog
 import kotlinx.android.synthetic.main.activity_main2.*
 
 class Main2Activity : AppCompatActivity(),MenuSDKCallback {
@@ -28,6 +29,7 @@ class Main2Activity : AppCompatActivity(),MenuSDKCallback {
 
         btnPayment.setOnClickListener {
             sdkgames.onSDKPayment()
+//sdkgames.setRelauchDialog(this)
         }
     }
 }

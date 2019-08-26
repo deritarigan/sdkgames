@@ -1,23 +1,14 @@
 package com.akggames.akg_sdk.ui.adapter
 
-import android.content.Context
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import androidx.annotation.LayoutRes
-import androidx.core.widget.ImageViewCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.RecyclerView
-import com.akggames.akg_sdk.dao.api.model.FloatingItem
 import com.akggames.akg_sdk.dao.api.model.SectionRow
-import com.akggames.akg_sdk.dp2Px
-import com.akggames.akg_sdk.ui.component.FloatingButton
-import com.akggames.akg_sdk.ui.component.ItemWrapper
-import kotlinx.android.synthetic.main.item_floating_button.view.*
 import java.util.ArrayList
 
 @Suppress("unused", "MemberVisibilityCanBePrivate", "RedundantOverride", "RedundantVisibilityModifier")

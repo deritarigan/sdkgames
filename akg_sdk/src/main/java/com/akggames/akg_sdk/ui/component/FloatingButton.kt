@@ -2,27 +2,28 @@ package com.akggames.akg_sdk.ui.component
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.Point
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
-import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.akggames.akg_sdk.*
-import com.akggames.akg_sdk.animateFade
-import com.akggames.akg_sdk.animateScale
 import com.akggames.akg_sdk.dao.api.model.FloatingItem
+import com.akggames.akg_sdk.extension.*
+import com.akggames.akg_sdk.extension.animateFade
+import com.akggames.akg_sdk.extension.animateScale
+import com.akggames.akg_sdk.extension.displaySize
+import com.akggames.akg_sdk.extension.doAfterAnimate
+import com.akggames.akg_sdk.extension.dp2Px
+import com.akggames.akg_sdk.extension.updateLayoutParams
+import com.akggames.akg_sdk.extension.visible
 import com.akggames.akg_sdk.ui.adapter.FloatingAdapter
 import com.akggames.akg_sdk.ui.adapter.FloatingAdapterListener
-import com.akggames.akg_sdk.updateLayoutParams
-import com.akggames.akg_sdk.visible
 import com.akggames.android.sdk.R
 import de.hdodenhof.circleimageview.CircleImageView
 

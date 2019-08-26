@@ -40,7 +40,7 @@
                     android:text="@string/verify_account"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tvDesc"
+                    android:id="@+id/tvUID"
                     android:textColor="@color/white" app:layout_constraintStart_toStartOf="@+id/tvPhoneNumber"
                     android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/tvPhoneNumber"
@@ -54,8 +54,8 @@
                     android:paddingStart="16dp"
                     android:background="@drawable/rounded_rectangle_white"
                     android:id="@+id/etPhoneCode"
-                    app:layout_constraintStart_toStartOf="@+id/tvDesc" android:layout_marginTop="12dp"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDesc"/>
+                    app:layout_constraintStart_toStartOf="@+id/tvUID" android:layout_marginTop="12dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUID"/>
             <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
 
                     android:ems="10"
                     android:id="@+id/etPhoneNumber"
-                    app:layout_constraintEnd_toEndOf="@+id/tvDesc"
+                    app:layout_constraintEnd_toEndOf="@+id/tvUID"
                     android:background="@drawable/rounded_rectangle_white"
 
                     app:layout_constraintTop_toTopOf="@+id/etPhoneCode"
