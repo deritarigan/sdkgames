@@ -5,4 +5,5 @@ import com.akggames.akg_sdk.rx.IView
 
 interface SetPasswordIView : IView {
     fun doOnSuccess(data:BaseResponse)
+    fun doOnError()
 }

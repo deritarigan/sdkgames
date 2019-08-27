@@ -40,10 +40,12 @@ class BillingDao constructor(private val application: Application, val queryCall
     }
 
     fun querySkuDetailsAsync(@BillingClient.SkuType skuType: String, skuList: List<String>) {
+
         val params = SkuDetailsParams.newBuilder()
             .setSkusList(skuList)
             .setType(skuType)
             .build()
+
         billingClient.querySkuDetailsAsync(params, object : SkuDetailsResponseListener {
             override fun onSkuDetailsResponse(billingResult: BillingResult?, skuDetailsList: MutableList<SkuDetails>?) {
                 if (billingResult?.responseCode == BillingClient.BillingResponseCode.OK) {
@@ -55,6 +57,7 @@ class BillingDao constructor(private val application: Application, val queryCall
                     }
                 } else {
                     Log.e(LOG_TAG, billingResult?.debugMessage)
+                    Log.e(LOG_TAG, billingResult?.debugMessage.toString())
                 }
             }
 
@@ -77,7 +80,7 @@ class BillingDao constructor(private val application: Application, val queryCall
         when (billingResult?.responseCode) {
             BillingClient.BillingResponseCode.OK -> {
                 Log.d(LOG_TAG, "onBillingSetupFinished successfully")
-                querySkuDetailsAsync(BillingClient.SkuType.SUBS, SKU.myListSKU)
+                querySkuDetailsAsync(BillingClient.SkuType.INAPP, SKU.myListSKU)
 //                queryPurchasesAsync()
             }
             BillingClient.BillingResponseCode.BILLING_UNAVAILABLE -> {

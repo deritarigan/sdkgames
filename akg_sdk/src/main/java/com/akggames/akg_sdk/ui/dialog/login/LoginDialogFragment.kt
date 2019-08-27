@@ -82,10 +82,14 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
 
     override fun doOnSuccess(token: String) {
         mLoginCallback.onResponseSuccess(token)
-        val adjustLogin = AdjustEvent("gxl8cb")
-        Adjust.trackEvent(adjustLogin)
+//        Log.d("Adjust", "Login Event")
+//        setAdjustEventLogin()
         customDismiss()
         clearBackStack()
+    }
+
+    fun setAdjustEventLogin(){
+        Adjust.trackEvent(AdjustEvent("gxl8cb"))
     }
 
     override fun doOnError(message: String) {

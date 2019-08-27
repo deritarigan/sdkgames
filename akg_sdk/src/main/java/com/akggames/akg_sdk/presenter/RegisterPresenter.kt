@@ -96,6 +96,7 @@ class RegisterPresenter(val iView: IView) {
                     (iView as SetPasswordDialog).doOnSuccess(t)
                     Toast.makeText(context, t.BaseDataResponse?.message, Toast.LENGTH_LONG).show()
                 } else {
+                    (iView as SetPasswordDialog).doOnError()
                     Toast.makeText(context, t.BaseDataResponse?.message, Toast.LENGTH_LONG).show()
                 }
             }

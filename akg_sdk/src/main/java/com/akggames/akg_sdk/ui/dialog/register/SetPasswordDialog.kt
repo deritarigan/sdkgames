@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
+import com.adjust.sdk.Adjust
+import com.adjust.sdk.AdjustEvent
 import com.akggames.akg_sdk.dao.api.model.request.SignUpRequest
 import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
 import com.akggames.akg_sdk.presenter.RegisterPresenter
@@ -20,7 +22,6 @@ import kotlinx.android.synthetic.main.content_dialog_input_password.view.etPassw
 
 
 class SetPasswordDialog() : BaseDialogFragment(), SetPasswordIView {
-
 
     lateinit var mView: View
     val presenter = RegisterPresenter(this@SetPasswordDialog)
@@ -60,12 +61,25 @@ class SetPasswordDialog() : BaseDialogFragment(), SetPasswordIView {
     override fun doOnSuccess(data: BaseResponse) {
         val bundle = Bundle()
         bundle.putString("phone", phone)
+        setAdjustEventRegisterSuccess()
         val successDialog = SuccessDialogFragment.newInstance(myFragmentManager, bundle)
         val ftransaction = myFragmentManager?.beginTransaction()
         clearBackStack()
         ftransaction?.addToBackStack("success")
         successDialog.show(ftransaction, "success")
         customDismiss()
+    }
+    override fun doOnError() {
+        setAdjustEventRegisterError()
+    }
+
+    fun setAdjustEventRegisterSuccess() {
+        Adjust.trackEvent(AdjustEvent("7gzpmk"))
+    }
+
+    fun setAdjustEventRegisterError(){
+        Adjust.trackEvent(AdjustEvent("nr3ny5"))
+
     }
 
     fun initialize() {

@@ -74,7 +74,7 @@ class PaymentActivity : AppCompatActivity(), PaymentIView {
         rvProduct.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false)
         rvProduct.adapter = adapter
         rvProduct.setHasFixedSize(true)
-        onGetProduct()
+//        onGetProduct()
     }
 
     override fun handleError(message: String) {

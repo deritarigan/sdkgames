@@ -27,7 +27,7 @@ import com.akggames.akg_sdk.ui.adapter.FloatingAdapterListener
 import com.akggames.android.sdk.R
 import de.hdodenhof.circleimageview.CircleImageView
 
-class FloatingButton : FrameLayout{
+class FloatingButton : FrameLayout {
 
 
     enum class ORIENTATION {
@@ -166,7 +166,7 @@ class FloatingButton : FrameLayout{
     }
 
     init {
-        this.setOnTouchListener(object:OnTouchListener{
+        this.setOnTouchListener(object : OnTouchListener {
             private var downRawX: Float = 0.toFloat()
             private var downRawY: Float = 0.toFloat()
             private var dX: Float = 0.toFloat()
@@ -460,7 +460,7 @@ class FloatingButton : FrameLayout{
                         if (!isNavigating) {
                             recyclerView.visible(false)
                             autoDip()
-                            circleIcon.visibility= View.VISIBLE
+                            circleIcon.visibility = View.VISIBLE
                         }
                     }
             } else if (orientation == ORIENTATION.VERTICAL) {
@@ -550,6 +550,14 @@ class FloatingButton : FrameLayout{
         }
     }
 
+    /** updates layout width wrapContent. */
+    private fun updateWidth(radius: Float) {
+        updateLayoutParams {
+            width = LayoutParams.WRAP_CONTENT
+            drawable.cornerRadius = radius
+        }
+    }
+
     /** updates layout height params. */
     private fun updateHeightParams(value: Int, radius: Float) {
         updateLayoutParams {
@@ -590,20 +598,22 @@ class FloatingButton : FrameLayout{
         return context.dp2Px(size)
     }
 
-    fun expandContainer(){
-
-        this.recyclerView.visibility=View.VISIBLE
+    fun expandContainer() {
+        this.recyclerView.visibility = View.VISIBLE
         animateScale(1.0f, 1.0f, duration / 2)
-            .doAfterAnimate {  beginDelayedTransition(duration)
-                    updateWidthParams(expandSize, radius)
-                    }
+            .doAfterAnimate {
+                beginDelayedTransition(duration)
+                updateWidthParams(expandSize, radius)
+//                updateWidth(radius)
+            }
     }
 
-    fun shrinkContainer(){
-        this.recyclerView.visibility=View.GONE
+    fun shrinkContainer() {
+        this.recyclerView.visibility = View.GONE
         animateScale(1.0f, 1.0f, duration / 2)
-            .doAfterAnimate {  beginDelayedTransition(duration)
-                updateWidthParams(getCircleViewAllocation(),radius)
+            .doAfterAnimate {
+                beginDelayedTransition(duration)
+                updateWidthParams(getCircleViewAllocation(), radius)
             }
     }
 }

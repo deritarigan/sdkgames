@@ -5,25 +5,22 @@ import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustConfig
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import com.adjust.sdk.LogLevel
+import com.akggames.akg_sdk.AKG_SDK
 
 
 class AkgApplication :Application() {
 
     override fun onCreate() {
         super.onCreate()
+//        AKG_SDK().registerAdjustOnAKG(this)
         val appToken = "y1t3z228xxj4"
-        val environment = AdjustConfig.ENVIRONMENT_SANDBOX
+        val environment = AdjustConfig.ENVIRONMENT_PRODUCTION
         val config = AdjustConfig(this, appToken, environment)
         config.setLogLevel(LogLevel.VERBOSE); // enable all logs
-        config.setLogLevel(LogLevel.DEBUG); // disable verbose logs
-        config.setLogLevel(LogLevel.INFO); // disable debug logs (default)
-        config.setLogLevel(LogLevel.WARN); // disable info logs
-        config.setLogLevel(LogLevel.ERROR); // disable warning logs
         Adjust.onCreate(config)
-
-
-        registerActivityLifecycleCallbacks(AdjustLifecycleCallbacks())
+        Log.d("Adjust", "Initiate")
     }
 
     private class AdjustLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
