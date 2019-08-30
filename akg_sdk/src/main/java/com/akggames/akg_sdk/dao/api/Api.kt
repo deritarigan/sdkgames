@@ -89,8 +89,13 @@ class Api {
         }
 
         @Synchronized
-        fun onGetProduct(gameProvider:String,context:Context):Observable<GameProductsResponse>{
+        fun onGetProduct(gameProvider:String?,context:Context):Observable<GameProductsResponse>{
             return initApiDomain().callGetProduct(initHeader(context),gameProvider)
+        }
+
+        @Synchronized
+        fun onBindAccount(body:BindSocMedRequest,context: Context):Observable<BaseResponse>{
+            return initApiDomain().callBindAccountSocmed(initHeader(context),body)
         }
     }
 }

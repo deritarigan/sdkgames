@@ -32,9 +32,9 @@ class AKG_SDK() : AccountIView {
 
     private lateinit var customCallback: LoginSDKCallback
     private lateinit var menuCallback: MenuSDKCallback
-    lateinit var activity:AppCompatActivity
+    lateinit var activity: AppCompatActivity
 
-    constructor(ac: AppCompatActivity) : this(){
+    constructor(ac: AppCompatActivity) : this() {
         this.activity = ac
     }
 
@@ -47,15 +47,11 @@ class AKG_SDK() : AccountIView {
         val environment = AdjustConfig.ENVIRONMENT_SANDBOX
         val config = AdjustConfig(application, appToken, environment)
         config.setLogLevel(LogLevel.VERBOSE); // enable all logs
-        config.setLogLevel(LogLevel.DEBUG); // disable verbose logs
-        config.setLogLevel(LogLevel.INFO); // disable debug logs (default)
-        config.setLogLevel(LogLevel.WARN); // disable info logs
-        config.setLogLevel(LogLevel.ERROR); // disable warning logs
         Adjust.onCreate(config)
         Log.d("Adjust", "Initiate")
 
-
         application.registerActivityLifecycleCallbacks(AdjustLifecycleCallbacks())
+
     }
 
     private class AdjustLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
@@ -103,25 +99,31 @@ class AKG_SDK() : AccountIView {
             override fun onItemClick(position: Int, floatingItem: FloatingItem) {
                 val contactUsDialog = InfoDialog()
                 val checkVersionDialog = CheckVersionDialog()
-                val bindAccountDialog = BindAccountDialog.newInstance(activity.supportFragmentManager)
+                val bindAccountDialog = BindAccountDialog.newInstance(activity.supportFragmentManager,floatingButton,this@AKG_SDK,menuSDKCallback)
                 val logoutDialog = LogoutDialog.newInstance(menuCallback)
                 val accountDialog = AccountDialog.newInstance(activity.supportFragmentManager)
                 when (position) {
                     0 -> {
-                        bindAccountDialog.show(activity.supportFragmentManager, "bind account")
+                        if (CacheUtil.getPreferenceString(
+                                IConfig.LOGIN_TYPE,
+                                activity
+                            )?.equals(IConfig.LOGIN_GUEST)!!
+                        ) {
+                            bindAccountDialog.show(activity.supportFragmentManager, "bind account")
+                        } else {
+                            accountDialog.show(activity.supportFragmentManager, "account")
+                        }
                     }
                     1 -> {
-                        accountDialog.show(activity.supportFragmentManager, "account")
+                        Toast.makeText(context, "fb", Toast.LENGTH_LONG).show()
                     }
-                    2 -> Toast.makeText(context, "fb", Toast.LENGTH_LONG).show()
-                    3 -> Toast.makeText(context, "eula", Toast.LENGTH_LONG).show()
+                    2 -> Toast.makeText(context, "eula", Toast.LENGTH_LONG).show()
+                    3 -> contactUsDialog.show(activity.supportFragmentManager, "contact us")
+
                     4 -> {
-                        contactUsDialog.show(activity.supportFragmentManager, "contact us")
-                    }
-                    5 -> {
                         checkVersionDialog.show(activity.supportFragmentManager, "check version")
                     }
-                    6 -> {
+                    5 -> {
                         logoutDialog.show(activity.supportFragmentManager, "logout")
                     }
                 }
@@ -131,23 +133,29 @@ class AKG_SDK() : AccountIView {
         floatingButton.floatingAdapterListener = onItemClickListener
 
         floatingButton.circleIcon.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.btn_akg_logo))
-        floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_bind_account)))
-        floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_verify_account)))
+        floatingButton.clearAllItems()
+        if (CacheUtil.getPreferenceString(IConfig.LOGIN_TYPE, activity)?.equals(IConfig.LOGIN_GUEST)!!) {
+            floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_bind_account)))
+
+        } else {
+            floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_verify_account)))
+        }
         floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_fb)))
         floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_eula)))
         floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_contact_us)))
         floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_sdk_version)))
         floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_log_out)))
-
         callGetAccount(context)
     }
 
-    fun onLogin(loginSDKCallback: LoginSDKCallback) {
+    fun onLogin(gameName: String, loginSDKCallback: LoginSDKCallback) {
+        CacheUtil.putPreferenceString(IConfig.SESSION_GAME, gameName, activity)
         if (!CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN, activity)) {
             this.customCallback = loginSDKCallback
             val loginDialogFragment =
                 LoginDialogFragment.newInstance(activity.supportFragmentManager, customCallback)
             val ftransaction = activity.supportFragmentManager.beginTransaction()
+            loginDialogFragment.clearBackStack()
             ftransaction?.addToBackStack("login")
             loginDialogFragment.show(ftransaction, "login")
         } else {
@@ -175,11 +183,17 @@ class AKG_SDK() : AccountIView {
             CacheUtil.putPreferenceString(IConfig.SESSION_USERNAME, data.data?.attributes?.phone_number!!, activity)
 
         } else {
-            CacheUtil.putPreferenceString(
-                IConfig.SESSION_USERNAME, data.data?.attributes?.email!!,
-                activity
-            )
-
+            if (data.data?.attributes?.email != null) {
+                CacheUtil.putPreferenceString(
+                    IConfig.SESSION_USERNAME, data.data?.attributes?.email!!,
+                    activity
+                )
+            } else {
+                CacheUtil.putPreferenceString(
+                    IConfig.SESSION_USERNAME, "",
+                    activity
+                )
+            }
         }
         CacheUtil.putPreferenceString(
             IConfig.SESSION_UID, data.data?.attributes?.uid!!,
@@ -188,14 +202,11 @@ class AKG_SDK() : AccountIView {
     }
 
     override fun doOnError(message: String?) {
-
     }
 
     override fun handleError(message: String) {
-
     }
 
     override fun handleRetryConnection() {
-
     }
 }

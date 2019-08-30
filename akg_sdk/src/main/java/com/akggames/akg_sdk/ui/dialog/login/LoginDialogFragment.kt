@@ -19,6 +19,7 @@ import com.akggames.akg_sdk.presenter.LoginPresenter
 //import com.akggames.akg_sdk.ui.BaseActivity
 import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
 import com.akggames.akg_sdk.ui.dialog.PhoneLoginDialogFragment
+import com.akggames.akg_sdk.util.CacheUtil
 import com.akggames.android.sdk.R
 import com.akggames.akg_sdk.util.DeviceUtil
 import com.facebook.CallbackManager
@@ -83,7 +84,7 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
     override fun doOnSuccess(token: String) {
         mLoginCallback.onResponseSuccess(token)
 //        Log.d("Adjust", "Login Event")
-//        setAdjustEventLogin()
+        setAdjustEventLogin()
         customDismiss()
         clearBackStack()
     }
@@ -104,9 +105,9 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
     fun setFacebookLogin() {
         callbackManager = CallbackManager.Factory.create();
         mView.fbLoginButton.setFragment(this)
-        mView.fbLoginButton.setPermissions(arrayListOf())
+        mView.fbLoginButton.setPermissions(arrayListOf("email"))
 
-        mView.btnTimer.setOnClickListener {
+        mView.btnBindFacebook.setOnClickListener {
             if (DeviceUtil().getImei(requireActivity()).isNotEmpty()) {
                 mView.fbLoginButton.performClick()
             }
@@ -118,7 +119,7 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
                 model.access_token = result?.accessToken?.token
                 model.auth_provider = "facebook"
                 model.device_id = DeviceUtil().getImei(requireActivity())
-                model.game_provider = "mobile-legends"
+                model.game_provider = CacheUtil.getPreferenceString(IConfig.SESSION_GAME,requireActivity())
                 model.operating_system = "android"
                 model.phone_model = "samsung"
                 presenter.facebookLogin(model, requireActivity())
@@ -143,7 +144,7 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
 
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
-        btnRelogin.setOnClickListener {
+        btnBindGoogle.setOnClickListener {
             if (DeviceUtil().getImei(requireActivity()).isNotEmpty()) {
                 val signInIntent = mGoogleSignInClient.getSignInIntent()
                 startActivityForResult(signInIntent, 101)
@@ -174,15 +175,13 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
 
         mView.btnGuest.setOnClickListener {
             if (DeviceUtil().getImei(requireActivity()).isNotEmpty()) {
-
                 val model = GuestLoginRequest(
                     "guest",
                     DeviceUtil().getImei(requireActivity()),
-                    "mobile-legends",
+                    CacheUtil.getPreferenceString(IConfig.SESSION_GAME,requireActivity()),
                     "Android",
                     "Samsung"
                 )
-
                 presenter.guestLogin(model, requireActivity())
             }
         }
@@ -205,7 +204,7 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
             model.access_token = account?.idToken
             model.auth_provider = "google"
             model.device_id = DeviceUtil().getImei(requireActivity())
-            model.game_provider = "mobile-legends"
+            model.game_provider = CacheUtil.getPreferenceString(IConfig.SESSION_GAME,requireActivity())
             model.operating_system = "android"
             model.phone_model = "samsung"
             model.expires_in = 3600

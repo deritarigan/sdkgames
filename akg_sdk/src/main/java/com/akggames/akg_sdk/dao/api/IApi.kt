@@ -3,7 +3,6 @@ package com.akggames.akg_sdk.dao.api
 import com.akggames.akg_sdk.dao.api.model.request.*
 import com.akggames.akg_sdk.dao.api.model.response.*
 import retrofit2.http.*
-import java.util.*
 import  io.reactivex.Observable
 
 interface IApi {
@@ -40,5 +39,9 @@ interface IApi {
     fun callChangePassword(@HeaderMap map: Map<String, String>, @Body body: ChangePasswordRequest): Observable<BaseResponse>
 
     @GET("game_products/android/{game-provider}")
-    fun callGetProduct(@HeaderMap map: Map<String, String>, @Path("game-provider") gameProvider: String) :Observable<GameProductsResponse>
+    fun callGetProduct(@HeaderMap map: Map<String, String>, @Path("game-provider") gameProvider: String?) :Observable<GameProductsResponse>
+
+    @POST("account/binding")
+    fun callBindAccountSocmed(@HeaderMap map:Map<String,String>,@Body body:BindSocMedRequest):
+            Observable<BaseResponse>
 }

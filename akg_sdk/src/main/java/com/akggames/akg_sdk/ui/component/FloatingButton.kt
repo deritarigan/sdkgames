@@ -11,6 +11,7 @@ import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akggames.akg_sdk.dao.api.model.FloatingItem
@@ -62,7 +63,7 @@ class FloatingButton : FrameLayout {
     var autoDip = true
     var duration = 350L
 
-    var circleSize = 24f
+    var circleSize = 14f
         set(value) {
             field = value
             updateSubmarine()
@@ -77,32 +78,13 @@ class FloatingButton : FrameLayout {
             field = value
             updateSubmarine()
         }
-    var circleBorderSize = 0f
-        set(value) {
-            field = value
-            updateSubmarine()
-        }
-    var circleBorderColor = ContextCompat.getColor(context, R.color.red)
-        set(value) {
-            field = value
-            updateSubmarine()
-        }
+
     var radius = dp2Px(48).toFloat()
         set(value) {
             field = value
             updateSubmarine()
         }
     var color = ContextCompat.getColor(context, R.color.red)
-        set(value) {
-            field = value
-            updateSubmarine()
-        }
-    var borderSize = 0f
-        set(value) {
-            field = value
-            updateSubmarine()
-        }
-    var borderColor = ContextCompat.getColor(context, R.color.red)
         set(value) {
             field = value
             updateSubmarine()
@@ -273,17 +255,12 @@ class FloatingButton : FrameLayout {
         this.circleImage = a.getDrawable(R.styleable.FloatingButton_floating_button_circleDrawable)
         this.circlePadding =
             a.getDimension(R.styleable.FloatingButton_floating_button_circlePadding, this.circlePadding)
-        this.circleBorderSize =
-            a.getDimension(R.styleable.FloatingButton_floating_button_circleBorderSize, this.circleBorderSize)
-        this.circleBorderColor =
-            a.getColor(R.styleable.FloatingButton_floating_button_circleBorderColor, this.circleBorderColor)
         this.radius = a.getDimension(R.styleable.FloatingButton_floating_button_radius, this.radius)
         this.color = a.getColor(R.styleable.FloatingButton_floating_button_color, this.color)
-        this.borderSize = a.getDimension(R.styleable.FloatingButton_floating_button_borderSize, this.borderSize)
-        this.borderColor = a.getColor(R.styleable.FloatingButton_floating_button_borderColor, this.borderColor)
         this.expandSize =
             a.getDimension(R.styleable.FloatingButton_floating_button_expandSize, this.expandSize.toFloat()).toInt()
     }
+
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -317,9 +294,6 @@ class FloatingButton : FrameLayout {
         drawable = ContextCompat.getDrawable(context, R.drawable.rectangle_layout) as GradientDrawable
         drawable.cornerRadius = radius
         drawable.setColor(color)
-        if (borderSize != 0f) {
-            drawable.setStroke(borderSize.toInt(), borderColor)
-        }
         background = drawable
     }
 
@@ -334,8 +308,6 @@ class FloatingButton : FrameLayout {
                 dp2Px(circlePadding),
                 dp2Px(circlePadding)
             )
-            circleIcon.borderWidth = circleBorderSize.toInt()
-            circleIcon.borderColor = circleBorderColor
         }
     }
 
@@ -523,6 +495,11 @@ class FloatingButton : FrameLayout {
     /** adds a [SubmarineItem] to the navigation adapter. */
     fun addItem(floatingItem: FloatingItem) {
         adapter.addItem(getWrapperItem(floatingItem))
+    }
+
+    fun setVisibilityGone(position:Int){
+        val view =adapter
+
     }
 
     /** adds a [SubmarineItem] list to the navigation adapter. */

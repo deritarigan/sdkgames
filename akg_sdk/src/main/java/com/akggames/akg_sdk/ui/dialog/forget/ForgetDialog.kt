@@ -1,11 +1,13 @@
 package com.akggames.akg_sdk.ui.dialog.forget
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
+import com.akggames.akg_sdk.IConfig
 import com.akggames.akg_sdk.extension.animateScale
 import com.akggames.akg_sdk.extension.beginDelayedTransition
 import com.akggames.akg_sdk.dao.api.model.request.SendOtpRequest
@@ -14,11 +16,10 @@ import com.akggames.akg_sdk.extension.doAfterAnimate
 import com.akggames.akg_sdk.presenter.RegisterPresenter
 import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
 import com.akggames.akg_sdk.ui.dialog.register.OTPIView
+import com.akggames.akg_sdk.util.CacheUtil
 import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_forgot.*
-import kotlinx.android.synthetic.main.content_dialog_forgot.view.btnNext
-import kotlinx.android.synthetic.main.content_dialog_forgot.view.etOtpCode
-import kotlinx.android.synthetic.main.content_dialog_forgot.view.etPhoneNumber
+import kotlinx.android.synthetic.main.content_dialog_forgot.view.*
 
 class ForgetDialog() : BaseDialogFragment(), OTPIView {
 
@@ -67,7 +68,7 @@ class ForgetDialog() : BaseDialogFragment(), OTPIView {
 
     fun initialize() {
         sendOtpRequest.auth_provider = "akg"
-        sendOtpRequest.game_provider = "mobile-legends"
+        sendOtpRequest.game_provider = CacheUtil.getPreferenceString(IConfig.SESSION_GAME,requireActivity())
         sendOtpRequest.otp_type = "forgot_password"
 
         mView.btnNext.setOnClickListener {
@@ -75,7 +76,7 @@ class ForgetDialog() : BaseDialogFragment(), OTPIView {
                 val presenter = RegisterPresenter(this@ForgetDialog)
                 sendOtpRequest.phone_number = "+62"+mView.etPhoneNumber.text.toString()
                 if (!isGenerateOTP) {
-                    presenter.sendOtp(sendOtpRequest, requireActivity())
+                    presenter.sendOtp(sendOtpRequest, requireActivity() as Context)
                     isGenerateOTP = true
                 } else {
                     sendOtpRequest.otp_code = mView.etOtpCode.text.toString()
@@ -83,6 +84,16 @@ class ForgetDialog() : BaseDialogFragment(), OTPIView {
                 }
             } else {
                 Toast.makeText(requireActivity(), "field cannot be empty", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        mView.tvResendOTP.setOnClickListener {
+            if (mView.etPhoneNumber.text.isNotEmpty()) {
+                val presenter = RegisterPresenter(this@ForgetDialog)
+                sendOtpRequest.phone_number = "+62" + mView.etPhoneNumber.text.toString()
+                presenter.sendOtp(sendOtpRequest, requireActivity())
+            } else {
+                Toast.makeText(requireActivity(), "phone cannot be empty", Toast.LENGTH_LONG).show()
             }
         }
     }

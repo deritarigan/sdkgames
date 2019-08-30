@@ -6,13 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.FragmentManager
 import com.akggames.akg_sdk.IConfig
 import com.akggames.akg_sdk.MenuSDKCallback
 import com.akggames.akg_sdk.dao.SocmedDao
 import com.akggames.akg_sdk.presenter.LogoutPresenter
 import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
-import com.akggames.akg_sdk.ui.dialog.menu.LogoutDialog
 import com.akggames.akg_sdk.ui.dialog.menu.LogoutIView
 import com.akggames.akg_sdk.util.CacheUtil
 import com.akggames.android.sdk.R
@@ -61,21 +59,21 @@ class RelaunchDialog() : BaseDialogFragment(), LogoutIView {
         tvUID.text = "UID : "+CacheUtil.getPreferenceString(IConfig.SESSION_UID, requireActivity())
         val countDown = object : CountDownTimer(4000, 1000) {
             override fun onFinish() {
-                mView.btnTimer.text = "Continue in 0s"
-                mView.btnTimer.performClick()
+                mView.btnBindFacebook.text = "Continue in 0s"
+                mView.btnBindFacebook.performClick()
             }
 
             override fun onTick(millisUntilFinished: Long) {
-                mView.btnTimer.text = "Continue in " + (millisUntilFinished / 1000).toString() + "s"
+                mView.btnBindFacebook.text = "Continue in " + (millisUntilFinished / 1000).toString() + "s"
             }
         }
         countDown.start()
 
-        mView.btnTimer.setOnClickListener {
+        mView.btnBindFacebook.setOnClickListener {
             dismiss()
         }
 
-        mView.btnRelogin.setOnClickListener {
+        mView.btnBindGoogle.setOnClickListener {
             val loginType = CacheUtil.getPreferenceString(IConfig.LOGIN_TYPE, requireActivity())
             when (loginType) {
                 IConfig.LOGIN_PHONE -> SocmedDao.logoutPhone(requireActivity(), this, presenter)

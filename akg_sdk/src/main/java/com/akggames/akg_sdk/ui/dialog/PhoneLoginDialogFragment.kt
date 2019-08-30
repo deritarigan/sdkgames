@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import com.akggames.akg_sdk.IConfig
 import com.akggames.akg_sdk.LoginSDKCallback
 import com.akggames.akg_sdk.dao.api.model.request.PhoneAuthRequest
 import com.akggames.akg_sdk.presenter.LoginPresenter
 import com.akggames.akg_sdk.ui.dialog.forget.ForgetDialog
 import com.akggames.akg_sdk.ui.dialog.login.LoginIView
 import com.akggames.akg_sdk.ui.dialog.register.OTPDialog
+import com.akggames.akg_sdk.util.CacheUtil
 import com.akggames.akg_sdk.util.DeviceUtil
 import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_login_phone.*
@@ -62,7 +64,7 @@ class PhoneLoginDialogFragment() : BaseDialogFragment(), LoginIView {
     }
 
     fun initView() {
-        mView.tvCreateAccount.setOnClickListener {
+        mView.tvResendOTP.setOnClickListener {
             val otpDialog = OTPDialog.newInstance(myFragmentManager)
             val ftransaction = myFragmentManager?.beginTransaction()
             ftransaction?.addToBackStack("registration")
@@ -74,7 +76,7 @@ class PhoneLoginDialogFragment() : BaseDialogFragment(), LoginIView {
             phoneAuthRequest.phone_number = "+62" + etPhoneNumber.text.toString()
             phoneAuthRequest.password = etOtpCode.text.toString()
             phoneAuthRequest.auth_provider = "akg"
-            phoneAuthRequest.game_provider = "mobile-legends"
+            phoneAuthRequest.game_provider = CacheUtil.getPreferenceString(IConfig.SESSION_GAME,requireActivity())
             phoneAuthRequest.device_id = DeviceUtil().getImei(requireActivity())
             phoneAuthRequest.phone_model = "Xiaomi"
             phoneAuthRequest.operating_system = "Android"

@@ -24,25 +24,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Fabric.with(this, Crashlytics())
         setContentView(R.layout.activity_main)
-        //->>>>
-//        val appToken = "y1t3z228xxj4"
-//        val environment = AdjustConfig.ENVIRONMENT_SANDBOX
-//        val config = AdjustConfig(this, appToken, environment)
-//        config.setLogLevel(LogLevel.VERBOSE); // enable all logs
-//        config.setLogLevel(LogLevel.DEBUG); // disable verbose logs
-//        config.setLogLevel(LogLevel.INFO); // disable debug logs (default)
-//        config.setLogLevel(LogLevel.WARN); // disable info logs
-//        config.setLogLevel(LogLevel.ERROR); // disable warning logs
-//        Adjust.onCreate(config)
-        //->>>
         if (sdkgames.checkIsLogin(this)){
             startActivity(Intent(this@MainActivity,Main2Activity::class.java))
             finish()
         }
 
-        sdkgames.onLogin(object : LoginSDKCallback{
+        sdkgames.onLogin("mobile-legends",object : LoginSDKCallback{
             override fun onResponseSuccess(token: String) {
-                Adjust.trackEvent(AdjustEvent("gxl8cb"))
                 Toast.makeText(this@MainActivity, token, Toast.LENGTH_LONG).show()
                 startActivity(Intent(this@MainActivity,Main2Activity::class.java))
                 finish()

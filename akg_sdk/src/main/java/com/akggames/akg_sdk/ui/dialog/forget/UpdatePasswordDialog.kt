@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
+import com.akggames.akg_sdk.IConfig
 import com.akggames.akg_sdk.dao.api.model.request.UpdatePasswordRequest
 import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
 import com.akggames.akg_sdk.presenter.RegisterPresenter
 import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
 import com.akggames.akg_sdk.ui.dialog.SuccessDialogFragment
+import com.akggames.akg_sdk.util.CacheUtil
 import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_input_password.*
 import kotlinx.android.synthetic.main.content_dialog_input_password.view.*
@@ -67,7 +69,7 @@ class UpdatePasswordDialog():BaseDialogFragment(),UpdatePasswordIView {
                 if (etPassword.text.toString().length > 7 && etConfPassword.text.toString().length > 7) {
                     if (etPassword.text.toString().equals(etConfPassword.text.toString())) {
                         model.auth_provider = "akg"
-                        model.game_provider = "mobile-legends"
+                        model.game_provider = CacheUtil.getPreferenceString(IConfig.SESSION_GAME,requireActivity())
                         model.password = etPassword.text.toString()
                         model.phone_number = phone
                         presenter.onUpdatePassword(model,requireActivity())

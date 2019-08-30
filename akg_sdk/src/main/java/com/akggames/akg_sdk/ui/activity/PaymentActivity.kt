@@ -21,10 +21,12 @@ import android.content.Intent
 import android.location.Geocoder.isPresent
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.akggames.akg_sdk.IConfig
 import com.akggames.akg_sdk.dao.BillingDao
 import com.akggames.akg_sdk.dao.api.model.response.GameProductsResponse
 import com.akggames.akg_sdk.presenter.ProductPresenter
 import com.akggames.akg_sdk.rx.IView
+import com.akggames.akg_sdk.util.CacheUtil
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
 import com.google.android.gms.wallet.*
@@ -66,7 +68,7 @@ class PaymentActivity : AppCompatActivity(), PaymentIView {
 
 
     fun onGetProduct() {
-        presenter.getProducts("mobile-legends", this)
+        presenter.getProducts(CacheUtil.getPreferenceString(IConfig.SESSION_GAME,this), this)
     }
 
     override fun onStart() {

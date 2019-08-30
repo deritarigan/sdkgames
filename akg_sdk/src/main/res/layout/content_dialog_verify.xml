@@ -88,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/greeny_blue"
 
-                    android:id="@+id/tvCreateAccount" app:layout_constraintEnd_toEndOf="@+id/etOtpCode"
+                    android:id="@+id/tvResendOTP" app:layout_constraintEnd_toEndOf="@+id/etOtpCode"
                     android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/etOtpCode"/>
             <Button
@@ -106,7 +106,7 @@
                     android:paddingBottom="4dp"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/tvCreateAccount"
+                    app:layout_constraintTop_toBottomOf="@+id/tvResendOTP"
                     app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginBottom="36dp"/>
             <View

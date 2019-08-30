@@ -21,6 +21,8 @@ interface IConfig {
         val SESSION_LOGIN = "isLogin"
         val SESSION_USERNAME = "uName"
         val SESSION_UID = "yuaidi"
+        val SESSION_GAME= "gemes"
+
 
         val monthLabels = arrayOf(
             "January_Januari",

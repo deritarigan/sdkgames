@@ -5,7 +5,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:gravity="bottom"
-                android:layout_gravity="bottom"
+                android:layout_gravity="bottom|center"
                 tools:ignore="RtlSymmetry">
 
     <ImageView
@@ -13,6 +13,6 @@
             android:layout_width="34dp"
             android:layout_height="34dp"
             android:layout_centerInParent="true"
-            android:scaleType="fitXY"
+            android:scaleType="fitCenter"
             tools:ignore="ContentDescription" />
 </RelativeLayout>

@@ -65,6 +65,7 @@ class LogoutDialog() : BaseDialogFragment(), LogoutIView {
                 Toast.makeText(requireActivity(), "You are not logged in", Toast.LENGTH_LONG).show()
             }
         }
+
         btnBack.setOnClickListener {
            this.dismiss()
         }

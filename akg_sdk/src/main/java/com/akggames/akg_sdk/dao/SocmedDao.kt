@@ -21,7 +21,6 @@ object SocmedDao {
     }
 
     fun logoutGoogle(activity: Activity,iView : IView,presenter: LogoutPresenter){
-
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .requestIdToken(IConfig.GOOGLE_CLIENT_ID)

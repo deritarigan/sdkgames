@@ -11,7 +11,7 @@ import io.reactivex.disposables.Disposable
 
 class ProductPresenter(val mIView: IView) {
 
-    fun getProducts(gameProvider: String, context: Context) {
+    fun getProducts(gameProvider: String?, context: Context) {
         MainDao().onGetProduct(gameProvider, context).subscribe(object : RxObserver<GameProductsResponse>(mIView, "") {
             override fun onComplete() {
                 super.onComplete()

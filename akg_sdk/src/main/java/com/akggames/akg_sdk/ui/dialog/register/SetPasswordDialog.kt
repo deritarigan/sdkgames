@@ -8,11 +8,13 @@ import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustEvent
+import com.akggames.akg_sdk.IConfig
 import com.akggames.akg_sdk.dao.api.model.request.SignUpRequest
 import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
 import com.akggames.akg_sdk.presenter.RegisterPresenter
 import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
 import com.akggames.akg_sdk.ui.dialog.SuccessDialogFragment
+import com.akggames.akg_sdk.util.CacheUtil
 import com.akggames.akg_sdk.util.DeviceUtil
 import com.akggames.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_input_password.*
@@ -90,7 +92,7 @@ class SetPasswordDialog() : BaseDialogFragment(), SetPasswordIView {
                     if (etPassword.text.toString().equals(etConfPassword.text.toString())) {
                         model.phone_model = "Samsung"
                         model.auth_provider = "akg"
-                        model.game_provider = "mobile-legends"
+                        model.game_provider = CacheUtil.getPreferenceString(IConfig.SESSION_GAME,requireActivity())
                         model.device_id = DeviceUtil().getImei(requireActivity())
                         model.operating_system = "android"
                         model.password = etPassword.text.toString()

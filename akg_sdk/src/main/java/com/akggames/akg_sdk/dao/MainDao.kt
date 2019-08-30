@@ -70,10 +70,17 @@ class MainDao() {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun onGetProduct(gameProvider:String,context: Context):Observable<GameProductsResponse>{
+    fun onGetProduct(gameProvider:String?,context: Context):Observable<GameProductsResponse>{
         return Api.onGetProduct(gameProvider,context)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
+
+    fun onBindProduct(body:BindSocMedRequest,context: Context):Observable<BaseResponse>{
+        return Api.onBindAccount(body,context)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
 
 }
