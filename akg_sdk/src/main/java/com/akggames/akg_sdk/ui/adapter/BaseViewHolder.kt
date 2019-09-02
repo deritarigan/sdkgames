@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.ui.adapter
+package com.akggame.akg_sdk.ui.adapter
 
 import android.content.Context
 import android.view.View

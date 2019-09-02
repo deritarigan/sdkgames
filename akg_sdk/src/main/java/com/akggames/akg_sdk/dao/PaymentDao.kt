@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.dao
+package com.akggame.akg_sdk.dao
 
 import com.google.android.gms.wallet.PaymentMethodTokenizationParameters
 import com.google.android.gms.wallet.WalletConstants

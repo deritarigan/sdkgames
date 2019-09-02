@@ -1,12 +1,12 @@
-package com.akggames.akg_sdk.ui.dialog.menu.binding
+package com.akggame.akg_sdk.ui.dialog.menu.binding
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
-import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
-import com.akggames.android.sdk.R
+import com.akggame.akg_sdk.ui.dialog.BaseDialogFragment
+import com.akggame.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_verify.*
 import kotlinx.android.synthetic.main.content_dialog_verify.view.*
 import kotlinx.android.synthetic.main.content_dialog_verify.view.btnNext

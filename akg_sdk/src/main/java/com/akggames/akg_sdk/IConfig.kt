@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk
+package com.akggame.akg_sdk
 
 interface IConfig {
 

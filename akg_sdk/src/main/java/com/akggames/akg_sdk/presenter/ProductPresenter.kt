@@ -1,12 +1,12 @@
-package com.akggames.akg_sdk.presenter
+package com.akggame.akg_sdk.presenter
 
 import android.content.Context
-import com.akggames.akg_sdk.dao.MainDao
-import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
-import com.akggames.akg_sdk.dao.api.model.response.GameProductsResponse
-import com.akggames.akg_sdk.rx.IView
-import com.akggames.akg_sdk.rx.RxObserver
-import com.akggames.akg_sdk.ui.activity.PaymentIView
+import com.akggame.akg_sdk.dao.MainDao
+import com.akggame.akg_sdk.dao.api.model.response.BaseResponse
+import com.akggame.akg_sdk.dao.api.model.response.GameProductsResponse
+import com.akggame.akg_sdk.rx.IView
+import com.akggame.akg_sdk.rx.RxObserver
+import com.akggame.akg_sdk.ui.activity.PaymentIView
 import io.reactivex.disposables.Disposable
 
 class ProductPresenter(val mIView: IView) {

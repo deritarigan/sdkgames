@@ -1,6 +1,6 @@
-package com.akggames.akg_sdk.ui.component
+package com.akggame.akg_sdk.ui.component
 
-import com.akggames.akg_sdk.dao.api.model.FloatingItem
+import com.akggame.akg_sdk.dao.api.model.FloatingItem
 
 internal data class ItemWrapper(
     val floatingItem: FloatingItem,

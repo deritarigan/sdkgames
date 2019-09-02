@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.ui.dialog.menu
+package com.akggame.akg_sdk.ui.dialog.menu
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
-import com.akggames.akg_sdk.IConfig
-import com.akggames.akg_sdk.dao.api.model.response.CurrentUserResponse
-import com.akggames.akg_sdk.presenter.InfoPresenter
-import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
-import com.akggames.akg_sdk.util.CacheUtil
-import com.akggames.android.sdk.R
+import com.akggame.akg_sdk.IConfig
+import com.akggame.akg_sdk.dao.api.model.response.CurrentUserResponse
+import com.akggame.akg_sdk.presenter.InfoPresenter
+import com.akggame.akg_sdk.ui.dialog.BaseDialogFragment
+import com.akggame.akg_sdk.util.CacheUtil
+import com.akggame.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_account.*
 import kotlinx.android.synthetic.main.content_dialog_account.view.*
 

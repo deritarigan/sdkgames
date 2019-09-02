@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.dao.api.model.response
+package com.akggame.akg_sdk.dao.api.model.response
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude

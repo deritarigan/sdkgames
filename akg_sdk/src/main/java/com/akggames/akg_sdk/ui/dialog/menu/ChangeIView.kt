@@ -1,8 +1,8 @@
-package com.akggames.akg_sdk.ui.dialog.menu
+package com.akggame.akg_sdk.ui.dialog.menu
 
-import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
-import com.akggames.akg_sdk.dao.api.model.response.CurrentUserResponse
-import com.akggames.akg_sdk.rx.IView
+import com.akggame.akg_sdk.dao.api.model.response.BaseResponse
+import com.akggame.akg_sdk.dao.api.model.response.CurrentUserResponse
+import com.akggame.akg_sdk.rx.IView
 
 interface ChangeIView:IView {
 

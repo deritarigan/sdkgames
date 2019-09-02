@@ -1,16 +1,16 @@
-package com.akggames.akg_sdk.ui.dialog.menu
+package com.akggame.akg_sdk.ui.dialog.menu
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
-import com.akggames.android.sdk.R
+import com.akggame.akg_sdk.ui.dialog.BaseDialogFragment
+import com.akggame.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_version.view.*
 import android.content.pm.PackageManager
 import android.R.attr.versionName
 import android.content.pm.PackageInfo
-import com.akggames.android.sdk.BuildConfig
+import com.akggame.android.sdk.BuildConfig
 import com.fasterxml.jackson.databind.util.ClassUtil.getPackageName
 
 

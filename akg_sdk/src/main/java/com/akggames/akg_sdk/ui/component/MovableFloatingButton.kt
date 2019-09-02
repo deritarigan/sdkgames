@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.ui.component
+package com.akggame.akg_sdk.ui.component
 
 import android.content.Context
 import android.os.Build
@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
-import com.akggames.android.sdk.R
+import com.akggame.android.sdk.R
 
 open class MovableFloatingButton : LinearLayout, View.OnTouchListener {
 

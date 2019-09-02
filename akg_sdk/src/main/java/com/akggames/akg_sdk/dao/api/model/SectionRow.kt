@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.dao.api.model
+package com.akggame.akg_sdk.dao.api.model
 
 data class SectionRow(
     var section: Int = 0,

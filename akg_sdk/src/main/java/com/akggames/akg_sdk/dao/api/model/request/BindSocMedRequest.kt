@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.dao.api.model.request
+package com.akggame.akg_sdk.dao.api.model.request
 
 data class BindSocMedRequest(
     val access_token: String?,

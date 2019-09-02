@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.dao.api.model.request
+package com.akggame.akg_sdk.dao.api.model.request
 
 data class GuestLoginRequest(
     val auth_provider: String,

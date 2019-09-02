@@ -1,7 +1,7 @@
-package com.akggames.akg_sdk.ui.activity
+package com.akggame.akg_sdk.ui.activity
 
-import com.akggames.akg_sdk.dao.api.model.response.GameProductsResponse
-import com.akggames.akg_sdk.rx.IView
+import com.akggame.akg_sdk.dao.api.model.response.GameProductsResponse
+import com.akggame.akg_sdk.rx.IView
 
 interface PaymentIView : IView {
 

@@ -1,13 +1,13 @@
-package com.akggames.akg_sdk.presenter
+package com.akggame.akg_sdk.presenter
 
 import android.content.Context
-import com.akggames.akg_sdk.IConfig
-import com.akggames.akg_sdk.dao.MainDao
-import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
-import com.akggames.akg_sdk.rx.IView
-import com.akggames.akg_sdk.rx.RxObserver
-import com.akggames.akg_sdk.ui.dialog.menu.LogoutIView
-import com.akggames.akg_sdk.util.CacheUtil
+import com.akggame.akg_sdk.IConfig
+import com.akggame.akg_sdk.dao.MainDao
+import com.akggame.akg_sdk.dao.api.model.response.BaseResponse
+import com.akggame.akg_sdk.rx.IView
+import com.akggame.akg_sdk.rx.RxObserver
+import com.akggame.akg_sdk.ui.dialog.menu.LogoutIView
+import com.akggame.akg_sdk.util.CacheUtil
 import io.reactivex.disposables.Disposable
 
 class LogoutPresenter(val mIView: IView) {

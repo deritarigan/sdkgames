@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.extension
+package com.akggame.akg_sdk.extension
 
 import android.content.Context
 import android.graphics.Point

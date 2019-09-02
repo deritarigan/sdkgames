@@ -1,4 +1,4 @@
-package com.akggames.android
+package com.akggame.android
 
 import android.app.Application
 import com.adjust.sdk.Adjust
@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.adjust.sdk.LogLevel
-import com.akggames.akg_sdk.AKG_SDK
+import com.akggame.akg_sdk.AKG_SDK
 import com.adjust.sdk.OnDeviceIdsRead
 
 

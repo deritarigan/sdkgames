@@ -1,10 +1,10 @@
-package com.akggames.android;
+package com.akggame.android;
 
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.akggames.akg_sdk.AKG_SDK;
-import com.akggames.akg_sdk.LoginSDKCallback;
+import com.akggame.akg_sdk.AKG_SDK;
+import com.akggame.akg_sdk.LoginSDKCallback;
 import org.jetbrains.annotations.NotNull;
 
 public class LoginActivity extends AppCompatActivity {

@@ -1,11 +1,11 @@
-package com.akggames.akg_sdk.dao.api
+package com.akggame.akg_sdk.dao.api
 
 import android.app.Application
 import android.content.Context
-import com.akggames.akg_sdk.IConfig
-import com.akggames.akg_sdk.dao.api.model.request.*
-import com.akggames.akg_sdk.dao.api.model.response.*
-import com.akggames.akg_sdk.util.CacheUtil
+import com.akggame.akg_sdk.IConfig
+import com.akggame.akg_sdk.dao.api.model.request.*
+import com.akggame.akg_sdk.dao.api.model.response.*
+import com.akggame.akg_sdk.util.CacheUtil
 import io.reactivex.Observable
 import java.util.HashMap
 

@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.ui.adapter
+package com.akggame.akg_sdk.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.RecyclerView
-import com.akggames.akg_sdk.dao.api.model.SectionRow
+import com.akggame.akg_sdk.dao.api.model.SectionRow
 import java.util.ArrayList
 
 @Suppress("unused", "MemberVisibilityCanBePrivate", "RedundantOverride", "RedundantVisibilityModifier")

@@ -1,9 +1,9 @@
-package com.akggames.akg_sdk.ui.component
+package com.akggame.akg_sdk.ui.component
 
 import android.content.Context
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import com.akggames.android.sdk.R
+import com.akggame.android.sdk.R
 
 
 @DslMarker

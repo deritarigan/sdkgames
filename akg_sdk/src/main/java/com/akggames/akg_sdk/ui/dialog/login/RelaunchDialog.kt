@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.ui.dialog.login
+package com.akggame.akg_sdk.ui.dialog.login
 
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -6,14 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.akggames.akg_sdk.IConfig
-import com.akggames.akg_sdk.MenuSDKCallback
-import com.akggames.akg_sdk.dao.SocmedDao
-import com.akggames.akg_sdk.presenter.LogoutPresenter
-import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
-import com.akggames.akg_sdk.ui.dialog.menu.LogoutIView
-import com.akggames.akg_sdk.util.CacheUtil
-import com.akggames.android.sdk.R
+import com.akggame.akg_sdk.IConfig
+import com.akggame.akg_sdk.MenuSDKCallback
+import com.akggame.akg_sdk.dao.SocmedDao
+import com.akggame.akg_sdk.presenter.LogoutPresenter
+import com.akggame.akg_sdk.ui.dialog.BaseDialogFragment
+import com.akggame.akg_sdk.ui.dialog.menu.LogoutIView
+import com.akggame.akg_sdk.util.CacheUtil
+import com.akggame.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_relaunch.*
 import kotlinx.android.synthetic.main.content_dialog_relaunch.view.*
 

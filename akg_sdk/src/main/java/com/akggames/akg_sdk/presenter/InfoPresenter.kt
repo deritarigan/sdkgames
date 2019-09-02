@@ -1,15 +1,15 @@
-package com.akggames.akg_sdk.presenter
+package com.akggame.akg_sdk.presenter
 
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import com.akggames.akg_sdk.dao.MainDao
-import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
-import com.akggames.akg_sdk.dao.api.model.response.CurrentUserResponse
-import com.akggames.akg_sdk.rx.IView
-import com.akggames.akg_sdk.rx.RxObserver
-import com.akggames.akg_sdk.ui.dialog.menu.AccountIView
-import com.akggames.akg_sdk.ui.dialog.register.OTPIView
+import com.akggame.akg_sdk.dao.MainDao
+import com.akggame.akg_sdk.dao.api.model.response.BaseResponse
+import com.akggame.akg_sdk.dao.api.model.response.CurrentUserResponse
+import com.akggame.akg_sdk.rx.IView
+import com.akggame.akg_sdk.rx.RxObserver
+import com.akggame.akg_sdk.ui.dialog.menu.AccountIView
+import com.akggame.akg_sdk.ui.dialog.register.OTPIView
 import io.reactivex.disposables.Disposable
 
 class InfoPresenter(val mIView: IView) {
