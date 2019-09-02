@@ -1,7 +1,7 @@
-package com.akggames.akg_sdk.rx
+package com.akggame.akg_sdk.rx
 
-import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
-import com.akggames.akg_sdk.ui.dialog.LoadingDialogComponent
+import com.akggame.akg_sdk.dao.api.model.response.BaseResponse
+import com.akggame.akg_sdk.ui.dialog.LoadingDialogComponent
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 

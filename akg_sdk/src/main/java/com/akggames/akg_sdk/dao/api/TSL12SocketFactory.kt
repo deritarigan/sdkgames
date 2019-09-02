@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.dao.api
+package com.akggame.akg_sdk.dao.api
 
 import java.io.IOException
 import java.net.InetAddress

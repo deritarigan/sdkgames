@@ -1,6 +1,6 @@
-package com.akggames.akg_sdk.ui.dialog.login
+package com.akggame.akg_sdk.ui.dialog.login
 
-import com.akggames.akg_sdk.rx.IView
+import com.akggame.akg_sdk.rx.IView
 
 interface LoginIView : IView {
 

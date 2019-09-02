@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.ui.dialog.register
+package com.akggame.akg_sdk.ui.dialog.register
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,15 +8,15 @@ import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustEvent
-import com.akggames.akg_sdk.IConfig
-import com.akggames.akg_sdk.dao.api.model.request.SignUpRequest
-import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
-import com.akggames.akg_sdk.presenter.RegisterPresenter
-import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
-import com.akggames.akg_sdk.ui.dialog.SuccessDialogFragment
-import com.akggames.akg_sdk.util.CacheUtil
-import com.akggames.akg_sdk.util.DeviceUtil
-import com.akggames.android.sdk.R
+import com.akggame.akg_sdk.IConfig
+import com.akggame.akg_sdk.dao.api.model.request.SignUpRequest
+import com.akggame.akg_sdk.dao.api.model.response.BaseResponse
+import com.akggame.akg_sdk.presenter.RegisterPresenter
+import com.akggame.akg_sdk.ui.dialog.BaseDialogFragment
+import com.akggame.akg_sdk.ui.dialog.SuccessDialogFragment
+import com.akggame.akg_sdk.util.CacheUtil
+import com.akggame.akg_sdk.util.DeviceUtil
+import com.akggame.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_input_password.*
 import kotlinx.android.synthetic.main.content_dialog_input_password.view.btnNext
 import kotlinx.android.synthetic.main.content_dialog_input_password.view.etConfPassword

@@ -1,11 +1,11 @@
-package com.akggames.akg_sdk.ui.dialog
+package com.akggame.akg_sdk.ui.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
-import com.akggames.android.sdk.R
+import com.akggame.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_success.view.*
 
 class SuccessDialogFragment() : BaseDialogFragment() {

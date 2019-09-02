@@ -1,10 +1,10 @@
-package com.akggames.akg_sdk.dao
+package com.akggame.akg_sdk.dao
 
 import android.app.Activity
 import android.content.Context
-import com.akggames.akg_sdk.IConfig
-import com.akggames.akg_sdk.presenter.LogoutPresenter
-import com.akggames.akg_sdk.rx.IView
+import com.akggame.akg_sdk.IConfig
+import com.akggame.akg_sdk.presenter.LogoutPresenter
+import com.akggame.akg_sdk.rx.IView
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn

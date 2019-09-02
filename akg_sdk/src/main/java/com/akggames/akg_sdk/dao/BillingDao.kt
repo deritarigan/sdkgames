@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.dao
+package com.akggame.akg_sdk.dao
 
 import android.app.Activity
 import android.app.Application
@@ -12,14 +12,14 @@ class BillingDao constructor(private val application: Application, val queryCall
     lateinit var billingClient: BillingClient
 
     object SKU {
-        val janjiDoang = "j4nj1_d04ng"
-        val tempeOrek = "tempe_0rek"
+        val janjiDoang = "com.sdkgame.product1"
+        val tempeOrek = "com.sdkgame.product2"
 
         val myListSKU = listOf(janjiDoang, tempeOrek)
     }
 
     interface BillingDaoQuerySKU {
-        fun onQuerySKU(skuDetails: SkuDetails)
+        fun onQuerySKU(skuDetails: MutableList<SkuDetails>)
     }
 
     fun onInitiateBillingClient() {
@@ -51,9 +51,7 @@ class BillingDao constructor(private val application: Application, val queryCall
                 if (billingResult?.responseCode == BillingClient.BillingResponseCode.OK) {
                     Log.d(LOG_TAG, "onBillingResultResponseCode is OK")
                     if (skuDetailsList != null) {
-                        for (skuDetails in skuDetailsList) {
-                            queryCallback.onQuerySKU(skuDetails)
-                        }
+                        queryCallback.onQuerySKU(skuDetailsList)
                     }
                 } else {
                     Log.e(LOG_TAG, billingResult?.debugMessage)
@@ -96,7 +94,7 @@ class BillingDao constructor(private val application: Application, val queryCall
     }
 
     override fun onPurchasesUpdated(billingResult: BillingResult?, purchases: MutableList<Purchase>?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
 }

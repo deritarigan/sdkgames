@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.ui.adapter
+package com.akggame.akg_sdk.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.akggames.akg_sdk.dao.BillingDao
-import com.akggames.akg_sdk.dao.PaymentDao
-import com.akggames.akg_sdk.dao.api.model.response.GameProductsResponse
-import com.akggames.android.sdk.R
+import com.akggame.akg_sdk.dao.BillingDao
+import com.akggame.akg_sdk.dao.PaymentDao
+import com.akggame.akg_sdk.dao.api.model.response.GameProductsResponse
+import com.akggame.android.sdk.R
 import com.android.billingclient.api.SkuDetails
 import com.google.android.gms.wallet.AutoResolveHelper
 import com.google.android.gms.wallet.PaymentDataRequest
@@ -34,7 +34,7 @@ class PaymentAdapter(val context: Context,val billingDao: BillingDao) : Recycler
 
     override fun onBindViewHolder(holder: PaymentAdapter.ViewHolder, position: Int) {
         var data = skuDetails.get(position)
-        holder.tvProductName.text = data.title
+        holder.tvProductName.text = data.title +" : "+ data.price
         holder.tvProductName.setOnClickListener {
             billingDao.lauchBillingFlow(context as AppCompatActivity,data)
         }
@@ -60,12 +60,5 @@ class PaymentAdapter(val context: Context,val billingDao: BillingDao) : Recycler
     }
 
     fun requestPayment(view: View) {
-//        val paymentDataRequestJson = PaymentDao().getPaymentDataRequest()
-//        val request = PaymentDataRequest.fromJson(paymentDataRequestJson.toString())
-//        if (request != null) {
-//            AutoResolveHelper.resolveTask(
-////                mPaymentsClient.loadPaymentData(request), context as AppCompatActivity, 133
-//            )
-//        }
     }
 }

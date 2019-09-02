@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk
+package com.akggame.akg_sdk
 
 import android.app.Activity
 import android.app.Application
@@ -13,20 +13,20 @@ import androidx.core.content.ContextCompat
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustConfig
 import com.adjust.sdk.LogLevel
-import com.akggames.akg_sdk.dao.api.model.FloatingItem
-import com.akggames.akg_sdk.dao.api.model.response.CurrentUserResponse
-import com.akggames.akg_sdk.presenter.InfoPresenter
-import com.akggames.akg_sdk.rx.IView
-import com.akggames.akg_sdk.ui.activity.PaymentActivity
-import com.akggames.akg_sdk.ui.adapter.FloatingAdapterListener
-import com.akggames.akg_sdk.ui.component.FloatingButton
-import com.akggames.akg_sdk.ui.component.FloatingItemClickListener
-import com.akggames.akg_sdk.ui.dialog.login.LoginDialogFragment
-import com.akggames.akg_sdk.ui.dialog.login.RelaunchDialog
-import com.akggames.akg_sdk.ui.dialog.menu.*
-import com.akggames.akg_sdk.util.CacheUtil
-import com.akggames.akg_sdk.util.DeviceUtil
-import com.akggames.android.sdk.R
+import com.akggame.akg_sdk.dao.api.model.FloatingItem
+import com.akggame.akg_sdk.dao.api.model.response.CurrentUserResponse
+import com.akggame.akg_sdk.presenter.InfoPresenter
+import com.akggame.akg_sdk.rx.IView
+import com.akggame.akg_sdk.ui.activity.PaymentActivity
+import com.akggame.akg_sdk.ui.adapter.FloatingAdapterListener
+import com.akggame.akg_sdk.ui.component.FloatingButton
+import com.akggame.akg_sdk.ui.component.FloatingItemClickListener
+import com.akggame.akg_sdk.ui.dialog.login.LoginDialogFragment
+import com.akggame.akg_sdk.ui.dialog.login.RelaunchDialog
+import com.akggame.akg_sdk.ui.dialog.menu.*
+import com.akggame.akg_sdk.util.CacheUtil
+import com.akggame.akg_sdk.util.DeviceUtil
+import com.akggame.android.sdk.R
 
 class AKG_SDK() : AccountIView {
 

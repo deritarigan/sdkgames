@@ -1,7 +1,7 @@
-package com.akggames.akg_sdk.dao.api
+package com.akggame.akg_sdk.dao.api
 
-import com.akggames.akg_sdk.dao.api.model.request.*
-import com.akggames.akg_sdk.dao.api.model.response.*
+import com.akggame.akg_sdk.dao.api.model.request.*
+import com.akggame.akg_sdk.dao.api.model.response.*
 import retrofit2.http.*
 import  io.reactivex.Observable
 

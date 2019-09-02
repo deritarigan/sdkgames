@@ -1,6 +1,6 @@
-package com.akggames.akg_sdk.dao.api.model.request
+package com.akggame.akg_sdk.dao.api.model.request
 
-import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
+import com.akggame.akg_sdk.dao.api.model.response.BaseResponse
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
 class PhoneAuthRequest {

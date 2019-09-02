@@ -1,4 +1,4 @@
-package com.akggames.android;
+package com.akggame.android;
 
 import android.content.Context;
 import androidx.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.akggames.android.test", appContext.getPackageName());
+        assertEquals("com.akggame.android.test", appContext.getPackageName());
     }
 }

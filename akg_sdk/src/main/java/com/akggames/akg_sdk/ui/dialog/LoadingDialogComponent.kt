@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.ui.dialog
+package com.akggame.akg_sdk.ui.dialog
 
 import android.app.Dialog
 import android.content.Context
@@ -10,9 +10,9 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.annotation.NonNull
-import com.akggames.akg_sdk.IConfig
-//import com.akggames.akg_sdk.ui.BaseActivity
-import com.akggames.android.sdk.R
+import com.akggame.akg_sdk.IConfig
+//import com.akggame.akg_sdk.ui.BaseActivity
+import com.akggame.android.sdk.R
 
 class LoadingDialogComponent(private val message: String, context: Context, style: Int) :
     Dialog(context, style) {

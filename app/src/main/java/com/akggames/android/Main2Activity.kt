@@ -1,12 +1,12 @@
-package com.akggames.android
+package com.akggame.android
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.akggames.akg_sdk.AKG_SDK
-import com.akggames.akg_sdk.MenuSDKCallback
-import com.akggames.akg_sdk.ui.activity.PaymentActivity
-import com.akggames.akg_sdk.ui.dialog.login.RelaunchDialog
+import com.akggame.akg_sdk.AKG_SDK
+import com.akggame.akg_sdk.MenuSDKCallback
+import com.akggame.akg_sdk.ui.activity.PaymentActivity
+import com.akggame.akg_sdk.ui.dialog.login.RelaunchDialog
 import kotlinx.android.synthetic.main.activity_main2.*
 
 class Main2Activity : AppCompatActivity(),MenuSDKCallback {
@@ -29,8 +29,8 @@ class Main2Activity : AppCompatActivity(),MenuSDKCallback {
         floatingButton.float()
 
         btnPayment.setOnClickListener {
-//            sdkgames.onSDKPayment()
-sdkgames.setRelauchDialog(this)
+            sdkgames.onSDKPayment()
+//sdkgames.setRelauchDialog(this)
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.util
+package com.akggame.akg_sdk.util
 
 import android.Manifest
 import android.app.Activity

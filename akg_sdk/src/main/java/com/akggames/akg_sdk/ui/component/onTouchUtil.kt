@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.ui.component
+package com.akggame.akg_sdk.ui.component
 
 import android.view.MotionEvent
 import android.view.View

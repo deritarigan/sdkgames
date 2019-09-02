@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.ui.dialog
+package com.akggame.akg_sdk.ui.dialog
 
 import android.content.DialogInterface
 import android.content.res.Configuration
@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import com.akggames.akg_sdk.rx.IView
-import com.akggames.android.sdk.R
+import com.akggame.akg_sdk.rx.IView
+import com.akggame.android.sdk.R
 
 
 

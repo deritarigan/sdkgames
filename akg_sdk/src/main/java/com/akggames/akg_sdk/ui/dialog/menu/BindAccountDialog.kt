@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.ui.dialog.menu
+package com.akggame.akg_sdk.ui.dialog.menu
 
 import android.app.Activity
 import android.content.Intent
@@ -9,20 +9,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
-import com.akggames.akg_sdk.AKG_SDK
-import com.akggames.akg_sdk.IConfig
-import com.akggames.akg_sdk.MenuSDKCallback
-import com.akggames.akg_sdk.dao.api.model.request.BindSocMedRequest
-import com.akggames.akg_sdk.dao.api.model.request.FacebookAuthRequest
-import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
-import com.akggames.akg_sdk.presenter.BindAccountPresenter
-import com.akggames.akg_sdk.presenter.LoginPresenter
-import com.akggames.akg_sdk.ui.component.FloatingButton
-import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
-import com.akggames.akg_sdk.ui.dialog.menu.binding.VerifyAccountDialog
-import com.akggames.akg_sdk.util.CacheUtil
-import com.akggames.akg_sdk.util.DeviceUtil
-import com.akggames.android.sdk.R
+import com.akggame.akg_sdk.AKG_SDK
+import com.akggame.akg_sdk.IConfig
+import com.akggame.akg_sdk.MenuSDKCallback
+import com.akggame.akg_sdk.dao.api.model.request.BindSocMedRequest
+import com.akggame.akg_sdk.dao.api.model.request.FacebookAuthRequest
+import com.akggame.akg_sdk.dao.api.model.response.BaseResponse
+import com.akggame.akg_sdk.presenter.BindAccountPresenter
+import com.akggame.akg_sdk.presenter.LoginPresenter
+import com.akggame.akg_sdk.ui.component.FloatingButton
+import com.akggame.akg_sdk.ui.dialog.BaseDialogFragment
+import com.akggame.akg_sdk.ui.dialog.menu.binding.VerifyAccountDialog
+import com.akggame.akg_sdk.util.CacheUtil
+import com.akggame.akg_sdk.util.DeviceUtil
+import com.akggame.android.sdk.R
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -93,7 +93,8 @@ class BindAccountDialog() : BaseDialogFragment(), BindAccountIView {
 
     override fun doOnSuccess(data: BaseResponse, socmedType: String) {
         mAkgSdk.setFloatingButton(mFloatingButton, requireContext(), mMenuSDKCallback)
-        dismiss()
+        customDismiss()
+        clearBackStack()
     }
 
     fun initialize() {

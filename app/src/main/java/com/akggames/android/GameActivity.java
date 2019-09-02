@@ -1,10 +1,10 @@
-package com.akggames.android;
+package com.akggame.android;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.akggames.akg_sdk.AKG_SDK;
-import com.akggames.akg_sdk.MenuSDKCallback;
-import com.akggames.akg_sdk.ui.component.FloatingButton;
+import com.akggame.akg_sdk.AKG_SDK;
+import com.akggame.akg_sdk.MenuSDKCallback;
+import com.akggame.akg_sdk.ui.component.FloatingButton;
 import org.jetbrains.annotations.NotNull;
 
 public class GameActivity extends AppCompatActivity implements MenuSDKCallback {

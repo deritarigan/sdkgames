@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.rx
+package com.akggame.akg_sdk.rx
 
 import io.reactivex.Observable
 import io.reactivex.ObservableSource

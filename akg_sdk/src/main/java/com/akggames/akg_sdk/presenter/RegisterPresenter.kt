@@ -1,18 +1,18 @@
-package com.akggames.akg_sdk.presenter
+package com.akggame.akg_sdk.presenter
 
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import com.akggames.akg_sdk.dao.MainDao
-import com.akggames.akg_sdk.dao.api.model.request.SendOtpRequest
-import com.akggames.akg_sdk.dao.api.model.request.SignUpRequest
-import com.akggames.akg_sdk.dao.api.model.request.UpdatePasswordRequest
-import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
-import com.akggames.akg_sdk.rx.IView
-import com.akggames.akg_sdk.rx.RxObserver
-import com.akggames.akg_sdk.ui.dialog.forget.UpdatePasswordDialog
-import com.akggames.akg_sdk.ui.dialog.register.OTPIView
-import com.akggames.akg_sdk.ui.dialog.register.SetPasswordDialog
+import com.akggame.akg_sdk.dao.MainDao
+import com.akggame.akg_sdk.dao.api.model.request.SendOtpRequest
+import com.akggame.akg_sdk.dao.api.model.request.SignUpRequest
+import com.akggame.akg_sdk.dao.api.model.request.UpdatePasswordRequest
+import com.akggame.akg_sdk.dao.api.model.response.BaseResponse
+import com.akggame.akg_sdk.rx.IView
+import com.akggame.akg_sdk.rx.RxObserver
+import com.akggame.akg_sdk.ui.dialog.forget.UpdatePasswordDialog
+import com.akggame.akg_sdk.ui.dialog.register.OTPIView
+import com.akggame.akg_sdk.ui.dialog.register.SetPasswordDialog
 import io.reactivex.disposables.Disposable
 
 class RegisterPresenter(val iView: IView) {

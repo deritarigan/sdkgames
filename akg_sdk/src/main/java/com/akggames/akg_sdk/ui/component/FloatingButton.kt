@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.ui.component
+package com.akggame.akg_sdk.ui.component
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -14,18 +14,18 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.akggames.akg_sdk.dao.api.model.FloatingItem
-import com.akggames.akg_sdk.extension.*
-import com.akggames.akg_sdk.extension.animateFade
-import com.akggames.akg_sdk.extension.animateScale
-import com.akggames.akg_sdk.extension.displaySize
-import com.akggames.akg_sdk.extension.doAfterAnimate
-import com.akggames.akg_sdk.extension.dp2Px
-import com.akggames.akg_sdk.extension.updateLayoutParams
-import com.akggames.akg_sdk.extension.visible
-import com.akggames.akg_sdk.ui.adapter.FloatingAdapter
-import com.akggames.akg_sdk.ui.adapter.FloatingAdapterListener
-import com.akggames.android.sdk.R
+import com.akggame.akg_sdk.dao.api.model.FloatingItem
+import com.akggame.akg_sdk.extension.*
+import com.akggame.akg_sdk.extension.animateFade
+import com.akggame.akg_sdk.extension.animateScale
+import com.akggame.akg_sdk.extension.displaySize
+import com.akggame.akg_sdk.extension.doAfterAnimate
+import com.akggame.akg_sdk.extension.dp2Px
+import com.akggame.akg_sdk.extension.updateLayoutParams
+import com.akggame.akg_sdk.extension.visible
+import com.akggame.akg_sdk.ui.adapter.FloatingAdapter
+import com.akggame.akg_sdk.ui.adapter.FloatingAdapterListener
+import com.akggame.android.sdk.R
 import de.hdodenhof.circleimageview.CircleImageView
 
 class FloatingButton : FrameLayout {

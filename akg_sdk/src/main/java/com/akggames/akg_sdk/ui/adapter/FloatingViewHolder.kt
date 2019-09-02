@@ -1,15 +1,15 @@
-package com.akggames.akg_sdk.ui.adapter
+package com.akggame.akg_sdk.ui.adapter
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.core.widget.ImageViewCompat
-import com.akggames.akg_sdk.dao.api.model.FloatingItem
-import com.akggames.akg_sdk.extension.dp2Px
-import com.akggames.akg_sdk.ui.component.FloatingButton
-import com.akggames.akg_sdk.ui.component.ItemWrapper
-import com.akggames.android.sdk.R
+import com.akggame.ItemWrapper
+import com.akggame.akg_sdk.dao.api.model.FloatingItem
+import com.akggame.akg_sdk.extension.dp2Px
+import com.akggame.akg_sdk.ui.component.FloatingButton
+import com.akggame.android.sdk.R
 import kotlinx.android.synthetic.main.item_floating_button.view.*
 
 class FloatingViewHolder(

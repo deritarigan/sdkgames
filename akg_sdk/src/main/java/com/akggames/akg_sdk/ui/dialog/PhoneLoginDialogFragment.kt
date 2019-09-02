@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.ui.dialog
+package com.akggame.akg_sdk.ui.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,16 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import com.akggames.akg_sdk.IConfig
-import com.akggames.akg_sdk.LoginSDKCallback
-import com.akggames.akg_sdk.dao.api.model.request.PhoneAuthRequest
-import com.akggames.akg_sdk.presenter.LoginPresenter
-import com.akggames.akg_sdk.ui.dialog.forget.ForgetDialog
-import com.akggames.akg_sdk.ui.dialog.login.LoginIView
-import com.akggames.akg_sdk.ui.dialog.register.OTPDialog
-import com.akggames.akg_sdk.util.CacheUtil
-import com.akggames.akg_sdk.util.DeviceUtil
-import com.akggames.android.sdk.R
+import com.akggame.akg_sdk.IConfig
+import com.akggame.akg_sdk.LoginSDKCallback
+import com.akggame.akg_sdk.dao.api.model.request.PhoneAuthRequest
+import com.akggame.akg_sdk.presenter.LoginPresenter
+import com.akggame.akg_sdk.ui.dialog.forget.ForgetDialog
+import com.akggame.akg_sdk.ui.dialog.login.LoginIView
+import com.akggame.akg_sdk.ui.dialog.register.OTPDialog
+import com.akggame.akg_sdk.util.CacheUtil
+import com.akggame.akg_sdk.util.DeviceUtil
+import com.akggame.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_login_phone.*
 import kotlinx.android.synthetic.main.content_dialog_login_phone.view.*
 

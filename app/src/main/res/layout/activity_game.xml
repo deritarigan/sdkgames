@@ -5,9 +5,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.akggames.android.GameActivity">
+        tools:context="com.akggame.android.GameActivity">
 
-    <com.akggames.akg_sdk.ui.component.FloatingButton
+    <com.akggame.akg_sdk.ui.component.FloatingButton
             android:id="@+id/floatingButton"
             android:layout_width="wrap_content"
             android:background="@color/greeny_blue"

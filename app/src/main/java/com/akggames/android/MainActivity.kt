@@ -1,4 +1,4 @@
-package com.akggames.android
+package com.akggame.android
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,8 +9,8 @@ import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustConfig
 import com.adjust.sdk.AdjustEvent
 import com.adjust.sdk.LogLevel
-import com.akggames.akg_sdk.AKG_SDK
-import com.akggames.akg_sdk.LoginSDKCallback
+import com.akggame.akg_sdk.AKG_SDK
+import com.akggame.akg_sdk.LoginSDKCallback
 import com.crashlytics.android.Crashlytics
 
 import io.fabric.sdk.android.Fabric

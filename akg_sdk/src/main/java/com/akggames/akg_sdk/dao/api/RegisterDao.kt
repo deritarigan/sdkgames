@@ -1,7 +1,7 @@
-package com.akggames.akg_sdk.dao.api
+package com.akggame.akg_sdk.dao.api
 
-import com.akggames.akg_sdk.dao.api.model.request.SendOtpRequest
-import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
+import com.akggame.akg_sdk.dao.api.model.request.SendOtpRequest
+import com.akggame.akg_sdk.dao.api.model.response.BaseResponse
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

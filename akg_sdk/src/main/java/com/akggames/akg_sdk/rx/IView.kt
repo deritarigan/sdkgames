@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.rx
+package com.akggame.akg_sdk.rx
 
 import android.view.View
 //import com.akggames.akg_sdk.ui.BaseActivity

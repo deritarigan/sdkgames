@@ -1,4 +1,4 @@
-package com.akggames.akg_sdk.ui.dialog.login
+package com.akggame.akg_sdk.ui.dialog.login
 
 import android.app.Activity.RESULT_OK
 import android.content.Context
@@ -11,20 +11,21 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustEvent
-import com.akggames.akg_sdk.IConfig
-import com.akggames.akg_sdk.LoginSDKCallback
-import com.akggames.akg_sdk.dao.api.model.request.FacebookAuthRequest
-import com.akggames.akg_sdk.dao.api.model.request.GuestLoginRequest
-import com.akggames.akg_sdk.presenter.LoginPresenter
-//import com.akggames.akg_sdk.ui.BaseActivity
-import com.akggames.akg_sdk.ui.dialog.BaseDialogFragment
-import com.akggames.akg_sdk.ui.dialog.PhoneLoginDialogFragment
-import com.akggames.akg_sdk.util.CacheUtil
-import com.akggames.android.sdk.R
-import com.akggames.akg_sdk.util.DeviceUtil
+import com.akggame.akg_sdk.IConfig
+import com.akggame.akg_sdk.LoginSDKCallback
+import com.akggame.akg_sdk.dao.api.model.request.FacebookAuthRequest
+import com.akggame.akg_sdk.dao.api.model.request.GuestLoginRequest
+import com.akggame.akg_sdk.presenter.LoginPresenter
+//import com.akggame.akg_sdk.ui.BaseActivity
+import com.akggame.akg_sdk.ui.dialog.BaseDialogFragment
+import com.akggame.akg_sdk.ui.dialog.PhoneLoginDialogFragment
+import com.akggame.akg_sdk.util.CacheUtil
+import com.akggame.android.sdk.R
+import com.akggame.akg_sdk.util.DeviceUtil
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
+import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -83,10 +84,8 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
 
     override fun doOnSuccess(token: String) {
         mLoginCallback.onResponseSuccess(token)
-//        Log.d("Adjust", "Login Event")
         setAdjustEventLogin()
-        customDismiss()
-        clearBackStack()
+        dismiss()
     }
 
     fun setAdjustEventLogin(){

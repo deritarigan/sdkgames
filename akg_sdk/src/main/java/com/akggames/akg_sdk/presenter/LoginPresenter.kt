@@ -1,26 +1,26 @@
-package com.akggames.akg_sdk.presenter
+package com.akggame.akg_sdk.presenter
 
 import android.content.Context
 import android.util.Log
-import com.akggames.akg_sdk.IConfig
-import com.akggames.akg_sdk.IConfig.Companion.LOGIN_FACEBOOK
-import com.akggames.akg_sdk.IConfig.Companion.LOGIN_GOOGLE
-import com.akggames.akg_sdk.IConfig.Companion.LOGIN_GUEST
-import com.akggames.akg_sdk.IConfig.Companion.LOGIN_PHONE
-import com.akggames.akg_sdk.IConfig.Companion.LOGIN_TYPE
-import com.akggames.akg_sdk.IConfig.Companion.SESSION_TOKEN
-import com.akggames.akg_sdk.dao.MainDao
-import com.akggames.akg_sdk.dao.api.model.request.FacebookAuthRequest
-import com.akggames.akg_sdk.dao.api.model.request.GuestLoginRequest
-import com.akggames.akg_sdk.dao.api.model.request.PhoneAuthRequest
-import com.akggames.akg_sdk.dao.api.model.response.BaseResponse
-import com.akggames.akg_sdk.dao.api.model.response.FacebookAuthResponse
-import com.akggames.akg_sdk.dao.api.model.response.PhoneAuthResponse
-import com.akggames.akg_sdk.rx.IView
-import com.akggames.akg_sdk.rx.RxObserver
-import com.akggames.akg_sdk.ui.dialog.login.LoginIView
-import com.akggames.akg_sdk.util.CacheUtil
-//import com.akggames.akg_sdk.ui.BaseActivity
+import com.akggame.akg_sdk.IConfig
+import com.akggame.akg_sdk.IConfig.Companion.LOGIN_FACEBOOK
+import com.akggame.akg_sdk.IConfig.Companion.LOGIN_GOOGLE
+import com.akggame.akg_sdk.IConfig.Companion.LOGIN_GUEST
+import com.akggame.akg_sdk.IConfig.Companion.LOGIN_PHONE
+import com.akggame.akg_sdk.IConfig.Companion.LOGIN_TYPE
+import com.akggame.akg_sdk.IConfig.Companion.SESSION_TOKEN
+import com.akggame.akg_sdk.dao.MainDao
+import com.akggame.akg_sdk.dao.api.model.request.FacebookAuthRequest
+import com.akggame.akg_sdk.dao.api.model.request.GuestLoginRequest
+import com.akggame.akg_sdk.dao.api.model.request.PhoneAuthRequest
+import com.akggame.akg_sdk.dao.api.model.response.BaseResponse
+import com.akggame.akg_sdk.dao.api.model.response.FacebookAuthResponse
+import com.akggame.akg_sdk.dao.api.model.response.PhoneAuthResponse
+import com.akggame.akg_sdk.rx.IView
+import com.akggame.akg_sdk.rx.RxObserver
+import com.akggame.akg_sdk.ui.dialog.login.LoginIView
+import com.akggame.akg_sdk.util.CacheUtil
+//import com.akggame.akg_sdk.ui.BaseActivity
 import io.reactivex.disposables.Disposable
 
 class LoginPresenter(val mIView: IView) {

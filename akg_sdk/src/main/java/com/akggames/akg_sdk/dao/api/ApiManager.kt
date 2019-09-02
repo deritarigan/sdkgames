@@ -1,7 +1,7 @@
-package com.akggames.akg_sdk.dao.api
+package com.akggame.akg_sdk.dao.api
 
 import android.util.Log
-import com.akggames.akg_sdk.IConfig
+import com.akggame.akg_sdk.IConfig
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

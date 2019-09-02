@@ -1,4 +1,4 @@
-package com.akggames.android
+package com.akggame.android
 
 import org.junit.Test
 
