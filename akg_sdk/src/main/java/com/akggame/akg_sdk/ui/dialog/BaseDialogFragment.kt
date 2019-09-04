@@ -15,8 +15,7 @@ import com.akggame.akg_sdk.rx.IView
 import com.akggame.android.sdk.R
 
 
-
-open class BaseDialogFragment() : DialogFragment(), IView {
+open class BaseDialogFragment() : DialogFragment(), IView{
     override fun handleError(message: String) {
     }
 
@@ -27,7 +26,6 @@ open class BaseDialogFragment() : DialogFragment(), IView {
         val style = STYLE_NO_FRAME
         setStyle(style, theme)
     }
-
 
     override fun onStart() {
         super.onStart()
@@ -46,7 +44,11 @@ open class BaseDialogFragment() : DialogFragment(), IView {
                 )
             }
         }
+        setOnBackPressed()
 
+    }
+
+    open fun setOnBackPressed() {
         dialog.setOnKeyListener(object : View.OnKeyListener, DialogInterface.OnKeyListener {
             override fun onKey(p0: View?, keyCode: Int, event: KeyEvent?): Boolean {
                 return false
@@ -73,13 +75,39 @@ open class BaseDialogFragment() : DialogFragment(), IView {
         ft.commit()
     }
 
-    fun clearBackStack(){
+    fun clearBackStack() {
         val count = myFragmentManager?.getBackStackEntryCount()!!
         for (i in 0 until count) {
             myFragmentManager?.popBackStack()
         }
     }
-    fun onRelauch(){
+
+    fun restartBackStack() {
+        customDismiss()
+        var backStackSize = myFragmentManager?.backStackEntryCount
+        if (backStackSize != null) {
+            if (backStackSize > 0) {
+                var backEntry = myFragmentManager?.getBackStackEntryAt(0)
+//                clearBackStack()
+                val count = myFragmentManager?.getBackStackEntryCount()!!
+                if (count > 0) {
+                    for (i in 0 until count - 1) {
+                        myFragmentManager?.popBackStack()
+                    }
+                }
+                val mDialog =
+                    myFragmentManager?.findFragmentByTag(backEntry?.name) as BaseDialogFragment
+                if (myFragmentManager != null) {
+//                    myFragmentManager!!.beginTransaction().remove(mDialog)
+                    mDialog.show(myFragmentManager!!.beginTransaction(), null)
+                }
+            }
+        }
+
+//        showLastFragment()
+    }
+
+    fun onRelauch() {
 //        var backStackSize = myFragmentManager?.backStackEntryCount
 //        if (backStackSize != null) {
 //            if (backStackSize > 0) {
@@ -97,6 +125,7 @@ open class BaseDialogFragment() : DialogFragment(), IView {
 //        customDismiss()
         clearBackStack()
     }
+
     fun onBackPressed() {
         var backStackSize = myFragmentManager?.backStackEntryCount
 
@@ -105,6 +134,21 @@ open class BaseDialogFragment() : DialogFragment(), IView {
                 var backEntry = myFragmentManager?.getBackStackEntryAt(backStackSize - 2)
                 customDismiss()
                 myFragmentManager?.popBackStack(this.tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                val mDialog =
+                    myFragmentManager?.findFragmentByTag(backEntry?.name) as BaseDialogFragment
+                if (myFragmentManager != null) {
+                    myFragmentManager!!.beginTransaction().remove(mDialog)
+                    mDialog.show(myFragmentManager!!.beginTransaction(), null)
+                }
+            }
+        }
+    }
+
+    fun showLastFragment() {
+        var backStackSize = myFragmentManager?.backStackEntryCount
+        if (backStackSize != null) {
+            if (backStackSize > 0) {
+                var backEntry = myFragmentManager?.getBackStackEntryAt(backStackSize - 1)
                 val mDialog =
                     myFragmentManager?.findFragmentByTag(backEntry?.name) as BaseDialogFragment
                 if (myFragmentManager != null) {

@@ -97,5 +97,10 @@ class Api {
         fun onBindAccount(body:BindSocMedRequest,context: Context):Observable<BaseResponse>{
             return initApiDomain().callBindAccountSocmed(initHeader(context),body)
         }
+
+        @Synchronized
+        fun onPostOrder(body:PostOrderRequest,context: Context):Observable<BaseResponse>{
+            return initApiDomain().callPostOrder(initHeader(context),body)
+        }
     }
 }

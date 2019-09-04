@@ -63,7 +63,7 @@ class FloatingButton : FrameLayout {
     var autoDip = true
     var duration = 350L
 
-    var circleSize = 14f
+    var circleSize = 24f
         set(value) {
             field = value
             updateSubmarine()

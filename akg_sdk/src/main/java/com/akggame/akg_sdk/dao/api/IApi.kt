@@ -44,4 +44,8 @@ interface IApi {
     @POST("account/binding")
     fun callBindAccountSocmed(@HeaderMap map:Map<String,String>,@Body body:BindSocMedRequest):
             Observable<BaseResponse>
+
+    @POST("order/transactions")
+    fun callPostOrder(@HeaderMap map:Map<String,String>,@Body body:PostOrderRequest):
+            Observable<BaseResponse>
 }

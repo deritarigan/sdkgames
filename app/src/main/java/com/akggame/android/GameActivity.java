@@ -14,11 +14,11 @@ public class GameActivity extends AppCompatActivity implements MenuSDKCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         FloatingButton floatingButton = findViewById(R.id.floatingButton);
-        AKG_SDK akgsdk= new AKG_SDK(this);
-        akgsdk.setFloatingButton(floatingButton, this, this);
-
-        //call relaunch dialog
-        akgsdk.setRelauchDialog(this);
+//        AKG_SDK akgsdk= new AKG_SDK(this);
+//        akgsdk.setFloatingButton(floatingButton, this, this);
+//
+//        //call relaunch dialog
+//        akgsdk.setRelauchDialog(this);
     }
 
     @Override

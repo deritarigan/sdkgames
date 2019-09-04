@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.akggame.akg_sdk.IConfig
 import com.akggame.akg_sdk.dao.api.model.response.CurrentUserResponse
@@ -38,16 +39,23 @@ class AccountDialog() : BaseDialogFragment(), AccountIView {
     override fun onStart() {
         super.onStart()
         initialize()
-        presenter.onGetCurrentUser(requireActivity())
+        presenter.onGetCurrentUser(requireActivity() as AppCompatActivity,requireActivity())
     }
 
-    override fun doOnSuccess(data: CurrentUserResponse) {
-        if (CacheUtil.getPreferenceString(IConfig.LOGIN_TYPE, requireActivity()) == IConfig.LOGIN_PHONE) {
-            etOldPassword.text = data.data?.attributes?.phone_number
+    override fun doOnSuccess(activity:AppCompatActivity,data: CurrentUserResponse) {
+        if (CacheUtil.getPreferenceString(IConfig.LOGIN_TYPE, activity) == IConfig.LOGIN_PHONE) {
+            if(etOldPassword!=null){
+                etOldPassword.text = data.data?.attributes?.phone_number
+
+            }
         } else {
-            etOldPassword.text = data.data?.attributes?.email
+            if(etOldPassword!=null){
+                etOldPassword.text = data.data?.attributes?.email
+            }
         }
-        etNewPassword.text = data.data?.attributes?.uid
+        if(etNewPassword!=null){
+            etNewPassword.text = data.data?.attributes?.uid
+        }
     }
 
     override fun doOnError(message: String?) {
@@ -56,7 +64,10 @@ class AccountDialog() : BaseDialogFragment(), AccountIView {
 
     fun initialize() {
         mView.ivClose.setOnClickListener {
-            dismiss()
+            customDismiss()
+        }
+        if(!CacheUtil.getPreferenceString(IConfig.LOGIN_TYPE,requireActivity())!!.equals(IConfig.LOGIN_PHONE)){
+            mView.tvChangePassword.visibility = View.INVISIBLE
         }
 
         mView.tvChangePassword.setOnClickListener {
@@ -66,7 +77,7 @@ class AccountDialog() : BaseDialogFragment(), AccountIView {
         }
 
         btnBack.setOnClickListener {
-            dismiss()
+            customDismiss()
         }
     }
 }

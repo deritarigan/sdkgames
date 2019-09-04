@@ -13,14 +13,13 @@ import java.security.spec.InvalidKeySpecException
 import java.security.spec.X509EncodedKeySpec
 import java.util.HashSet
 
-class BillingDao constructor(private val application: Application, val queryCallback: BillingDaoQuerySKU) :
-    PurchasesUpdatedListener, BillingClientStateListener,ConsumeResponseListener {
+class BillingDao constructor(private val application: Application,val paymentResponse: PaymentResponse, val queryCallback: BillingDaoQuerySKU) :
+    PurchasesUpdatedListener, BillingClientStateListener {
 
 
 
     val LOG_TAG = "Billing Dao :"
     lateinit var billingClient: BillingClient
-    val listener: ConsumeResponseListener = this
 
     private val BASE_64_ENCODED_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtigMU9IVSI89hggyB7DKj9W0ROgAHaBPjv9o5mfeMaSg1Js9P12Ch6FTkCP6iyx5cbK1a0DkmW12cEGe12MtCCY93xs3AY9HZiFemzgS2VyaMZiCMc3NU1dYWSPjiemmfzI0mI33IzEt/67vzgXqev03WsrSKckcPXt2KoahDxHNTr8CcGd44mIWWxHCfawd95lAM19/bf8mvNDT84pUz7nLGt8FzC7IAn55h/+8keXu9hhRzT3511KlUx2Yp3sHsfac/lKlsrSZFmsxRbrSgFWslMxtx3lhggOL1XN4qcr6qsfrKkA9dKndvEktA85DFYHnq9ETDvGBYMUJx24MnQIDAQAB"
     private val KEY_FACTORY_ALGORITHM = "RSA"
@@ -31,12 +30,20 @@ class BillingDao constructor(private val application: Application, val queryCall
     object SKU {
         val janjiDoang = "com.sdkgame.product1"
         val tempeOrek = "com.sdkgame.product2"
+        val janjiDoang2 = "com.sdkgame.product1"
+        val tempeOrek2 = "com.sdkgame.product2"
+
+        val myTestListSKU = listOf(janjiDoang2, tempeOrek2)
 
         val myListSKU = listOf(janjiDoang, tempeOrek)
     }
 
     interface BillingDaoQuerySKU {
         fun onQuerySKU(skuDetails: MutableList<SkuDetails>)
+    }
+
+    interface PaymentResponse{
+        fun onPaymentSuccess(purchases: Purchase)
     }
 
     fun onInitiateBillingClient() {
@@ -96,7 +103,7 @@ class BillingDao constructor(private val application: Application, val queryCall
             BillingClient.BillingResponseCode.OK -> {
                 Log.d(LOG_TAG, "onBillingSetupFinished successfully")
                 querySkuDetailsAsync(BillingClient.SkuType.INAPP, SKU.myListSKU)
-//                queryPurchasesAsync()
+                queryPurchasesAsync()
             }
             BillingClient.BillingResponseCode.BILLING_UNAVAILABLE -> {
                 //Some apps may choose to make decisions based on this knowledge.
@@ -110,13 +117,23 @@ class BillingDao constructor(private val application: Application, val queryCall
         }
     }
 
+    fun queryPurchasesAsync() {
+        Log.d(LOG_TAG, "queryPurchasesAsync called")
+        val purchasesResult = HashSet<Purchase>()
+        var result = billingClient.queryPurchases(BillingClient.SkuType.INAPP)
+        Log.d(LOG_TAG, "queryPurchasesAsync INAPP results: ${result?.purchasesList?.size}")
+        result?.purchasesList?.apply { purchasesResult.addAll(this) }
+        processPurchase(purchasesResult)
+    }
+
     override fun onPurchasesUpdated(billingResult: BillingResult?, purchases: MutableList<Purchase>?) {
         if (billingResult?.responseCode == OK && purchases != null) {
+//            paymentResponse.onPaymentSuccess(purchases)
             for (purchase in purchases) {
                 handlePurchase(purchase)
                 purchases.apply {
                     processPurchase(this.toSet())
-                }
+                };
             }
         } else if (billingResult?.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
 
@@ -129,20 +146,22 @@ class BillingDao constructor(private val application: Application, val queryCall
         val validPurchases = HashSet<Purchase>(purchasesResult.size)
         purchasesResult.forEach { purchase ->
             if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
-                if (isSignatureValid(purchase)) {
-                    validPurchases.add(purchase)
-                }
+//                if (isSignatureValid(purchase)) {
+//                }
+                validPurchases.add(purchase)
+
             } else if (purchase.purchaseState == Purchase.PurchaseState.PENDING) {
                 Log.d(LOG_TAG, "Received a pending purchase of SKU: ${purchase.sku}")
                 // handle pending purchases, e.g. confirm with users about the pending
                 // purchases, prompt them to complete it, etc.
             }
         }
+
         val (consumables, nonConsumables) = validPurchases.partition {
             SKU.myListSKU.contains(it.sku)
         }
 
-//        val testing = localCacheBillingClient.purchaseDao().getPurchases()
+//        val testing = billingClient.purchaseDao().getPurchases()
 //        Log.d(LOG_TAG, "processPurchases purchases in the lcl db ${testing?.size}")
 //        localCacheBillingClient.purchaseDao().insert(*validPurchases.toTypedArray())
        handleConsumablePurchasesAsync(consumables)
@@ -153,13 +172,16 @@ class BillingDao constructor(private val application: Application, val queryCall
         Log.d(LOG_TAG, "handleConsumablePurchasesAsync called")
         consumables.forEach {
             Log.d(LOG_TAG, "handleConsumablePurchasesAsync foreach it is $it")
-            val params =
-                ConsumeParams.newBuilder().setPurchaseToken(it.purchaseToken).build()
+
+            val params =    ConsumeParams.newBuilder()
+                                                         .setPurchaseToken(it.purchaseToken)
+                                                         .build()
+
             billingClient.consumeAsync(params) { billingResult, purchaseToken ->
                 when (billingResult.responseCode) {
                     OK -> {
                         // Update the appropriate tables/databases to grant user the items
-//                        purchaseToken.apply { disburseConsumableEntitlements(it) }
+                        purchaseToken.apply { disburseConsumableEntitlements(it) }
                     }
                     else -> {
                         Log.w(LOG_TAG, billingResult.debugMessage)
@@ -168,16 +190,26 @@ class BillingDao constructor(private val application: Application, val queryCall
             }
         }
     }
+
+    fun disburseConsumableEntitlements(purchase: Purchase){
+        paymentResponse.onPaymentSuccess(purchase)
+        purchase.sku
+//        if (purchase.sku == GameSku.GAS) {
+//            updateGasTank(GasTank(GAS_PURCHASE))
+            /**
+             * This disburseConsumableEntitlements method was called because Play called onConsumeResponse.
+             * So if you think of a Purchase as a receipt, you no longer need to keep a copy of
+             * the receipt in the local cache since the user has just consumed the product.
+             */
+//            localCacheBillingClient.purchaseDao().delete(purchase)
+//        }
+    }
     fun handlePurchase(purchase:Purchase){
         if(purchase.purchaseState==Purchase.PurchaseState.PURCHASED){
 
         }else if(purchase.purchaseState == Purchase.PurchaseState.PENDING){
 
         }
-    }
-
-    override fun onConsumeResponse(billingResult: BillingResult?, purchaseToken: String?) {
-
     }
 
     private fun verify(publicKey: PublicKey, signedData: String, signature: String): Boolean {

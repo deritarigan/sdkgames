@@ -16,7 +16,7 @@ class AkgApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        AKG_SDK().registerAdjustOnAKG(this)
+        AKG_SDK.registerAdjustOnAKG(this)
     }
 
 }

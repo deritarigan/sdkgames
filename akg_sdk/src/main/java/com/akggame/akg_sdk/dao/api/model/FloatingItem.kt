@@ -5,5 +5,6 @@ import com.akggame.akg_sdk.ui.component.IconForm
 
 class FloatingItem(
     val icon: Drawable? = null,
-    val iconForm: IconForm? = null
+    val iconForm: IconForm? = null,
+    val name: String?= ""
 )

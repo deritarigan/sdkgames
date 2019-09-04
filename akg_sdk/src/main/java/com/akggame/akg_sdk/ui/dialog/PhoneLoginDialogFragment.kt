@@ -20,6 +20,9 @@ import kotlinx.android.synthetic.main.content_dialog_login_phone.*
 import kotlinx.android.synthetic.main.content_dialog_login_phone.view.*
 
 class PhoneLoginDialogFragment() : BaseDialogFragment(), LoginIView {
+    override fun doOnSuccess(token: String, loginType: String) {
+        mLoginCallback.onResponseSuccess(token,loginType)
+    }
 
 
     companion object {
@@ -55,9 +58,7 @@ class PhoneLoginDialogFragment() : BaseDialogFragment(), LoginIView {
         initView()
     }
 
-    override fun doOnSuccess(token: String) {
-        mLoginCallback.onResponseSuccess(token)
-    }
+
 
     override fun doOnError(message: String) {
         mLoginCallback.onResponseFailed(message)

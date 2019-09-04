@@ -18,20 +18,19 @@ import io.fabric.sdk.android.Fabric
 
 class MainActivity : AppCompatActivity() {
 
-    val sdkgames:AKG_SDK = AKG_SDK(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Fabric.with(this, Crashlytics())
         setContentView(R.layout.activity_main)
-        if (sdkgames.checkIsLogin(this)){
+        if (AKG_SDK.checkIsLogin(this)){
             startActivity(Intent(this@MainActivity,Main2Activity::class.java))
             finish()
         }
 
-        sdkgames.onLogin("mobile-legends",object : LoginSDKCallback{
-            override fun onResponseSuccess(token: String) {
-                Toast.makeText(this@MainActivity, token, Toast.LENGTH_LONG).show()
+        AKG_SDK.onLogin(this,"mobile-legends",object : LoginSDKCallback{
+            override fun onResponseSuccess(token: String,loginType:String) {
+                Toast.makeText(this@MainActivity, "Success Login "+loginType, Toast.LENGTH_LONG).show()
                 startActivity(Intent(this@MainActivity,Main2Activity::class.java))
                 finish()
             }

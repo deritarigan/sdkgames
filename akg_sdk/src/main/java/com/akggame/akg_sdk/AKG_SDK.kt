@@ -28,19 +28,19 @@ import com.akggame.akg_sdk.util.CacheUtil
 import com.akggame.akg_sdk.util.DeviceUtil
 import com.akggame.android.sdk.R
 
-class AKG_SDK() : AccountIView {
+object AKG_SDK : AccountIView {
 
     private lateinit var customCallback: LoginSDKCallback
     private lateinit var menuCallback: MenuSDKCallback
-    lateinit var activity: AppCompatActivity
+    //    lateinit var activity: AppCompatActivity
+    val SDK_PAYMENT_CODE = 199
 
-    constructor(ac: AppCompatActivity) : this() {
-        this.activity = ac
+
+//    @JvmStatic
+    fun checkIsLogin(context: Context): Boolean {
+        return CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN, context)
     }
 
-    companion object {
-        val SDK_PAYMENT_CODE = 199
-    }
 
     fun registerAdjustOnAKG(application: Application) {
         val appToken = "y1t3z228xxj4"
@@ -84,7 +84,7 @@ class AKG_SDK() : AccountIView {
         }
     }
 
-    fun setRelauchDialog(menuSDKCallback: MenuSDKCallback) {
+    fun setRelauchDialog(activity: AppCompatActivity, menuSDKCallback: MenuSDKCallback) {
         menuCallback = menuSDKCallback
         val dialog =
             RelaunchDialog.newInstance(menuSDKCallback)
@@ -93,13 +93,23 @@ class AKG_SDK() : AccountIView {
         dialog.show(ftransaction, "relaunch")
     }
 
-    fun setFloatingButton(floatingButton: FloatingButton, context: Context, menuSDKCallback: MenuSDKCallback) {
+    fun setFloatingButton(
+        activity: AppCompatActivity,
+        floatingButton: FloatingButton,
+        context: Context,
+        menuSDKCallback: MenuSDKCallback
+    ) {
         menuCallback = menuSDKCallback
         val onItemClickListener: FloatingAdapterListener = object : FloatingAdapterListener {
             override fun onItemClick(position: Int, floatingItem: FloatingItem) {
                 val contactUsDialog = InfoDialog()
                 val checkVersionDialog = CheckVersionDialog()
-                val bindAccountDialog = BindAccountDialog.newInstance(activity.supportFragmentManager,floatingButton,this@AKG_SDK,menuSDKCallback)
+                val bindAccountDialog = BindAccountDialog.newInstance(
+                    activity.supportFragmentManager,
+                    floatingButton,
+                    this@AKG_SDK,
+                    menuSDKCallback
+                )
                 val logoutDialog = LogoutDialog.newInstance(menuCallback)
                 val accountDialog = AccountDialog.newInstance(activity.supportFragmentManager)
                 when (position) {
@@ -135,20 +145,24 @@ class AKG_SDK() : AccountIView {
         floatingButton.circleIcon.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.btn_akg_logo))
         floatingButton.clearAllItems()
         if (CacheUtil.getPreferenceString(IConfig.LOGIN_TYPE, activity)?.equals(IConfig.LOGIN_GUEST)!!) {
-            floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_bind_account)))
+            floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_bind_account),null,"Bind Account"))
 
         } else {
-            floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_verify_account)))
+            floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_verify_account),null,"Account Info"))
         }
-        floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_fb)))
-        floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_eula)))
-        floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_contact_us)))
-        floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_sdk_version)))
-        floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_log_out)))
-        callGetAccount(context)
+        floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_fb),null,"FB Fanpage"))
+        floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_eula),null,"Eula"))
+        floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_contact_us),
+            null,"Contact Us"))
+        floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_sdk_version),
+            null,"SDK Version"))
+        floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_log_out),
+            null,"Logout"))
+        callGetAccount(activity, context)
     }
 
-    fun onLogin(gameName: String, loginSDKCallback: LoginSDKCallback) {
+//    @JvmStatic
+    fun onLogin(activity: AppCompatActivity, gameName: String, loginSDKCallback: LoginSDKCallback) {
         CacheUtil.putPreferenceString(IConfig.SESSION_GAME, gameName, activity)
         if (!CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN, activity)) {
             this.customCallback = loginSDKCallback
@@ -163,21 +177,16 @@ class AKG_SDK() : AccountIView {
         }
     }
 
-    private fun callGetAccount(context: Context) {
-        InfoPresenter(this).onGetCurrentUser(context)
+    private fun callGetAccount(activity: AppCompatActivity, context: Context) {
+        InfoPresenter(this).onGetCurrentUser(activity, context)
     }
 
-    fun checkIsLogin(context: Context): Boolean {
-        return CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN, context)
-    }
-
-
-    fun onSDKPayment() {
+    fun onSDKPayment(activity: AppCompatActivity) {
         val intent = Intent(activity, PaymentActivity::class.java)
         activity.startActivityForResult(intent, SDK_PAYMENT_CODE)
     }
 
-    override fun doOnSuccess(data: CurrentUserResponse) {
+    override fun doOnSuccess(activity: AppCompatActivity, data: CurrentUserResponse) {
         if (CacheUtil.getPreferenceString(IConfig.LOGIN_TYPE, activity) == IConfig.LOGIN_PHONE) {
             data.data?.attributes?.phone_number
             CacheUtil.putPreferenceString(IConfig.SESSION_USERNAME, data.data?.attributes?.phone_number!!, activity)
@@ -195,7 +204,7 @@ class AKG_SDK() : AccountIView {
                 )
             }
         }
-        if(data.data?.attributes?.uid!=null){
+        if (data.data?.attributes?.uid != null) {
             CacheUtil.putPreferenceString(
                 IConfig.SESSION_UID, data.data?.attributes?.uid!!,
                 activity

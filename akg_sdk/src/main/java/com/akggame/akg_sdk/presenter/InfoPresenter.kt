@@ -3,6 +3,7 @@ package com.akggame.akg_sdk.presenter
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.akggame.akg_sdk.dao.MainDao
 import com.akggame.akg_sdk.dao.api.model.response.BaseResponse
 import com.akggame.akg_sdk.dao.api.model.response.CurrentUserResponse
@@ -15,14 +16,14 @@ import io.reactivex.disposables.Disposable
 class InfoPresenter(val mIView: IView) {
 
 
-    fun onGetCurrentUser(context: Context) {
+    fun onGetCurrentUser(activity:AppCompatActivity,context: Context) {
         MainDao().onCheckCurrentUser(context).subscribe(object : RxObserver<CurrentUserResponse>(mIView, "") {
             override fun onNext(t: BaseResponse) {
                 super.onNext(t)
                 Log.d("TESTING API", "onNext")
                 t as CurrentUserResponse
                 if (t.meta?.code == 200) {
-                    (mIView as AccountIView).doOnSuccess(t)
+                    (mIView as AccountIView).doOnSuccess(activity,t)
                 } else {
                     (mIView as AccountIView).doOnError(t.data?.message)
                 }

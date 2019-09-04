@@ -19,11 +19,16 @@ import android.R
 import android.app.Activity
 import android.content.Intent
 import android.location.Geocoder.isPresent
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.akggame.akg_sdk.IConfig
 import com.akggame.akg_sdk.dao.BillingDao
+import com.akggame.akg_sdk.dao.api.model.request.PostOrderRequest
+import com.akggame.akg_sdk.dao.api.model.response.BaseResponse
 import com.akggame.akg_sdk.dao.api.model.response.GameProductsResponse
+import com.akggame.akg_sdk.dao.pojo.PurchaseItem
+import com.akggame.akg_sdk.presenter.OrderPresenter
 import com.akggame.akg_sdk.presenter.ProductPresenter
 import com.akggame.akg_sdk.rx.IView
 import com.akggame.akg_sdk.util.CacheUtil
@@ -34,18 +39,34 @@ import io.reactivex.plugins.RxJavaPlugins.onError
 import org.json.JSONObject
 
 
-class PaymentActivity : AppCompatActivity(), PaymentIView {
+class PaymentActivity : AppCompatActivity(), PaymentIView,BillingDao.PaymentResponse {
+    override fun doOnSuccessPost(o: BaseResponse, purchase: Purchase) {
+       Toast.makeText(this,"Success post data",Toast.LENGTH_LONG).show()
+    }
+
+    override fun doOnComplete(purchase: Purchase) {
+        val purchaseItem = PurchaseItem()
+        purchaseItem.product_id= purchase.sku
+        purchaseItem.product_name = purchase.packageName
+
+        intent = Intent()
+        intent.putExtra("orderDetail",purchaseItem)
+        setResult(Activity.RESULT_OK,intent)
+        finish()
+    }
+
 
 
     lateinit var mPaymentsClient: PaymentsClient
     val presenter = ProductPresenter(this)
+    val orderPresenter = OrderPresenter(this)
     lateinit var adapter: PaymentAdapter
     lateinit private var billingDao: BillingDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.akggame.android.sdk.R.layout.activity_payment)
-        billingDao = BillingDao(application, object : BillingDao.BillingDaoQuerySKU {
+        billingDao = BillingDao(application,this, object : BillingDao.BillingDaoQuerySKU {
             override fun onQuerySKU(skuDetails: MutableList<SkuDetails>) {
                 adapter.setInAppProduct(skuDetails)
             }
@@ -64,7 +85,7 @@ class PaymentActivity : AppCompatActivity(), PaymentIView {
 
     override fun onStart() {
         super.onStart()
-        rvProduct.layoutManager = GridLayoutManager(this, 2)
+        rvProduct.layoutManager = GridLayoutManager(this, 2) as RecyclerView.LayoutManager?
         rvProduct.adapter = adapter
         rvProduct.setHasFixedSize(true)
     }
@@ -84,4 +105,28 @@ class PaymentActivity : AppCompatActivity(), PaymentIView {
     override fun doOnError(message: String) {
 
     }
+
+    override fun onPaymentSuccess(purchase: Purchase) {
+
+        val postOrderRequest = PostOrderRequest("Google Play",
+            purchase.purchaseTime,
+            CacheUtil.getPreferenceString(IConfig.SESSION_GAME,this)!!,
+            purchase.orderId,
+            purchase.packageName,
+            3000,
+            "Android",
+            "com.sdkgame.product1",
+            purchase.purchaseToken,
+            purchase.sku,
+            "Success",
+            CacheUtil.getPreferenceString(IConfig.SESSION_UID,this),
+            CacheUtil.getPreferenceString(IConfig.SESSION_USERNAME,this)
+            )
+
+        orderPresenter.onPostOrder(postOrderRequest,purchase,this)
+//        purchaseItem.amount = purchases.get(0).or
+
+    }
+
+
 }

@@ -4,6 +4,6 @@ import com.akggame.akg_sdk.rx.IView
 
 interface LoginIView : IView {
 
-    fun doOnSuccess(token:String)
+    fun doOnSuccess(token:String,loginType:String)
     fun doOnError(message:String)
 }

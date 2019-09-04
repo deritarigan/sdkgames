@@ -42,6 +42,7 @@ class FloatingViewHolder(
 
 
             item_floating_icon.setImageDrawable(floatingItem.icon)
+            item_name.text =floatingItem.name
 
             floatingItem.iconForm?.let {
 //                item_floating_icon.layoutParams.width = context.dp2Px(it.iconSize)

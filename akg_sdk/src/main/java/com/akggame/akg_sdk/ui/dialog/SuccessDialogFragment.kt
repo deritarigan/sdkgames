@@ -1,10 +1,13 @@
 package com.akggame.akg_sdk.ui.dialog
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
+import com.akggame.akg_sdk.ui.dialog.login.LoginDialogFragment
 import com.akggame.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_success.view.*
 
@@ -42,12 +45,27 @@ class SuccessDialogFragment() : BaseDialogFragment() {
         initialize()
     }
 
+    override fun setOnBackPressed(){
+        dialog.setOnKeyListener(object : View.OnKeyListener, DialogInterface.OnKeyListener {
+            override fun onKey(p0: View?, keyCode: Int, event: KeyEvent?): Boolean {
+                return false
+            }
+
+            override fun onKey(p0: DialogInterface?, keyCode: Int, event: KeyEvent?): Boolean {
+                if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+        })
+    }
+
     fun initialize() {
         mView.btnNext.setOnClickListener {
-            customDismiss()
-            clearBackStack()
+            restartBackStack()
         }
         mView.tvUID.setText("Your account with number " + phone + " already been made")
-
     }
+
 }

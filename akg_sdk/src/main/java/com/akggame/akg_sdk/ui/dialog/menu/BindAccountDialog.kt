@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.akggame.akg_sdk.AKG_SDK
 import com.akggame.akg_sdk.IConfig
@@ -92,7 +93,17 @@ class BindAccountDialog() : BaseDialogFragment(), BindAccountIView {
     }
 
     override fun doOnSuccess(data: BaseResponse, socmedType: String) {
-        mAkgSdk.setFloatingButton(mFloatingButton, requireContext(), mMenuSDKCallback)
+        CacheUtil.putPreferenceString(IConfig.SESSION_TOKEN,data.BaseDataResponse?.token!!,requireActivity())
+        when(socmedType){
+            "google" -> {
+                CacheUtil.putPreferenceString(IConfig.LOGIN_TYPE,IConfig.LOGIN_GOOGLE,requireActivity())
+
+            }
+            "facebook" -> {
+                CacheUtil.putPreferenceString(IConfig.LOGIN_TYPE,IConfig.LOGIN_FACEBOOK,requireActivity())
+            }
+        }
+        mAkgSdk.setFloatingButton(requireActivity() as AppCompatActivity,mFloatingButton, requireContext(), mMenuSDKCallback)
         customDismiss()
         clearBackStack()
     }

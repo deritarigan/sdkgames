@@ -1,10 +1,15 @@
 package com.akggame.akg_sdk.ui.dialog.register
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.FragmentManager
 import com.akggame.akg_sdk.IConfig
 import com.akggame.akg_sdk.extension.animateScale
@@ -16,7 +21,10 @@ import com.akggame.akg_sdk.presenter.RegisterPresenter
 import com.akggame.akg_sdk.ui.dialog.BaseDialogFragment
 import com.akggame.akg_sdk.util.CacheUtil
 import com.akggame.android.sdk.R
+import kotlinx.android.synthetic.main.content_dialog_forgot.*
 import kotlinx.android.synthetic.main.content_dialog_registration.*
+import kotlinx.android.synthetic.main.content_dialog_registration.clOtp
+import kotlinx.android.synthetic.main.content_dialog_registration.etOtpCode
 import kotlinx.android.synthetic.main.content_dialog_registration.view.*
 
 class OTPDialog() : BaseDialogFragment(), OTPIView {
@@ -64,6 +72,7 @@ class OTPDialog() : BaseDialogFragment(), OTPIView {
     }
 
     fun initialize() {
+        mView.etOtpCode.imeOptions = EditorInfo.IME_ACTION_DONE
         sendOtpRequest.auth_provider = "akg"
         sendOtpRequest.game_provider = CacheUtil.getPreferenceString(IConfig.SESSION_GAME,requireActivity())
         sendOtpRequest.otp_type = "registration"
@@ -92,5 +101,10 @@ class OTPDialog() : BaseDialogFragment(), OTPIView {
                 Toast.makeText(requireActivity(), "phone cannot be empty", Toast.LENGTH_LONG).show()
             }
         }
+        mView.etOtpCode.requestFocus()
+
+//        val imm = requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
+////        imm.hideSoftInputFromWindow(mView.etPhoneNumber.getWindowToken(), InputMethodManager.SHOW_IMPLICIT)
+//        imm.hideSoftInputFromWindow(view?.getRootView()?.getWindowToken(), 0)
     }
 }

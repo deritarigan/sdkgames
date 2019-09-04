@@ -44,7 +44,7 @@ class LoginPresenter(val mIView: IView) {
 
                 Log.d("TESTING API", "onNext")
                 if (t.meta?.code == 200) {
-                    (mIView as LoginIView).doOnSuccess("phone: "+t.data?.token!!)
+                    (mIView as LoginIView).doOnSuccess(t.data?.token!!, LOGIN_GUEST)
                     CacheUtil.putPreferenceString(LOGIN_TYPE, LOGIN_GUEST, context)
                     CacheUtil.putPreferenceString(SESSION_TOKEN, t.data?.token!!, context)
                     CacheUtil.putPreferenceBoolean(IConfig.SESSION_LOGIN,true,context)
@@ -78,7 +78,7 @@ class LoginPresenter(val mIView: IView) {
 
                 Log.d("TESTING API", "onNext")
                 if (t.meta?.code == 200) {
-                    (mIView as LoginIView).doOnSuccess("phone: "+t.data?.token!!)
+                    (mIView as LoginIView).doOnSuccess(t.data?.token!!, LOGIN_PHONE)
                     CacheUtil.putPreferenceString(LOGIN_TYPE, LOGIN_PHONE, context)
                     CacheUtil.putPreferenceString(SESSION_TOKEN, t.data?.token!!, context)
                     CacheUtil.putPreferenceBoolean(IConfig.SESSION_LOGIN,true,context)
@@ -108,7 +108,7 @@ class LoginPresenter(val mIView: IView) {
 
                 Log.d("TESTING API", "onNext")
                 if (t.meta?.code == 200) {
-                    (mIView as LoginIView).doOnSuccess("google: "+t.data?.token!!)
+                    (mIView as LoginIView).doOnSuccess(t.data?.token!!, LOGIN_GOOGLE)
                     CacheUtil.putPreferenceString(LOGIN_TYPE, LOGIN_GOOGLE, context)
                     CacheUtil.putPreferenceString(SESSION_TOKEN, t.data?.token!!, context)
                     CacheUtil.putPreferenceBoolean(IConfig.SESSION_LOGIN,true,context)
@@ -142,7 +142,7 @@ class LoginPresenter(val mIView: IView) {
                 t as FacebookAuthResponse
                 Log.d("TESTING API", "onNext")
                 if (t.meta?.code == 200) {
-                    (mIView as LoginIView).doOnSuccess("facebook: "+t.data?.token!!)
+                    (mIView as LoginIView).doOnSuccess(t.data?.token!!, LOGIN_FACEBOOK)
                     CacheUtil.putPreferenceString(LOGIN_TYPE, LOGIN_FACEBOOK, context)
                     CacheUtil.putPreferenceString(SESSION_TOKEN, t.data?.token!!, context)
                     CacheUtil.putPreferenceBoolean(IConfig.SESSION_LOGIN,true,context)

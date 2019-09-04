@@ -66,7 +66,7 @@ class SetPasswordDialog() : BaseDialogFragment(), SetPasswordIView {
         setAdjustEventRegisterSuccess()
         val successDialog = SuccessDialogFragment.newInstance(myFragmentManager, bundle)
         val ftransaction = myFragmentManager?.beginTransaction()
-        clearBackStack()
+//        clearBackStack()
         ftransaction?.addToBackStack("success")
         successDialog.show(ftransaction, "success")
         customDismiss()
