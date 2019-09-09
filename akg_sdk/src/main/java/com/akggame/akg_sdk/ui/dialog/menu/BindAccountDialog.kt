@@ -115,11 +115,13 @@ class BindAccountDialog() : BaseDialogFragment(), BindAccountIView {
             this.dismiss()
         }
         btnBack.setOnClickListener {
-            val verifyDialog = VerifyAccountDialog.newInstance(myFragmentManager)
-            val ftransaction = myFragmentManager?.beginTransaction()
-            ftransaction?.addToBackStack("verify account")
-            verifyDialog.show(ftransaction, "verify account")
-            customDismiss()
+            if(myFragmentManager!=null){
+                val verifyDialog = VerifyAccountDialog.newInstance(myFragmentManager)
+                val ftransaction = myFragmentManager!!.beginTransaction()
+                ftransaction?.addToBackStack("verify account")
+                verifyDialog.show(ftransaction, "verify account")
+                customDismiss()
+            }
         }
     }
 

@@ -22,6 +22,7 @@ import android.location.Geocoder.isPresent
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.akggame.akg_sdk.AKG_SDK
 import com.akggame.akg_sdk.IConfig
 import com.akggame.akg_sdk.dao.BillingDao
 import com.akggame.akg_sdk.dao.api.model.request.PostOrderRequest
@@ -50,7 +51,7 @@ class PaymentActivity : AppCompatActivity(), PaymentIView,BillingDao.PaymentResp
         purchaseItem.product_name = purchase.packageName
 
         intent = Intent()
-        intent.putExtra("orderDetail",purchaseItem)
+        intent.putExtra(AKG_SDK.SDK_PAYMENT_DATA,purchaseItem)
         setResult(Activity.RESULT_OK,intent)
         finish()
     }

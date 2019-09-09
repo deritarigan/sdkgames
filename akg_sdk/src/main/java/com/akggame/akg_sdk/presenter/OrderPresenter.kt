@@ -21,7 +21,7 @@ class OrderPresenter(val mIView : IView) {
                 if(t.BaseMetaResponse?.code==200){
                     (mIView as PaymentIView).doOnSuccessPost(t,purchase)
                 }else{
-                    Toast.makeText(context,t.BaseDataResponse?.message,Toast.LENGTH_LONG).show()
+                    Toast.makeText(context,"Error: "+t.BaseDataResponse?.message,Toast.LENGTH_LONG).show()
                 }
             }
 

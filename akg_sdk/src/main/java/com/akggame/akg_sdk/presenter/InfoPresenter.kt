@@ -7,9 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.akggame.akg_sdk.dao.MainDao
 import com.akggame.akg_sdk.dao.api.model.response.BaseResponse
 import com.akggame.akg_sdk.dao.api.model.response.CurrentUserResponse
+import com.akggame.akg_sdk.dao.api.model.response.SDKVersionResponse
 import com.akggame.akg_sdk.rx.IView
 import com.akggame.akg_sdk.rx.RxObserver
 import com.akggame.akg_sdk.ui.dialog.menu.AccountIView
+import com.akggame.akg_sdk.ui.dialog.menu.CheckVersionIView
 import com.akggame.akg_sdk.ui.dialog.register.OTPIView
 import io.reactivex.disposables.Disposable
 
@@ -35,4 +37,17 @@ class InfoPresenter(val mIView: IView) {
             }
         })
     }
+
+    fun onGetSDKVersion(context:Context){
+        MainDao().onGetSDKVersion(context).subscribe(object :RxObserver<SDKVersionResponse>(mIView,""){
+            override fun onNext(t: BaseResponse) {
+                super.onNext(t)
+                t as SDKVersionResponse
+                if(t.meta?.code==200){
+                    (mIView as CheckVersionIView).doOnSuccess(t)
+                }
+            }
+        })
+    }
+
 }

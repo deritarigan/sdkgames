@@ -33,7 +33,9 @@ object AKG_SDK : AccountIView {
     private lateinit var customCallback: LoginSDKCallback
     private lateinit var menuCallback: MenuSDKCallback
     //    lateinit var activity: AppCompatActivity
-    val SDK_PAYMENT_CODE = 199
+
+    const val SDK_PAYMENT_CODE = 199
+    const val SDK_PAYMENT_DATA = "akg_purchase_data"
 
 
 //    @JvmStatic
@@ -44,7 +46,7 @@ object AKG_SDK : AccountIView {
 
     fun registerAdjustOnAKG(application: Application) {
         val appToken = "y1t3z228xxj4"
-        val environment = AdjustConfig.ENVIRONMENT_SANDBOX
+        val environment = AdjustConfig.ENVIRONMENT_PRODUCTION
         val config = AdjustConfig(application, appToken, environment)
         config.setLogLevel(LogLevel.VERBOSE); // enable all logs
         Adjust.onCreate(config)
@@ -190,7 +192,6 @@ object AKG_SDK : AccountIView {
         if (CacheUtil.getPreferenceString(IConfig.LOGIN_TYPE, activity) == IConfig.LOGIN_PHONE) {
             data.data?.attributes?.phone_number
             CacheUtil.putPreferenceString(IConfig.SESSION_USERNAME, data.data?.attributes?.phone_number!!, activity)
-
         } else {
             if (data.data?.attributes?.email != null) {
                 CacheUtil.putPreferenceString(
@@ -210,7 +211,6 @@ object AKG_SDK : AccountIView {
                 activity
             )
         }
-
     }
 
     override fun doOnError(message: String?) {

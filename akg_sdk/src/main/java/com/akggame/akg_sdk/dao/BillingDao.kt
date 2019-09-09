@@ -5,6 +5,7 @@ import android.app.Application
 import android.text.TextUtils
 import android.util.Base64
 import android.util.Log
+import android.widget.Toast
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
 import java.io.IOException
@@ -32,8 +33,9 @@ class BillingDao constructor(private val application: Application,val paymentRes
         val tempeOrek = "com.sdkgame.product2"
         val janjiDoang2 = "com.sdkgame.product1"
         val tempeOrek2 = "com.sdkgame.product2"
+        val product3 = "com.sdkgame.product3"
 
-        val myTestListSKU = listOf(janjiDoang2, tempeOrek2)
+        val myTestListSKU = listOf(janjiDoang2, tempeOrek2, product3)
 
         val myListSKU = listOf(janjiDoang, tempeOrek)
     }
@@ -180,6 +182,7 @@ class BillingDao constructor(private val application: Application,val paymentRes
             billingClient.consumeAsync(params) { billingResult, purchaseToken ->
                 when (billingResult.responseCode) {
                     OK -> {
+//                        paymentResponse.onPaymentSuccess(it)
                         // Update the appropriate tables/databases to grant user the items
                         purchaseToken.apply { disburseConsumableEntitlements(it) }
                     }

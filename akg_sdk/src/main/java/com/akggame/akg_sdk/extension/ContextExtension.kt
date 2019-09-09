@@ -17,11 +17,11 @@ internal fun Context.displaySize(): Point {
 /** dp size to px size. */
 internal fun Context.dp2Px(dp: Int): Int {
     val scale = resources.displayMetrics.density
-    return (dp * scale).toInt()
+    return (dp * 2).toInt()
 }
 
 /** dp size to px size. */
 internal fun Context.dp2Px(dp: Float): Int {
     val scale = resources.displayMetrics.density
-    return (dp * scale).toInt()
+    return (dp * 2).toInt()
 }

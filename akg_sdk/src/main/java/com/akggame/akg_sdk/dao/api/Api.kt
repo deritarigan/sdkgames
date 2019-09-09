@@ -102,5 +102,15 @@ class Api {
         fun onPostOrder(body:PostOrderRequest,context: Context):Observable<BaseResponse>{
             return initApiDomain().callPostOrder(initHeader(context),body)
         }
+
+        @Synchronized
+        fun onCallGetSDKVersion(context:Context):Observable<SDKVersionResponse>{
+            return initApiDomain().callGetSDKVersion(initHeader())
+        }
+
+        @Synchronized
+        fun onCallGetSDKConfig(context: Context):Observable<SDKConfigResponse>{
+            return initApiDomain().callGetSDKConfig(initHeader())
+        }
     }
 }

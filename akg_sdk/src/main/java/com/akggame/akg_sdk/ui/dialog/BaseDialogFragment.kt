@@ -49,7 +49,7 @@ open class BaseDialogFragment() : DialogFragment(), IView{
     }
 
     open fun setOnBackPressed() {
-        dialog.setOnKeyListener(object : View.OnKeyListener, DialogInterface.OnKeyListener {
+        dialog?.setOnKeyListener(object : View.OnKeyListener, DialogInterface.OnKeyListener {
             override fun onKey(p0: View?, keyCode: Int, event: KeyEvent?): Boolean {
                 return false
             }

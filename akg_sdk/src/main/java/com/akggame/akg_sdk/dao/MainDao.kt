@@ -88,5 +88,16 @@ class MainDao() {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    fun onGetSDKVersion(context: Context):Observable<SDKVersionResponse>{
+        return Api.onCallGetSDKVersion(context)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun onGetSDKConfig(context: Context):Observable<SDKConfigResponse>{
+        return Api.onCallGetSDKConfig(context)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
 
 }

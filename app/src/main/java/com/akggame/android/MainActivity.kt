@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         AKG_SDK.onLogin(this,"mobile-legends",object : LoginSDKCallback{
             override fun onResponseSuccess(token: String,loginType:String) {
-                Toast.makeText(this@MainActivity, "Success Login "+loginType, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@MainActivity, "Success Login ", Toast.LENGTH_LONG).show()
                 startActivity(Intent(this@MainActivity,Main2Activity::class.java))
                 finish()
             }

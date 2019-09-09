@@ -25,6 +25,19 @@ class GameProductsResponse:BaseResponse()  {
             var price: String? = null
             var status: String? = null
             var game: String? = null
+            var image:ImageBean? = null
+            var game_id : String? = null
+
+            @JsonIgnoreProperties(ignoreUnknown = true)
+            class ImageBean{
+                var url:String? = null
+                var thumb:ThumbBean? = null
+
+                @JsonIgnoreProperties(ignoreUnknown = true)
+                class ThumbBean{
+                    var url:String? = null
+                }
+            }
         }
     }
 

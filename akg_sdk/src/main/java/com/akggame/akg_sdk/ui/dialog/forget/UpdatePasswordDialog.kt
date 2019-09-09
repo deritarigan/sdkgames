@@ -53,13 +53,16 @@ class UpdatePasswordDialog():BaseDialogFragment(),UpdatePasswordIView {
 
     override fun doOnSuccess(data: BaseResponse) {
         val bundle = Bundle()
-        bundle.putString("phone", phone)
-        clearBackStack()
-        val successDialog = SuccessDialogFragment.newInstance(myFragmentManager, bundle)
-        val ftransaction = myFragmentManager?.beginTransaction()
-        ftransaction?.addToBackStack("success")
-        successDialog.show(ftransaction, "success")
-        customDismiss()
+        if(myFragmentManager!=null){
+            bundle.putString("phone", phone)
+            clearBackStack()
+            val successDialog = SuccessDialogFragment.newInstance(myFragmentManager, bundle)
+            val ftransaction = myFragmentManager!!.beginTransaction()
+            ftransaction?.addToBackStack("success")
+            successDialog.show(ftransaction, "success")
+            customDismiss()
+        }
+
     }
 
     fun initialize() {

@@ -5,8 +5,10 @@ import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -52,6 +54,8 @@ class FloatingButton : FrameLayout {
     var isFloating = false
         private set
     var isNavigating = false
+        private set
+    var isCircle = false
         private set
 
     private lateinit var drawable: GradientDrawable
@@ -177,17 +181,34 @@ class FloatingButton : FrameLayout {
 
                     var newX = motionEvent.rawX + dX
                     newX = Math.max(0f, newX) // Don't allow the FAB past the left hand side of the parent
-                    newX = Math.min(
-                        (parentWidth - viewWidth!!).toFloat(),
-                        newX
-                    ) // Don't allow the FAB past the right hand side of the parent
+
+                    // Don't allow the FAB past the right hand side of the parent
 
                     var newY = motionEvent.rawY + dY
                     newY = Math.max(0f, newY) // Don't allow the FAB past the top of the parent
-                    newY = Math.min(
-                        (parentHeight - viewHeight!!).toFloat(),
-                        newY
-                    ) // Don't allow the FAB past the bottom of the parent
+                    // Don't allow the FAB past the bottom of the parent
+
+                    if (!isCircle) {
+                        newX = Math.min(
+                            (parentWidth - viewWidth!!).toFloat(),
+                            newX
+                        )
+
+                        newY = Math.min(
+                            (parentHeight - viewHeight!!).toFloat(),
+                            newY
+                        )
+                    } else {
+                        newX = Math.min(
+                            (parentWidth - circleIcon.width!!).toFloat(),
+                            newX
+                        )
+
+                        newY = Math.min(
+                            (parentHeight - circleIcon.height!!).toFloat(),
+                            newY
+                        )
+                    }
 
                     view.animate()
                         .x(newX)
@@ -282,8 +303,9 @@ class FloatingButton : FrameLayout {
             override fun onGlobalLayout() {
                 viewTreeObserver.removeOnGlobalLayoutListener(this)
                 updateLayoutParams {
-                    width = dp2Px(circleSize)
-                    height = dp2Px(circleSize)
+                        width = dp2Px(circleSize)
+                      height = dp2Px(circleSize)
+
                 }
             }
         })
@@ -497,8 +519,8 @@ class FloatingButton : FrameLayout {
         adapter.addItem(getWrapperItem(floatingItem))
     }
 
-    fun setVisibilityGone(position:Int){
-        val view =adapter
+    fun setVisibilityGone(position: Int) {
+        val view = adapter
 
     }
 
@@ -524,6 +546,15 @@ class FloatingButton : FrameLayout {
         updateLayoutParams {
             width = value
             drawable.cornerRadius = radius
+        }
+    }
+
+    private fun updateParams(value: Int, radius: Float, newX: Float, newY: Float) {
+        updateLayoutParams {
+            width = value
+            drawable.cornerRadius = radius
+            x = newX
+            y = newY
         }
     }
 
@@ -576,21 +607,36 @@ class FloatingButton : FrameLayout {
     }
 
     fun expandContainer() {
+        isCircle = false
         this.recyclerView.visibility = View.VISIBLE
         animateScale(1.0f, 1.0f, duration / 2)
             .doAfterAnimate {
-                beginDelayedTransition(duration)
-                updateWidthParams(expandSize, radius)
+                //                beginDelayedTransition(duration)
+//                updateWidthParams(expandSize, radius)
+                updateWidthParams(ViewGroup.LayoutParams.WRAP_CONTENT, radius)
+                val newX = Math.min(
+                    ((this.parent as View).width - this.width!!).toFloat(),
+                    this.x
+                )
+                if (newX != this.x && !isCircle) {
+                    this.animate()
+                        .x(newX)
+                        .setDuration(duration)
+                        .start()
+                }
 //                updateWidth(radius)
             }
+
+
     }
 
     fun shrinkContainer() {
+        isCircle = true
         this.recyclerView.visibility = View.GONE
-        animateScale(1.0f, 1.0f, duration / 2)
-            .doAfterAnimate {
-                beginDelayedTransition(duration)
-                updateWidthParams(getCircleViewAllocation(), radius)
-            }
+//        animateScale(1.0f, 1.0f, duration / 2)
+//            .doAfterAnimate {
+//                beginDelayedTransition(duration)
+//                updateWidthParams(getCircleViewAllocation(), radius)
+//            }
     }
 }

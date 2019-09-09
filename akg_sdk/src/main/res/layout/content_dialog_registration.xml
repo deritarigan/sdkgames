@@ -48,7 +48,7 @@
                     android:orientation="horizontal">
                 <EditText
                         android:layout_width="80dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:inputType="text|phone"
                         android:ems="10"
                         android:paddingLeft="16dp"

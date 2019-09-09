@@ -66,11 +66,13 @@ class PhoneLoginDialogFragment() : BaseDialogFragment(), LoginIView {
 
     fun initView() {
         mView.tvResendOTP.setOnClickListener {
-            val otpDialog = OTPDialog.newInstance(myFragmentManager)
-            val ftransaction = myFragmentManager?.beginTransaction()
-            ftransaction?.addToBackStack("registration")
-            otpDialog.show(ftransaction, "registration")
-            customDismiss()
+            if(myFragmentManager!=null){
+                val otpDialog = OTPDialog.newInstance(myFragmentManager)
+                val ftransaction = myFragmentManager!!.beginTransaction()
+                ftransaction?.addToBackStack("registration")
+                otpDialog.show(ftransaction, "registration")
+                customDismiss()
+            }
         }
         mView.btnBack.setOnClickListener {
             val phoneAuthRequest = PhoneAuthRequest()
@@ -84,11 +86,13 @@ class PhoneLoginDialogFragment() : BaseDialogFragment(), LoginIView {
             presenter.phoneLogin(phoneAuthRequest, requireActivity())
         }
         mView.tvForgotPassword.setOnClickListener {
-            val forgetDialog = ForgetDialog.newInstance(myFragmentManager)
-            val ftransaction = myFragmentManager?.beginTransaction()
-            ftransaction?.addToBackStack("forget")
-            forgetDialog.show(ftransaction, "forget")
-            customDismiss()
+            if(myFragmentManager!=null){
+                val forgetDialog = ForgetDialog.newInstance(myFragmentManager)
+                val ftransaction = myFragmentManager!!.beginTransaction()
+                ftransaction?.addToBackStack("forget")
+                forgetDialog.show(ftransaction, "forget")
+                customDismiss()
+            }
         }
 
     }

@@ -9,22 +9,33 @@ import com.akggame.akg_sdk.ui.dialog.BaseDialogFragment
 import com.akggame.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_verify.view.*
 
-class VerificationDialog(fm:FragmentManager?) :BaseDialogFragment() {
+class VerificationDialog() :BaseDialogFragment() {
     lateinit var mView: View
+    var phone: String? = ""
 
     companion object {
-        fun newInstance(fm: FragmentManager?): VerificationDialog {
-            return VerificationDialog(fm)
+        fun newInstance(mFragmentManager: FragmentManager?, bundle: Bundle): VerificationDialog {
+            val mDialog = VerificationDialog(mFragmentManager)
+            mDialog.arguments = bundle
+            return mDialog
         }
     }
 
-    init {
+    constructor(fm: FragmentManager?) : this() {
         myFragmentManager = fm
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mView = inflater.inflate(R.layout.content_dialog_verification, container, true)
         return mView
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val bundle = this.arguments
+        if (bundle != null) {
+            phone = bundle.getString("phone")
+        }
     }
 
     override fun onStart() {

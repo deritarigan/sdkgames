@@ -64,11 +64,14 @@ class OTPDialog() : BaseDialogFragment(), OTPIView {
     override fun doOnSuccessCheck(data: BaseResponse) {
         var bundle = Bundle()
         bundle.putString("phone", "+62" + mView.etPhoneNumber.text.toString())
-        val setPasswordDialog = SetPasswordDialog.newInstance(myFragmentManager, bundle)
-        val ftransaction = myFragmentManager?.beginTransaction()
-        ftransaction?.addToBackStack("set password")
-        setPasswordDialog.show(ftransaction, "set password")
-        customDismiss()
+        if(myFragmentManager!=null){
+            val setPasswordDialog = SetPasswordDialog.newInstance(myFragmentManager, bundle)
+            val ftransaction = myFragmentManager!!.beginTransaction()
+            ftransaction?.addToBackStack("set password")
+            setPasswordDialog.show(ftransaction, "set password")
+            customDismiss()
+        }
+
     }
 
     fun initialize() {

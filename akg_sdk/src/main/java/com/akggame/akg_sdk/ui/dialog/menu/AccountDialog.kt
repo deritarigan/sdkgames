@@ -71,9 +71,12 @@ class AccountDialog() : BaseDialogFragment(), AccountIView {
         }
 
         mView.tvChangePassword.setOnClickListener {
-            val changePasswordDialog = ChangePasswordDialog.newInstance(myFragmentManager)
-            changePasswordDialog.show(myFragmentManager, "change password")
-            customDismiss()
+            if(myFragmentManager!=null){
+                val changePasswordDialog = ChangePasswordDialog.newInstance(myFragmentManager)
+                changePasswordDialog.show(myFragmentManager!!.beginTransaction(), "change password")
+                customDismiss()
+            }
+
         }
 
         btnBack.setOnClickListener {

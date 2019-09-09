@@ -64,12 +64,14 @@ class SetPasswordDialog() : BaseDialogFragment(), SetPasswordIView {
         val bundle = Bundle()
         bundle.putString("phone", phone)
         setAdjustEventRegisterSuccess()
-        val successDialog = SuccessDialogFragment.newInstance(myFragmentManager, bundle)
-        val ftransaction = myFragmentManager?.beginTransaction()
-//        clearBackStack()
-        ftransaction?.addToBackStack("success")
-        successDialog.show(ftransaction, "success")
-        customDismiss()
+        if (myFragmentManager!=null){
+            val successDialog = SuccessDialogFragment.newInstance(myFragmentManager, bundle)
+            val ftransaction = myFragmentManager!!.beginTransaction()
+            ftransaction?.addToBackStack("success")
+            successDialog.show(ftransaction, "success")
+            customDismiss()
+        }
+
     }
     override fun doOnError() {
         setAdjustEventRegisterError()

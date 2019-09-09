@@ -22,4 +22,5 @@ class UpdatePresenter(val mIView:IView) {
             }
         })
     }
+
 }

@@ -187,11 +187,13 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
     }
 
     fun changeToPhoneLogin() {
-        val phoneLoginDialogFragment =
-            PhoneLoginDialogFragment.newInstance(myFragmentManager, mLoginCallback)
-        val ftransaction = myFragmentManager?.beginTransaction()
-        ftransaction?.addToBackStack("phone")
-        phoneLoginDialogFragment.show(ftransaction, "phone")
+        if(myFragmentManager!=null){
+            val phoneLoginDialogFragment =
+                PhoneLoginDialogFragment.newInstance(myFragmentManager, mLoginCallback)
+            val ftransaction = myFragmentManager!!.beginTransaction()
+            ftransaction?.addToBackStack("phone")
+            phoneLoginDialogFragment.show(ftransaction, "phone")
+        }
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
