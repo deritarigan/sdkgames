@@ -23,7 +23,12 @@ class ProductPresenter(val mIView: IView) {
 
             override fun onNext(t: BaseResponse) {
                 super.onNext(t)
-                (mIView as PaymentIView).doOnSuccess(t as GameProductsResponse)
+                t as GameProductsResponse
+                if(t.meta?.code==200){
+                    (mIView as PaymentIView).doOnSuccess(t as GameProductsResponse)
+                }else{
+                    (mIView as PaymentIView).handleError("Failed for getting products")
+                }
             }
 
             override fun onError(e: Throwable) {

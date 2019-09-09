@@ -29,10 +29,10 @@ interface IApi {
     fun callUpdatePassword(@HeaderMap map: Map<String, String>, @Body body: UpdatePasswordRequest): Observable<BaseResponse>
 
     @GET("sdk_version/android/mobile-legends")
-    fun callGetSDKVersion(@HeaderMap map:Map<String,String>):Observable<SDKVersionResponse>
+    fun callGetSDKVersion(@HeaderMap map: Map<String, String>): Observable<SDKVersionResponse>
 
     @GET("sdk_configuration/android/mobile-legends")
-    fun callGetSDKConfig(@HeaderMap map:Map<String,String>):Observable<SDKConfigResponse>
+    fun callGetSDKConfig(@HeaderMap map: Map<String, String>): Observable<SDKConfigResponse>
 
     @DELETE("auth/logout")
     fun callLogout(@HeaderMap map: Map<String, String>): Observable<BaseResponse>
@@ -44,14 +44,18 @@ interface IApi {
     fun callChangePassword(@HeaderMap map: Map<String, String>, @Body body: ChangePasswordRequest): Observable<BaseResponse>
 
     @GET("game_products/android/{game-provider}")
-    fun callGetProduct(@HeaderMap map: Map<String, String>, @Path("game-provider") gameProvider: String?) :Observable<GameProductsResponse>
+    fun callGetProduct(@HeaderMap map: Map<String, String>, @Path("game-provider") gameProvider: String?): Observable<GameProductsResponse>
 
     @POST("account/binding")
-    fun callBindAccountSocmed(@HeaderMap map:Map<String,String>,@Body body:BindSocMedRequest):
+    fun callBindAccountSocmed(@HeaderMap map: Map<String, String>, @Body body: BindSocMedRequest):
+            Observable<BaseResponse>
+
+    @POST("/account/phone/binding")
+    fun callPhoneBinding(@HeaderMap map: Map<String, String>, @Body body: PhoneBindingRequest) :
             Observable<BaseResponse>
 
     @POST("order/transactions")
-    fun callPostOrder(@HeaderMap map:Map<String,String>,@Body body:PostOrderRequest):
+    fun callPostOrder(@HeaderMap map: Map<String, String>, @Body body: PostOrderRequest):
             Observable<BaseResponse>
 
 

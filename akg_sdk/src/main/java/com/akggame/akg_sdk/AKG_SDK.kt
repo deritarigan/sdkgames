@@ -33,6 +33,7 @@ object AKG_SDK : AccountIView {
     private lateinit var customCallback: LoginSDKCallback
     private lateinit var menuCallback: MenuSDKCallback
     //    lateinit var activity: AppCompatActivity
+    private lateinit var mFloatingButton: FloatingButton
 
     const val SDK_PAYMENT_CODE = 199
     const val SDK_PAYMENT_DATA = "akg_purchase_data"
@@ -93,6 +94,10 @@ object AKG_SDK : AccountIView {
         val ftransaction = activity.supportFragmentManager.beginTransaction()
         ftransaction?.addToBackStack("relaunch")
         dialog.show(ftransaction, "relaunch")
+    }
+
+    fun resetFloatingButton(activity: AppCompatActivity){
+        setFloatingButton(activity, mFloatingButton,activity, menuCallback)
     }
 
     fun setFloatingButton(
@@ -161,6 +166,7 @@ object AKG_SDK : AccountIView {
         floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_log_out),
             null,"Logout"))
         callGetAccount(activity, context)
+        mFloatingButton=floatingButton
     }
 
 //    @JvmStatic

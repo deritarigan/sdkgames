@@ -1,6 +1,7 @@
 package com.akggame.akg_sdk.ui.component
 
 import android.content.Context
+import android.content.res.Configuration
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -93,11 +94,12 @@ class FloatingButton : FrameLayout {
             field = value
             updateSubmarine()
         }
-    var expandSize = context.displaySize().x - dp2Px(30)
-        set(value) {
-            field = value
-            updateSubmarine()
-        }
+
+     var expandSize :Int = 0
+//        set(value) {
+//            field = value
+//            updateSubmarine()
+//        }
     var floatingButtonAnimation = Animation.NONE
         set(value) {
             field = value
@@ -152,6 +154,13 @@ class FloatingButton : FrameLayout {
     }
 
     init {
+        if(context.resources.configuration.orientation== Configuration.ORIENTATION_LANDSCAPE){
+            expandSize = context.displaySize().y - dp2Px(30)
+        }else{
+            expandSize = context.displaySize().x - dp2Px(30)
+        }
+        updateSubmarine()
+
         this.setOnTouchListener(object : OnTouchListener {
             private var downRawX: Float = 0.toFloat()
             private var downRawY: Float = 0.toFloat()
@@ -613,7 +622,7 @@ class FloatingButton : FrameLayout {
             .doAfterAnimate {
                 //                beginDelayedTransition(duration)
 //                updateWidthParams(expandSize, radius)
-                updateWidthParams(ViewGroup.LayoutParams.WRAP_CONTENT, radius)
+                updateWidthParams(expandSize, radius)
                 val newX = Math.min(
                     ((this.parent as View).width - this.width!!).toFloat(),
                     this.x

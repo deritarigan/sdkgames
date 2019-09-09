@@ -41,22 +41,6 @@ import org.json.JSONObject
 
 
 class PaymentActivity : AppCompatActivity(), PaymentIView,BillingDao.PaymentResponse {
-    override fun doOnSuccessPost(o: BaseResponse, purchase: Purchase) {
-       Toast.makeText(this,"Success post data",Toast.LENGTH_LONG).show()
-    }
-
-    override fun doOnComplete(purchase: Purchase) {
-        val purchaseItem = PurchaseItem()
-        purchaseItem.product_id= purchase.sku
-        purchaseItem.product_name = purchase.packageName
-
-        intent = Intent()
-        intent.putExtra(AKG_SDK.SDK_PAYMENT_DATA,purchaseItem)
-        setResult(Activity.RESULT_OK,intent)
-        finish()
-    }
-
-
 
     lateinit var mPaymentsClient: PaymentsClient
     val presenter = ProductPresenter(this)
@@ -67,16 +51,9 @@ class PaymentActivity : AppCompatActivity(), PaymentIView,BillingDao.PaymentResp
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.akggame.android.sdk.R.layout.activity_payment)
-        billingDao = BillingDao(application,this, object : BillingDao.BillingDaoQuerySKU {
-            override fun onQuerySKU(skuDetails: MutableList<SkuDetails>) {
-                adapter.setInAppProduct(skuDetails)
-            }
+        adapter = PaymentAdapter(this)
+        onGetProduct()
 
-        })
-        adapter = PaymentAdapter(this,billingDao)
-
-
-        billingDao.onInitiateBillingClient()
     }
 
 
@@ -92,7 +69,7 @@ class PaymentActivity : AppCompatActivity(), PaymentIView,BillingDao.PaymentResp
     }
 
     override fun handleError(message: String) {
-
+        Toast.makeText(this,message,Toast.LENGTH_LONG).show()
     }
 
     override fun handleRetryConnection() {
@@ -100,11 +77,33 @@ class PaymentActivity : AppCompatActivity(), PaymentIView,BillingDao.PaymentResp
     }
 
     override fun doOnSuccess(data: GameProductsResponse) {
-        adapter.setData(data.data as MutableList<GameProductsResponse.DataBean>)
+
+        billingDao = BillingDao(data.getListOfSKU(data.data),application,this, object : BillingDao.BillingDaoQuerySKU {
+            override fun onQuerySKU(skuDetails: MutableList<SkuDetails>) {
+                adapter.setInAppProduct(skuDetails,billingDao)
+            }
+        })
+
+        billingDao.onInitiateBillingClient()
     }
 
     override fun doOnError(message: String) {
 
+    }
+
+    override fun doOnSuccessPost(o: BaseResponse, purchase: Purchase) {
+        Toast.makeText(this,"Success post data",Toast.LENGTH_LONG).show()
+    }
+
+    override fun doOnComplete(purchase: Purchase) {
+        val purchaseItem = PurchaseItem()
+        purchaseItem.product_id= purchase.sku
+        purchaseItem.product_name = purchase.packageName
+
+        intent = Intent()
+        intent.putExtra(AKG_SDK.SDK_PAYMENT_DATA,purchaseItem)
+        setResult(Activity.RESULT_OK,intent)
+        finish()
     }
 
     override fun onPaymentSuccess(purchase: Purchase) {

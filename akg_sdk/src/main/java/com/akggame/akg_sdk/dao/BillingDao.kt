@@ -14,7 +14,7 @@ import java.security.spec.InvalidKeySpecException
 import java.security.spec.X509EncodedKeySpec
 import java.util.HashSet
 
-class BillingDao constructor(private val application: Application,val paymentResponse: PaymentResponse, val queryCallback: BillingDaoQuerySKU) :
+class BillingDao constructor(private val listOfSku: List<String>,private val application: Application,val paymentResponse: PaymentResponse, val queryCallback: BillingDaoQuerySKU) :
     PurchasesUpdatedListener, BillingClientStateListener {
 
 
@@ -104,7 +104,7 @@ class BillingDao constructor(private val application: Application,val paymentRes
         when (billingResult?.responseCode) {
             BillingClient.BillingResponseCode.OK -> {
                 Log.d(LOG_TAG, "onBillingSetupFinished successfully")
-                querySkuDetailsAsync(BillingClient.SkuType.INAPP, SKU.myListSKU)
+                querySkuDetailsAsync(BillingClient.SkuType.INAPP, listOfSku)
                 queryPurchasesAsync()
             }
             BillingClient.BillingResponseCode.BILLING_UNAVAILABLE -> {
@@ -160,7 +160,7 @@ class BillingDao constructor(private val application: Application,val paymentRes
         }
 
         val (consumables, nonConsumables) = validPurchases.partition {
-            SKU.myListSKU.contains(it.sku)
+            listOfSku.contains(it.sku)
         }
 
 //        val testing = billingClient.purchaseDao().getPurchases()

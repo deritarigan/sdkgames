@@ -10,13 +10,11 @@ import com.akggame.akg_sdk.IConfig
 import com.akggame.akg_sdk.MenuSDKCallback
 import com.akggame.akg_sdk.dao.SocmedDao
 import com.akggame.akg_sdk.presenter.LogoutPresenter
-import com.akggame.akg_sdk.rx.IView
 import com.akggame.akg_sdk.ui.dialog.BaseDialogFragment
 import com.akggame.akg_sdk.util.CacheUtil
 import com.akggame.android.sdk.R
 import kotlinx.android.synthetic.main.content_dialog_logout.*
 import kotlinx.android.synthetic.main.content_dialog_logout.view.*
-import kotlinx.android.synthetic.main.content_dialog_logout.view.btnLogout
 
 class LogoutDialog() : BaseDialogFragment(), LogoutIView {
 
@@ -52,7 +50,7 @@ class LogoutDialog() : BaseDialogFragment(), LogoutIView {
             this.dismiss()
         }
 
-        btnLogout.setOnClickListener {
+        btnNext.setOnClickListener {
             if (CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN, requireActivity())) {
                 val loginType = CacheUtil.getPreferenceString(IConfig.LOGIN_TYPE, requireActivity())
                 when (loginType) {

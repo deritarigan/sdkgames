@@ -54,7 +54,7 @@
                     android:ems="10"
                     android:hint="Password"
                     android:background="@drawable/rounded_rectangle_white"
-                    android:id="@+id/editText" app:layout_constraintTop_toBottomOf="@id/tvVersion"
+                    android:id="@+id/etPassword" app:layout_constraintTop_toBottomOf="@id/tvVersion"
                     android:layout_marginTop="16dp" app:layout_constraintStart_toStartOf="@+id/tvVersion"
                     app:layout_constraintEnd_toEndOf="@+id/tvVersion"/>
             <EditText
@@ -62,19 +62,19 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
                     android:ems="10"
-                    android:id="@+id/editText2" android:layout_marginTop="8dp"
+                    android:id="@+id/etConfPassword" android:layout_marginTop="8dp"
                     android:background="@drawable/rounded_rectangle_white"
                     android:hint="Verify Password"
-                    app:layout_constraintTop_toBottomOf="@id/editText"
-                    app:layout_constraintEnd_toEndOf="@+id/editText"
-                    app:layout_constraintStart_toStartOf="@+id/editText"/>
+                    app:layout_constraintTop_toBottomOf="@id/etPassword"
+                    app:layout_constraintEnd_toEndOf="@+id/etPassword"
+                    app:layout_constraintStart_toStartOf="@+id/etPassword"/>
             <Button
                     android:text="Next"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" android:id="@+id/btnLogout"
+                    android:layout_height="wrap_content" android:id="@+id/btnNext"
                     style="@style/ButtonMenu"
                     android:background="@drawable/rounded_rectangle_deepblue"
-                    app:layout_constraintTop_toBottomOf="@id/editText2"
+                    app:layout_constraintTop_toBottomOf="@id/etConfPassword"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/tvVersion"
                     app:layout_constraintStart_toStartOf="@+id/tvVersion"

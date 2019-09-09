@@ -82,6 +82,12 @@ class MainDao() {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    fun onBindPhoneNumber(body:PhoneBindingRequest,context: Context):Observable<BaseResponse>{
+        return Api.onBindPhoneNumber(body,context)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
     fun onPostOrder(body:PostOrderRequest,context: Context):Observable<BaseResponse>{
         return Api.onPostOrder(body,context)
             .subscribeOn(Schedulers.io())

@@ -14,6 +14,7 @@ class GameProductsResponse:BaseResponse()  {
         var id: String? = null
         var type: String? = null
         var attributes: AttributesBean? = null
+        var message : String?=null
 
         @JsonIgnoreProperties(ignoreUnknown = true)
         class AttributesBean {
@@ -39,6 +40,15 @@ class GameProductsResponse:BaseResponse()  {
                 }
             }
         }
+    }
+
+    fun getListOfSKU(datas:List<DataBean>?):List<String>{
+        val listOfSKU =ArrayList<String>()
+        datas?.forEach {
+            listOfSKU.add(it.attributes?.product_code!!)
+        }
+
+        return listOfSKU
     }
 
 }

@@ -99,6 +99,11 @@ class Api {
         }
 
         @Synchronized
+        fun onBindPhoneNumber(body:PhoneBindingRequest,context: Context):Observable<BaseResponse>{
+            return initApiDomain().callPhoneBinding(initHeader(context),body)
+        }
+
+        @Synchronized
         fun onPostOrder(body:PostOrderRequest,context: Context):Observable<BaseResponse>{
             return initApiDomain().callPostOrder(initHeader(context),body)
         }

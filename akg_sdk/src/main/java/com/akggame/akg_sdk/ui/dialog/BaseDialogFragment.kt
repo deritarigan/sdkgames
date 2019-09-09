@@ -17,6 +17,7 @@ import com.akggame.android.sdk.R
 
 open class BaseDialogFragment() : DialogFragment(), IView{
     override fun handleError(message: String) {
+        Toast.makeText(requireActivity(),message,Toast.LENGTH_LONG).show()
     }
 
     var myFragmentManager: FragmentManager? = null

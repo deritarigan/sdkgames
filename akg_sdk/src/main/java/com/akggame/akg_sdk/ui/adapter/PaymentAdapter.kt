@@ -17,11 +17,12 @@ import com.google.android.gms.wallet.PaymentsClient
 import kotlinx.android.synthetic.main.content_dialog_verify.*
 import kotlinx.android.synthetic.main.item_list_product.view.*
 
-class PaymentAdapter(val context: Context,val billingDao: BillingDao) : RecyclerView.Adapter<PaymentAdapter.ViewHolder>() {
+class PaymentAdapter(val context: Context) : RecyclerView.Adapter<PaymentAdapter.ViewHolder>() {
     var listData = mutableListOf<GameProductsResponse.DataBean>()
     lateinit var view: View
     var isReadyToPayment = false
     var skuDetails = mutableListOf<SkuDetails>()
+    lateinit var billingDao: BillingDao
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaymentAdapter.ViewHolder {
         view = LayoutInflater.from(context).inflate(R.layout.item_list_product, null)
 
@@ -34,9 +35,9 @@ class PaymentAdapter(val context: Context,val billingDao: BillingDao) : Recycler
 
     override fun onBindViewHolder(holder: PaymentAdapter.ViewHolder, position: Int) {
         var data = skuDetails.get(position)
-        holder.tvProductName.text = data.title +" : "+ data.price
+        holder.tvProductName.text = data.title + " : " + data.price
         holder.tvProductName.setOnClickListener {
-            billingDao.lauchBillingFlow(context as AppCompatActivity,data)
+            billingDao.lauchBillingFlow(context as AppCompatActivity, data)
         }
     }
 
@@ -50,8 +51,9 @@ class PaymentAdapter(val context: Context,val billingDao: BillingDao) : Recycler
         notifyDataSetChanged()
     }
 
-    fun setInAppProduct(skuList: MutableList<SkuDetails>) {
+    fun setInAppProduct(skuList: MutableList<SkuDetails>, mBillingDao: BillingDao) {
         skuDetails = skuList
+        billingDao = mBillingDao
         notifyDataSetChanged()
     }
 
