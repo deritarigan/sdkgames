@@ -18,10 +18,9 @@ import io.reactivex.annotations.NonNull
 import android.R
 import android.app.Activity
 import android.content.Intent
-import android.location.Geocoder.isPresent
 import android.util.Log
-import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.adjust.sdk.Adjust
+import com.adjust.sdk.AdjustEvent
 import com.akggame.akg_sdk.AKG_SDK
 import com.akggame.akg_sdk.IConfig
 import com.akggame.akg_sdk.dao.BillingDao
@@ -31,13 +30,9 @@ import com.akggame.akg_sdk.dao.api.model.response.GameProductsResponse
 import com.akggame.akg_sdk.dao.pojo.PurchaseItem
 import com.akggame.akg_sdk.presenter.OrderPresenter
 import com.akggame.akg_sdk.presenter.ProductPresenter
-import com.akggame.akg_sdk.rx.IView
 import com.akggame.akg_sdk.util.CacheUtil
 import com.android.billingclient.api.*
-import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
 import com.google.android.gms.wallet.*
-import io.reactivex.plugins.RxJavaPlugins.onError
-import org.json.JSONObject
 
 
 class PaymentActivity : AppCompatActivity(), PaymentIView,BillingDao.PaymentResponse {
@@ -47,6 +42,7 @@ class PaymentActivity : AppCompatActivity(), PaymentIView,BillingDao.PaymentResp
     val orderPresenter = OrderPresenter(this)
     lateinit var adapter: PaymentAdapter
     lateinit private var billingDao: BillingDao
+    lateinit var productData: GameProductsResponse
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,11 +50,6 @@ class PaymentActivity : AppCompatActivity(), PaymentIView,BillingDao.PaymentResp
         adapter = PaymentAdapter(this)
         onGetProduct()
 
-    }
-
-
-    fun onGetProduct() {
-        presenter.getProducts(CacheUtil.getPreferenceString(IConfig.SESSION_GAME,this), this)
     }
 
     override fun onStart() {
@@ -77,7 +68,7 @@ class PaymentActivity : AppCompatActivity(), PaymentIView,BillingDao.PaymentResp
     }
 
     override fun doOnSuccess(data: GameProductsResponse) {
-
+        productData = data
         billingDao = BillingDao(data.getListOfSKU(data.data),application,this, object : BillingDao.BillingDaoQuerySKU {
             override fun onQuerySKU(skuDetails: MutableList<SkuDetails>) {
                 adapter.setInAppProduct(skuDetails,billingDao)
@@ -106,8 +97,10 @@ class PaymentActivity : AppCompatActivity(), PaymentIView,BillingDao.PaymentResp
         finish()
     }
 
+
     override fun onPaymentSuccess(purchase: Purchase) {
 
+        setAdjustEventPaymentSuccess(billingDao.getPrice(productData.data,purchase.sku),purchase.sku)
         val postOrderRequest = PostOrderRequest("Google Play",
             purchase.purchaseTime,
             CacheUtil.getPreferenceString(IConfig.SESSION_GAME,this)!!,
@@ -121,12 +114,32 @@ class PaymentActivity : AppCompatActivity(), PaymentIView,BillingDao.PaymentResp
             "Success",
             CacheUtil.getPreferenceString(IConfig.SESSION_UID,this),
             CacheUtil.getPreferenceString(IConfig.SESSION_USERNAME,this)
-            )
-
+        )
         orderPresenter.onPostOrder(postOrderRequest,purchase,this)
 //        purchaseItem.amount = purchases.get(0).or
-
     }
 
+    override fun onPaymentFailed() {
+        setAdjustEventPaymentFailed()
+    }
+
+    fun setAdjustEventPaymentSuccess(price : Double,sku: String) {
+        if(CacheUtil.getPreferenceString(IConfig.ADJUST_PAYMENT_SUCCESS,this)!=null){
+            val adjustEvent =AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_PAYMENT_SUCCESS,this))
+            adjustEvent.setRevenue(price,"IDR")
+            adjustEvent.setOrderId(sku)
+            Adjust.trackEvent(adjustEvent)
+        }
+    }
+
+    fun setAdjustEventPaymentFailed() {
+        if(CacheUtil.getPreferenceString(IConfig.ADJUST_PAYMENT_FAILED,this)!=null){
+            Adjust.trackEvent(AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_PAYMENT_FAILED,this)))
+        }
+    }
+
+    fun onGetProduct() {
+        presenter.getProducts(CacheUtil.getPreferenceString(IConfig.SESSION_GAME,this), this)
+    }
 
 }

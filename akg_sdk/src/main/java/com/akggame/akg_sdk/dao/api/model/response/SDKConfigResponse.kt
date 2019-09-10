@@ -17,7 +17,13 @@ class SDKConfigResponse : BaseResponse() {
         class AdjustBean {
 
             var app_token: String? = null
-            var events: List<*>? = null
+            var events: List<EventsBean>? = null
+
+            @JsonIgnoreProperties(ignoreUnknown = true)
+            class EventsBean {
+                var name : String = ""
+                var token : String = ""
+            }
         }
     }
 }

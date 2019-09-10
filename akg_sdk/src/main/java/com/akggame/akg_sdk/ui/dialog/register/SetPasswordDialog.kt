@@ -78,12 +78,15 @@ class SetPasswordDialog() : BaseDialogFragment(), SetPasswordIView {
     }
 
     fun setAdjustEventRegisterSuccess() {
-        Adjust.trackEvent(AdjustEvent("7gzpmk"))
+        if(CacheUtil.getPreferenceString(IConfig.ADJUST_REGISTER_SUCCESS,requireActivity())!=null){
+            Adjust.trackEvent(AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_REGISTER_SUCCESS,requireActivity())))
+        }
     }
 
     fun setAdjustEventRegisterError(){
-        Adjust.trackEvent(AdjustEvent("nr3ny5"))
-
+        if(CacheUtil.getPreferenceString(IConfig.ADJUST_REGISTER_FAILED,requireActivity())!=null){
+            Adjust.trackEvent(AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_REGISTER_FAILED,requireActivity())))
+        }
     }
 
     fun initialize() {

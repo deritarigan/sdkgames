@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
+import com.adjust.sdk.Adjust
+import com.adjust.sdk.AdjustEvent
 import com.akggame.akg_sdk.IConfig
 import com.akggame.akg_sdk.MenuSDKCallback
 import com.akggame.akg_sdk.dao.SocmedDao
@@ -21,7 +23,7 @@ class LogoutDialog() : BaseDialogFragment(), LogoutIView {
     lateinit var mView: View
     val presenter = LogoutPresenter(this)
 
-    constructor(fm: FragmentManager?):this(){
+    constructor(fm: FragmentManager?) : this() {
         myFragmentManager = fm
     }
 
@@ -35,7 +37,11 @@ class LogoutDialog() : BaseDialogFragment(), LogoutIView {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         mView = inflater.inflate(R.layout.content_dialog_logout, container, true)
         return mView
     }
@@ -45,19 +51,36 @@ class LogoutDialog() : BaseDialogFragment(), LogoutIView {
         initialize()
     }
 
+    override fun doSuccess() {
+        this.dismiss()
+        setAdjustEventLogout()
+        menuSDKCallback.onLogout()
+    }
+
+    override fun doError() {
+        Toast.makeText(requireActivity(), "Error logout", Toast.LENGTH_LONG).show()
+    }
+
     fun initialize() {
         mView.ivClose.setOnClickListener {
             this.dismiss()
         }
-
         btnNext.setOnClickListener {
             if (CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN, requireActivity())) {
                 val loginType = CacheUtil.getPreferenceString(IConfig.LOGIN_TYPE, requireActivity())
                 when (loginType) {
                     IConfig.LOGIN_PHONE -> SocmedDao.logoutPhone(requireActivity(), this, presenter)
                     IConfig.LOGIN_GUEST -> SocmedDao.logoutGuest(requireActivity(), this, presenter)
-                    IConfig.LOGIN_GOOGLE -> SocmedDao.logoutGoogle(requireActivity(), this, presenter)
-                    IConfig.LOGIN_FACEBOOK -> SocmedDao.logoutFacebook(requireActivity(), this, presenter)
+                    IConfig.LOGIN_GOOGLE -> SocmedDao.logoutGoogle(
+                        requireActivity(),
+                        this,
+                        presenter
+                    )
+                    IConfig.LOGIN_FACEBOOK -> SocmedDao.logoutFacebook(
+                        requireActivity(),
+                        this,
+                        presenter
+                    )
                 }
             } else {
                 Toast.makeText(requireActivity(), "You are not logged in", Toast.LENGTH_LONG).show()
@@ -65,16 +88,21 @@ class LogoutDialog() : BaseDialogFragment(), LogoutIView {
         }
 
         btnBack.setOnClickListener {
-           this.dismiss()
+            this.dismiss()
         }
     }
 
-    override fun doSuccess() {
-        this.dismiss()
-        menuSDKCallback.onLogout()
+    fun setAdjustEventLogout() {
+        if (CacheUtil.getPreferenceString(IConfig.ADJUST_LOGOUT, requireActivity()) != null) {
+            Adjust.trackEvent(
+                AdjustEvent(
+                    CacheUtil.getPreferenceString(
+                        IConfig.ADJUST_LOGOUT,
+                        requireActivity()
+                    )
+                )
+            )
+        }
     }
 
-    override fun doError() {
-        Toast.makeText(requireActivity(), "Error logout", Toast.LENGTH_LONG).show()
-    }
 }

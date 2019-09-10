@@ -65,6 +65,7 @@ dependencies {
     //Addjust
     implementation 'com.adjust.sdk:adjust-android:4.18.1'
     implementation 'com.android.installreferrer:installreferrer:1.0'
+    implementation 'com.google.android.gms:play-services-analytics:16.0.4'
 
 
     //SocMedAuth

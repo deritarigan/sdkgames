@@ -89,7 +89,9 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
     }
 
     fun setAdjustEventLogin(){
-        Adjust.trackEvent(AdjustEvent("gxl8cb"))
+        if(CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN,requireActivity())!=null){
+            Adjust.trackEvent(AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN,requireActivity())))
+        }
     }
 
     override fun doOnError(message: String) {

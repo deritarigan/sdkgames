@@ -23,6 +23,14 @@ interface IConfig {
         val SESSION_UID = "yuaidi"
         val SESSION_GAME= "gemes"
 
+        val ADJUST_APP_TOKEN = "app_token"
+        val ADJUST_LOGIN = "login"
+        val ADJUST_LOGOUT = "logout"
+        val ADJUST_PAYMENT_FAILED = "payment_failed"
+        val ADJUST_PAYMENT_SUCCESS = "payment_success"
+        val ADJUST_REGISTER_SUCCESS = "register_success"
+        val ADJUST_REGISTER_FAILED = "register_failed"
+
 
         val monthLabels = arrayOf(
             "January_Januari",

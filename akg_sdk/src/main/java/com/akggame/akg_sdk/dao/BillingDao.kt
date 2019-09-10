@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.util.Base64
 import android.util.Log
 import android.widget.Toast
+import com.akggame.akg_sdk.dao.api.model.response.GameProductsResponse
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
 import java.io.IOException
@@ -46,6 +47,7 @@ class BillingDao constructor(private val listOfSku: List<String>,private val app
 
     interface PaymentResponse{
         fun onPaymentSuccess(purchases: Purchase)
+        fun onPaymentFailed()
     }
 
     fun onInitiateBillingClient() {
@@ -275,5 +277,14 @@ class BillingDao constructor(private val listOfSku: List<String>,private val app
             Log.w("VERIFY PAYMENT", msg)
             throw IOException(msg)
         }
+    }
+
+    fun getPrice(datas:List<GameProductsResponse.DataBean>?,sku:String): Double {
+        datas?.forEach {
+            if (it.attributes?.product_code.equals(sku)){
+                return it.attributes?.price!!.toDouble()
+            }
+        }
+        return 0.0
     }
 }

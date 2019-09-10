@@ -28,12 +28,13 @@ import com.akggame.akg_sdk.util.CacheUtil
 import com.akggame.akg_sdk.util.DeviceUtil
 import com.akggame.android.sdk.R
 
-object AKG_SDK : AccountIView {
+object AKG_SDK : AccountIView{
 
     private lateinit var customCallback: LoginSDKCallback
     private lateinit var menuCallback: MenuSDKCallback
     //    lateinit var activity: AppCompatActivity
     private lateinit var mFloatingButton: FloatingButton
+    private val presenter = InfoPresenter(this)
 
     const val SDK_PAYMENT_CODE = 199
     const val SDK_PAYMENT_DATA = "akg_purchase_data"
@@ -46,46 +47,10 @@ object AKG_SDK : AccountIView {
 
 
     fun registerAdjustOnAKG(application: Application) {
-        val appToken = "y1t3z228xxj4"
-        val environment = AdjustConfig.ENVIRONMENT_PRODUCTION
-        val config = AdjustConfig(application, appToken, environment)
-        config.setLogLevel(LogLevel.VERBOSE); // enable all logs
-        Adjust.onCreate(config)
-        Log.d("Adjust", "Initiate")
-
-        application.registerActivityLifecycleCallbacks(AdjustLifecycleCallbacks())
-
+    presenter.onGetSDKConf(application,application)
     }
 
-    private class AdjustLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
-        override fun onActivityStarted(p0: Activity) {
 
-        }
-
-        override fun onActivityDestroyed(p0: Activity) {
-
-        }
-
-        override fun onActivitySaveInstanceState(p0: Activity, p1: Bundle) {
-
-        }
-
-        override fun onActivityStopped(p0: Activity) {
-
-        }
-
-        override fun onActivityCreated(p0: Activity, p1: Bundle?) {
-
-        }
-
-        override fun onActivityResumed(activity: Activity) {
-            Adjust.onResume()
-        }
-
-        override fun onActivityPaused(activity: Activity) {
-            Adjust.onPause()
-        }
-    }
 
     fun setRelauchDialog(activity: AppCompatActivity, menuSDKCallback: MenuSDKCallback) {
         menuCallback = menuSDKCallback
