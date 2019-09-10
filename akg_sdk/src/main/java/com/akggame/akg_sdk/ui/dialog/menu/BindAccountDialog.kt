@@ -154,7 +154,7 @@ class BindAccountDialog() : BaseDialogFragment(), BindAccountIView {
         mView.fbLoginButton.setPermissions(arrayListOf("email"))
 
         mView.btnBindFacebook.setOnClickListener {
-            if (DeviceUtil().getImei(requireActivity()).isNotEmpty()) {
+            if (DeviceUtil.getImei(requireActivity()).isNotEmpty()) {
                 mView.fbLoginButton.performClick()
             }
         }
@@ -164,9 +164,9 @@ class BindAccountDialog() : BaseDialogFragment(), BindAccountIView {
                 val data = BindSocMedRequest(
                     result?.accessToken?.token,
                     "facebook",
-                    DeviceUtil().getImei(requireActivity()),
+                    DeviceUtil.getImei(requireActivity()),
                     "Android",
-                    "Samsung"
+                    DeviceUtil.getDeviceName()
                 )
                 presenter.onBindAccount(data, "facebook", requireActivity())
             }
@@ -191,7 +191,7 @@ class BindAccountDialog() : BaseDialogFragment(), BindAccountIView {
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         btnBindGoogle.setOnClickListener {
-            if (DeviceUtil().getImei(requireActivity()).isNotEmpty()) {
+            if (DeviceUtil.getImei(requireActivity()).isNotEmpty()) {
                 val signInIntent = mGoogleSignInClient.getSignInIntent()
                 startActivityForResult(signInIntent, 101)
             }
@@ -216,9 +216,9 @@ class BindAccountDialog() : BaseDialogFragment(), BindAccountIView {
             val data = BindSocMedRequest(
                 account?.idToken,
                 "google",
-                DeviceUtil().getImei(requireActivity()),
+                DeviceUtil.getImei(requireActivity()),
                 "Android",
-                "samsung"
+                DeviceUtil.getDeviceName()
             )
             presenter.onBindAccount(data, "google", requireActivity())
         } catch (e: ApiException) {

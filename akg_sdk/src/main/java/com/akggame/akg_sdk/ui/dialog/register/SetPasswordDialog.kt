@@ -92,10 +92,10 @@ class SetPasswordDialog() : BaseDialogFragment(), SetPasswordIView {
             if (mView.etPassword.text.isNotEmpty() && mView.etConfPassword.text.isNotEmpty()) {
                 if (etPassword.text.toString().length > 7 && etConfPassword.text.toString().length > 7) {
                     if (etPassword.text.toString().equals(etConfPassword.text.toString())) {
-                        model.phone_model = "Samsung"
+                        model.phone_model = DeviceUtil.getDeviceName()
                         model.auth_provider = "akg"
                         model.game_provider = CacheUtil.getPreferenceString(IConfig.SESSION_GAME,requireActivity())
-                        model.device_id = DeviceUtil().getImei(requireActivity())
+                        model.device_id = DeviceUtil.getImei(requireActivity())
                         model.operating_system = "android"
                         model.password = etPassword.text.toString()
                         model.phone_number = phone

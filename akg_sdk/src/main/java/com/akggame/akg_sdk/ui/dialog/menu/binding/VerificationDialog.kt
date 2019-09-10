@@ -83,10 +83,10 @@ class VerificationDialog() :BaseDialogFragment(),SetPasswordIView {
                 if (etPassword.text.toString().length > 7 && etConfPassword.text.toString().length > 7) {
                     if (etPassword.text.toString().equals(etConfPassword.text.toString())) {
                         val model = PhoneBindingRequest(
-                            DeviceUtil().getImei(requireActivity()),
+                            DeviceUtil.getImei(requireActivity()),
                             "android",
                             etPassword.text.toString(),
-                            "Samsung",
+                            DeviceUtil.getDeviceName(),
                             phone!!
                         )
 

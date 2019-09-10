@@ -107,7 +107,7 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
         mView.fbLoginButton.setPermissions(arrayListOf("email"))
 
         mView.btnBindFacebook.setOnClickListener {
-            if (DeviceUtil().getImei(requireActivity()).isNotEmpty()) {
+            if (DeviceUtil.getImei(requireActivity()).isNotEmpty()) {
                 mView.fbLoginButton.performClick()
             }
         }
@@ -117,10 +117,10 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
                 var model = FacebookAuthRequest()
                 model.access_token = result?.accessToken?.token
                 model.auth_provider = "facebook"
-                model.device_id = DeviceUtil().getImei(requireActivity())
+                model.device_id = DeviceUtil.getImei(requireActivity())
                 model.game_provider = CacheUtil.getPreferenceString(IConfig.SESSION_GAME,requireActivity())
                 model.operating_system = "android"
-                model.phone_model = "samsung"
+                model.phone_model = DeviceUtil.getDeviceName()
                 presenter.facebookLogin(model, requireActivity())
             }
 
@@ -144,7 +144,7 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         btnBindGoogle.setOnClickListener {
-            if (DeviceUtil().getImei(requireActivity()).isNotEmpty()) {
+            if (DeviceUtil.getImei(requireActivity()).isNotEmpty()) {
                 val signInIntent = mGoogleSignInClient.getSignInIntent()
                 startActivityForResult(signInIntent, 101)
             }
@@ -166,20 +166,20 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
         setGoogleLogin()
         setFacebookLogin()
         mView.btnBack.setOnClickListener {
-            if (DeviceUtil().getImei(requireActivity()).isNotEmpty()) {
+            if (DeviceUtil.getImei(requireActivity()).isNotEmpty()) {
                 this.customDismiss()
                 changeToPhoneLogin()
             }
         }
 
         mView.btnGuest.setOnClickListener {
-            if (DeviceUtil().getImei(requireActivity()).isNotEmpty()) {
+            if (DeviceUtil.getImei(requireActivity()).isNotEmpty()) {
                 val model = GuestLoginRequest(
                     "guest",
-                    DeviceUtil().getImei(requireActivity()),
+                    DeviceUtil.getImei(requireActivity()),
                     CacheUtil.getPreferenceString(IConfig.SESSION_GAME,requireActivity()),
                     "Android",
-                    "Samsung"
+                    DeviceUtil.getDeviceName()
                 )
                 presenter.guestLogin(model, requireActivity())
             }
@@ -202,10 +202,10 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
             var model = FacebookAuthRequest()
             model.access_token = account?.idToken
             model.auth_provider = "google"
-            model.device_id = DeviceUtil().getImei(requireActivity())
+            model.device_id = DeviceUtil.getImei(requireActivity())
             model.game_provider = CacheUtil.getPreferenceString(IConfig.SESSION_GAME,requireActivity())
             model.operating_system = "android"
-            model.phone_model = "samsung"
+            model.phone_model = DeviceUtil.getDeviceName()
             model.expires_in = 3600
             LoginPresenter(this@LoginDialogFragment).googleLogin(model, requireActivity())
         } catch (e: ApiException) {

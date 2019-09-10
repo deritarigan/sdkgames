@@ -5,12 +5,16 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.telephony.TelephonyManager
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import java.util.*
+import android.text.TextUtils
 
-class DeviceUtil {
+
+
+ object DeviceUtil {
 
     fun getImei(cuntext: Context): String {
         val manager = cuntext.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -32,6 +36,39 @@ class DeviceUtil {
             return ""
         }
     }
+
+     fun getDeviceName():String{
+         var manufacter = Build.MANUFACTURER
+         var model = Build.MODEL
+
+         if(model.startsWith(manufacter)){
+             return capitalize(model)
+         }
+
+         return capitalize(manufacter) + " " + model;
+     }
+
+     private fun capitalize(str: String): String {
+         if (TextUtils.isEmpty(str)) {
+             return str
+         }
+         val arr = str.toCharArray()
+         var capitalizeNext = true
+
+         val phrase = StringBuilder()
+         for (c in arr) {
+             if (capitalizeNext && Character.isLetter(c)) {
+                 phrase.append(Character.toUpperCase(c))
+                 capitalizeNext = false
+                 continue
+             } else if (Character.isWhitespace(c)) {
+                 capitalizeNext = true
+             }
+             phrase.append(c)
+         }
+
+         return phrase.toString()
+     }
 
     private fun makeRequest(context: Context) {
         ActivityCompat.requestPermissions(
