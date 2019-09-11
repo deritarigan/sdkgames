@@ -58,9 +58,9 @@ class ApiManager {
 
             val httpClient = OkHttpClient.Builder()
 
-            if (allowUntrustedSSL) {
-                allowUntrustedSSL(httpClient)
-            }//    implementation 'com.github.acan12:coconut:2.0.13'
+//            if (allowUntrustedSSL) {
+//                allowUntrustedSSL(httpClient)
+//            }//    implementation 'com.github.acan12:coconut:2.0.13'
 
 
             try {
