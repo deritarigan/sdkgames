@@ -28,7 +28,7 @@ import com.akggame.akg_sdk.util.CacheUtil
 import com.akggame.akg_sdk.util.DeviceUtil
 import com.akggame.android.sdk.R
 
-object AKG_SDK : AccountIView{
+object AKG_SDK : AccountIView {
 
     private lateinit var customCallback: LoginSDKCallback
     private lateinit var menuCallback: MenuSDKCallback
@@ -40,29 +40,27 @@ object AKG_SDK : AccountIView{
     const val SDK_PAYMENT_DATA = "akg_purchase_data"
 
 
-//    @JvmStatic
+    //    @JvmStatic
     fun checkIsLogin(context: Context): Boolean {
         return CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN, context)
     }
 
 
-    fun registerAdjustOnAKG(application: Application) {
-    presenter.onGetSDKConf(application,application)
+    fun registerAdjustOnAKG(gameProvider:String,application: Application) {
+        presenter.onGetSDKConf(gameProvider,application, application)
     }
-
 
 
     fun setRelauchDialog(activity: AppCompatActivity, menuSDKCallback: MenuSDKCallback) {
         menuCallback = menuSDKCallback
-        val dialog =
-            RelaunchDialog.newInstance(menuSDKCallback)
+        val dialog = RelaunchDialog.newInstance(menuSDKCallback)
         val ftransaction = activity.supportFragmentManager.beginTransaction()
         ftransaction?.addToBackStack("relaunch")
         dialog.show(ftransaction, "relaunch")
     }
 
-    fun resetFloatingButton(activity: AppCompatActivity){
-        setFloatingButton(activity, mFloatingButton,activity, menuCallback)
+    fun resetFloatingButton(activity: AppCompatActivity) {
+        setFloatingButton(activity, mFloatingButton, activity, menuCallback)
     }
 
     fun setFloatingButton(
@@ -96,45 +94,90 @@ object AKG_SDK : AccountIView{
                             accountDialog.show(activity.supportFragmentManager, "account")
                         }
                     }
-                    1 -> {
-                        Toast.makeText(context, "fb", Toast.LENGTH_LONG).show()
-                    }
+                    1 -> Toast.makeText(context, "fb", Toast.LENGTH_LONG).show()
+
                     2 -> Toast.makeText(context, "eula", Toast.LENGTH_LONG).show()
+
                     3 -> contactUsDialog.show(activity.supportFragmentManager, "contact us")
 
-                    4 -> {
-                        checkVersionDialog.show(activity.supportFragmentManager, "check version")
-                    }
-                    5 -> {
-                        logoutDialog.show(activity.supportFragmentManager, "logout")
-                    }
+                    4 -> checkVersionDialog.show(activity.supportFragmentManager, "check version")
+
+                    5 -> logoutDialog.show(activity.supportFragmentManager, "logout")
+
                 }
             }
         }
 
         floatingButton.floatingAdapterListener = onItemClickListener
 
-        floatingButton.circleIcon.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.btn_akg_logo))
+        floatingButton.circleIcon.setImageDrawable(
+            ContextCompat.getDrawable(
+                context,
+                R.mipmap.btn_akg_logo
+            )
+        )
         floatingButton.clearAllItems()
-        if (CacheUtil.getPreferenceString(IConfig.LOGIN_TYPE, activity)?.equals(IConfig.LOGIN_GUEST)!!) {
-            floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_bind_account),null,"Bind Account"))
+        if (CacheUtil.getPreferenceString(
+                IConfig.LOGIN_TYPE,
+                activity
+            )?.equals(IConfig.LOGIN_GUEST)!!
+        ) {
+            floatingButton.addItem(
+                FloatingItem(
+                    ContextCompat.getDrawable(
+                        context,
+                        R.mipmap.btn_bind_account
+                    ), null, "Bind Account"
+                )
+            )
 
         } else {
-            floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_verify_account),null,"Account Info"))
+            floatingButton.addItem(
+                FloatingItem(
+                    ContextCompat.getDrawable(
+                        context,
+                        R.mipmap.btn_verify_account
+                    ), null, "Account Info"
+                )
+            )
         }
-        floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_fb),null,"FB Fanpage"))
-        floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_eula),null,"Eula"))
-        floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_contact_us),
-            null,"Contact Us"))
-        floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_sdk_version),
-            null,"SDK Version"))
-        floatingButton.addItem(FloatingItem(ContextCompat.getDrawable(context, R.mipmap.btn_log_out),
-            null,"Logout"))
+        floatingButton.addItem(
+            FloatingItem(
+                ContextCompat.getDrawable(context, R.mipmap.btn_fb),
+                null,
+                "FB Fanpage"
+            )
+        )
+        floatingButton.addItem(
+            FloatingItem(
+                ContextCompat.getDrawable(context, R.mipmap.btn_eula),
+                null,
+                "Eula"
+            )
+        )
+        floatingButton.addItem(
+            FloatingItem(
+                ContextCompat.getDrawable(context, R.mipmap.btn_contact_us),
+                null, "Contact Us"
+            )
+        )
+        floatingButton.addItem(
+            FloatingItem(
+                ContextCompat.getDrawable(context, R.mipmap.btn_sdk_version),
+                null, "SDK Version"
+            )
+        )
+        floatingButton.addItem(
+            FloatingItem(
+                ContextCompat.getDrawable(context, R.mipmap.btn_log_out),
+                null, "Logout"
+            )
+        )
         callGetAccount(activity, context)
-        mFloatingButton=floatingButton
+        mFloatingButton = floatingButton
     }
 
-//    @JvmStatic
+    //    @JvmStatic
     fun onLogin(activity: AppCompatActivity, gameName: String, loginSDKCallback: LoginSDKCallback) {
         CacheUtil.putPreferenceString(IConfig.SESSION_GAME, gameName, activity)
         if (!CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN, activity)) {
@@ -162,7 +205,11 @@ object AKG_SDK : AccountIView{
     override fun doOnSuccess(activity: AppCompatActivity, data: CurrentUserResponse) {
         if (CacheUtil.getPreferenceString(IConfig.LOGIN_TYPE, activity) == IConfig.LOGIN_PHONE) {
             data.data?.attributes?.phone_number
-            CacheUtil.putPreferenceString(IConfig.SESSION_USERNAME, data.data?.attributes?.phone_number!!, activity)
+            CacheUtil.putPreferenceString(
+                IConfig.SESSION_USERNAME,
+                data.data?.attributes?.phone_number!!,
+                activity
+            )
         } else {
             if (data.data?.attributes?.email != null) {
                 CacheUtil.putPreferenceString(

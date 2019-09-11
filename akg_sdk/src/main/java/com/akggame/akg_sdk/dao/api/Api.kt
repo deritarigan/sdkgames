@@ -110,12 +110,12 @@ class Api {
 
         @Synchronized
         fun onCallGetSDKVersion(context:Context):Observable<SDKVersionResponse>{
-            return initApiDomain().callGetSDKVersion(initHeader())
+            return initApiDomain().callGetSDKVersion(initHeader(),CacheUtil.getPreferenceString(IConfig.SESSION_GAME,context))
         }
 
         @Synchronized
-        fun onCallGetSDKConfig(context: Context):Observable<SDKConfigResponse>{
-            return initApiDomain().callGetSDKConfig(initHeader())
+        fun onCallGetSDKConfig(gameProvider: String?,context: Context):Observable<SDKConfigResponse>{
+            return initApiDomain().callGetSDKConfig(initHeader(),gameProvider)
         }
     }
 }

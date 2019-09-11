@@ -68,8 +68,8 @@ class InfoPresenter(val mIView: IView) {
             })
     }
 
-    fun onGetSDKConf(application: Application, context: Context) {
-        MainDao().onGetSDKConfig(context)
+    fun onGetSDKConf(gameProvider:String,application: Application, context: Context) {
+        MainDao().onGetSDKConfig(gameProvider,context)
             .subscribe(object : RxObserver<SDKConfigResponse>(mIView, "") {
                 override fun onNext(t: BaseResponse) {
                     super.onNext(t)
@@ -122,7 +122,7 @@ class InfoPresenter(val mIView: IView) {
     }
 
     private fun initAdjust(application: Application, appToken: String) {
-        val environment = AdjustConfig.ENVIRONMENT_SANDBOX
+        val environment = AdjustConfig.ENVIRONMENT_PRODUCTION
         val config = AdjustConfig(application, appToken, environment)
         config.setLogLevel(LogLevel.VERBOSE); // enable all logs
         Adjust.onCreate(config)

@@ -37,13 +37,18 @@ class CheckVersionDialog:BaseDialogFragment(),CheckVersionIView {
         mView.ivClose.setOnClickListener {
             this.dismiss()
         }
+        mView.btnNext.setOnClickListener {
+            this.dismiss()
+        }
     }
 
     override fun doOnSuccess(data: SDKVersionResponse) {
-        if(data.data?.attributes?.version_number==BuildConfig.VERSION_CODE){
-            mView.tvVersion.text = resources.getString(R.string.check_update_desc,BuildConfig.VERSION_NAME)
-        }else{
-            mView.tvVersion.text = resources.getString(R.string.update_sdk_version,BuildConfig.VERSION_NAME)
+        if(mView.tvVersion!=null){
+            if(data.data?.attributes?.version_number==BuildConfig.VERSION_CODE){
+                mView.tvVersion.text = resources.getString(R.string.check_update_desc,BuildConfig.VERSION_NAME)
+            }else{
+                mView.tvVersion.text = resources.getString(R.string.update_sdk_version,BuildConfig.VERSION_NAME)
+            }
         }
     }
 }

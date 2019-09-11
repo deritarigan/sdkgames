@@ -30,5 +30,9 @@ class InfoDialog():BaseDialogFragment() {
         mView.ivClose.setOnClickListener {
             this.dismiss()
         }
+
+        mView.btnNext.setOnClickListener {
+            this.dismiss()
+        }
     }
 }
