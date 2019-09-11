@@ -45,15 +45,15 @@ class ApiManager {
             }//    implementation 'com.github.acan12:coconut:2.0.13'
 
 
-            try {
-                val sc = SSLContext.getInstance("TLSv1.2")
-                sc.init(null, null, null)
-                httpClient.sslSocketFactory(TSL12SocketFactory(sc.socketFactory))
-            } catch (e: NoSuchAlgorithmException) {
-                e.printStackTrace()
-            } catch (e: KeyManagementException) {
-                e.printStackTrace()
-            }
+//            try {
+//                val sc = SSLContext.getInstance("TLSv1.2")
+//                sc.init(null, null, null)
+//                httpClient.sslSocketFactory(TSL12SocketFactory(sc.socketFactory))
+//            } catch (e: NoSuchAlgorithmException) {
+//                e.printStackTrace()
+//            } catch (e: KeyManagementException) {
+//                e.printStackTrace()
+//            }
 
 
             httpClient.connectTimeout(timeout.toLong(), TimeUnit.SECONDS)

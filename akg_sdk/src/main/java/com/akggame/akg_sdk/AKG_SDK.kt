@@ -32,7 +32,6 @@ object AKG_SDK : AccountIView {
 
     private lateinit var customCallback: LoginSDKCallback
     private lateinit var menuCallback: MenuSDKCallback
-    //    lateinit var activity: AppCompatActivity
     private lateinit var mFloatingButton: FloatingButton
     private val presenter = InfoPresenter(this)
 
@@ -40,7 +39,6 @@ object AKG_SDK : AccountIView {
     const val SDK_PAYMENT_DATA = "akg_purchase_data"
 
 
-    //    @JvmStatic
     fun checkIsLogin(context: Context): Boolean {
         return CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN, context)
     }
