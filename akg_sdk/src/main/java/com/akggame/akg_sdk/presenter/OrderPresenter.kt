@@ -13,22 +13,4 @@ import com.android.billingclient.api.Purchase
 
 class OrderPresenter(val mIView : IView) {
 
-
-    fun onPostOrder(body:PostOrderRequest,purchase: Purchase,context: Context){
-        MainDao().onPostOrder(body,context).subscribe(object :RxObserver<BaseResponse>(mIView,""){
-            override fun onNext(t: BaseResponse) {
-                super.onNext(t)
-                if(t.BaseMetaResponse?.code==200){
-                    (mIView as PaymentIView).doOnSuccessPost(t,purchase)
-                }else{
-                    Toast.makeText(context,"Error: "+t.BaseDataResponse?.message,Toast.LENGTH_LONG).show()
-                }
-            }
-
-            override fun onComplete() {
-                super.onComplete()
-                (mIView as PaymentIView).doOnComplete(purchase)
-            }
-        })
-    }
 }

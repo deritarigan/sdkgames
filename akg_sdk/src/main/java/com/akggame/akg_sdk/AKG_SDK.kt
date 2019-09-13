@@ -13,20 +13,25 @@ import androidx.core.content.ContextCompat
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustConfig
 import com.adjust.sdk.LogLevel
+import com.akggame.akg_sdk.dao.BillingDao
 import com.akggame.akg_sdk.dao.api.model.FloatingItem
 import com.akggame.akg_sdk.dao.api.model.response.CurrentUserResponse
 import com.akggame.akg_sdk.presenter.InfoPresenter
+import com.akggame.akg_sdk.presenter.ProductPresenter
 import com.akggame.akg_sdk.rx.IView
 import com.akggame.akg_sdk.ui.activity.PaymentActivity
+import com.akggame.akg_sdk.ui.activity.PaymentIView
 import com.akggame.akg_sdk.ui.adapter.FloatingAdapterListener
 import com.akggame.akg_sdk.ui.component.FloatingButton
 import com.akggame.akg_sdk.ui.component.FloatingItemClickListener
+import com.akggame.akg_sdk.ui.dialog.banner.BannerDialog
 import com.akggame.akg_sdk.ui.dialog.login.LoginDialogFragment
 import com.akggame.akg_sdk.ui.dialog.login.RelaunchDialog
 import com.akggame.akg_sdk.ui.dialog.menu.*
 import com.akggame.akg_sdk.util.CacheUtil
 import com.akggame.akg_sdk.util.DeviceUtil
 import com.akggame.android.sdk.R
+import com.android.billingclient.api.SkuDetails
 
 object AKG_SDK : AccountIView {
 
@@ -34,13 +39,13 @@ object AKG_SDK : AccountIView {
     private lateinit var menuCallback: MenuSDKCallback
     //    lateinit var activity: AppCompatActivity
     private lateinit var mFloatingButton: FloatingButton
+
+    private val productPresenter = ProductPresenter(this)
     private val presenter = InfoPresenter(this)
 
     const val SDK_PAYMENT_CODE = 199
     const val SDK_PAYMENT_DATA = "akg_purchase_data"
 
-
-    //    @JvmStatic
     fun checkIsLogin(context: Context): Boolean {
         return CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN, context)
     }
@@ -50,6 +55,19 @@ object AKG_SDK : AccountIView {
         presenter.onGetSDKConf(gameProvider,application, application)
     }
 
+    fun getProducts(application: Application,context: Context,callback:ProductSDKCallback){
+      productPresenter.getProducts(CacheUtil.getPreferenceString(IConfig.SESSION_GAME,context),
+            application,context,callback )
+    }
+    fun callBannerDialog(activity: AppCompatActivity){
+        val banner = BannerDialog()
+        val ftransaction = activity.supportFragmentManager.beginTransaction()
+        ftransaction?.addToBackStack("banner")
+        banner.show(ftransaction, "banner")
+    }
+    fun launchBilling(activity: Activity,skuDetails: SkuDetails,callback:PurchaseSDKCallback){
+        productPresenter.lauchBilling(activity,skuDetails,callback)
+    }
 
     fun setRelauchDialog(activity: AppCompatActivity, menuSDKCallback: MenuSDKCallback) {
         menuCallback = menuSDKCallback

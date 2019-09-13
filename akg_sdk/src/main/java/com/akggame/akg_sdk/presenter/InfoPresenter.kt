@@ -20,12 +20,10 @@ import com.akggame.akg_sdk.IConfig.Companion.ADJUST_PAYMENT_SUCCESS
 import com.akggame.akg_sdk.IConfig.Companion.ADJUST_REGISTER_FAILED
 import com.akggame.akg_sdk.IConfig.Companion.ADJUST_REGISTER_SUCCESS
 import com.akggame.akg_sdk.dao.MainDao
-import com.akggame.akg_sdk.dao.api.model.response.BaseResponse
-import com.akggame.akg_sdk.dao.api.model.response.CurrentUserResponse
-import com.akggame.akg_sdk.dao.api.model.response.SDKConfigResponse
-import com.akggame.akg_sdk.dao.api.model.response.SDKVersionResponse
+import com.akggame.akg_sdk.dao.api.model.response.*
 import com.akggame.akg_sdk.rx.IView
 import com.akggame.akg_sdk.rx.RxObserver
+import com.akggame.akg_sdk.ui.dialog.banner.BannerIView
 import com.akggame.akg_sdk.ui.dialog.menu.AccountIView
 import com.akggame.akg_sdk.ui.dialog.menu.CheckVersionIView
 import com.akggame.akg_sdk.ui.dialog.register.OTPIView
@@ -64,6 +62,22 @@ class InfoPresenter(val mIView: IView) {
                     if (t.meta?.code == 200) {
                         (mIView as CheckVersionIView).doOnSuccess(t)
                     }
+                }
+            })
+    }
+
+    fun onGetBanner(context: Context){
+        MainDao().onGetBanner(context)
+            .subscribe(object : RxObserver<BannerResponse>(mIView,""){
+                override fun onNext(t: BaseResponse) {
+                    super.onNext(t)
+                    t as BannerResponse
+                    if (t.meta?.code == 200){
+                        (mIView as BannerIView).doOnSuccess(t)
+                    }
+//                    else{
+//                        (mIView).handleError(t.)
+//                    }
                 }
             })
     }
@@ -159,4 +173,5 @@ class InfoPresenter(val mIView: IView) {
             Adjust.onPause()
         }
     }
+
 }

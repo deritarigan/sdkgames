@@ -106,4 +106,10 @@ class MainDao() {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    fun onGetBanner(context: Context):Observable<BannerResponse>{
+        return Api.onGetBanner(context)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
 }

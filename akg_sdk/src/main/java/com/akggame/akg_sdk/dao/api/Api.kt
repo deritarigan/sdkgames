@@ -117,5 +117,10 @@ class Api {
         fun onCallGetSDKConfig(gameProvider: String?,context: Context):Observable<SDKConfigResponse>{
             return initApiDomain().callGetSDKConfig(initHeader(),gameProvider)
         }
+
+        @Synchronized
+        fun onGetBanner(context: Context):Observable<BannerResponse>{
+            return initApiDomain().callGetBanner(initHeader(),CacheUtil.getPreferenceString(IConfig.SESSION_GAME,context))
+        }
     }
 }

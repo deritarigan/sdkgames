@@ -6,7 +6,14 @@ import android.text.TextUtils
 import android.util.Base64
 import android.util.Log
 import android.widget.Toast
+import com.adjust.sdk.Adjust
+import com.adjust.sdk.AdjustEvent
+import com.akggame.akg_sdk.IConfig
+import com.akggame.akg_sdk.dao.api.model.ProductData
+import com.akggame.akg_sdk.dao.api.model.request.PostOrderRequest
 import com.akggame.akg_sdk.dao.api.model.response.GameProductsResponse
+import com.akggame.akg_sdk.presenter.ProductPresenter
+import com.akggame.akg_sdk.util.CacheUtil
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
 import java.io.IOException
@@ -15,15 +22,21 @@ import java.security.spec.InvalidKeySpecException
 import java.security.spec.X509EncodedKeySpec
 import java.util.HashSet
 
-class BillingDao constructor(private val listOfSku: List<String>,private val application: Application,val paymentResponse: PaymentResponse, val queryCallback: BillingDaoQuerySKU) :
+class BillingDao constructor(
+    private val listOfSku: List<String>,
+    private val productData: List<ProductData>,
+    private val presenter: ProductPresenter,
+    private val application: Application,
+    val queryCallback: BillingDaoQuerySKU
+) :
     PurchasesUpdatedListener, BillingClientStateListener {
-
 
 
     val LOG_TAG = "Billing Dao :"
     lateinit var billingClient: BillingClient
 
-    private val BASE_64_ENCODED_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtigMU9IVSI89hggyB7DKj9W0ROgAHaBPjv9o5mfeMaSg1Js9P12Ch6FTkCP6iyx5cbK1a0DkmW12cEGe12MtCCY93xs3AY9HZiFemzgS2VyaMZiCMc3NU1dYWSPjiemmfzI0mI33IzEt/67vzgXqev03WsrSKckcPXt2KoahDxHNTr8CcGd44mIWWxHCfawd95lAM19/bf8mvNDT84pUz7nLGt8FzC7IAn55h/+8keXu9hhRzT3511KlUx2Yp3sHsfac/lKlsrSZFmsxRbrSgFWslMxtx3lhggOL1XN4qcr6qsfrKkA9dKndvEktA85DFYHnq9ETDvGBYMUJx24MnQIDAQAB"
+    private val BASE_64_ENCODED_PUBLIC_KEY =
+        "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtigMU9IVSI89hggyB7DKj9W0ROgAHaBPjv9o5mfeMaSg1Js9P12Ch6FTkCP6iyx5cbK1a0DkmW12cEGe12MtCCY93xs3AY9HZiFemzgS2VyaMZiCMc3NU1dYWSPjiemmfzI0mI33IzEt/67vzgXqev03WsrSKckcPXt2KoahDxHNTr8CcGd44mIWWxHCfawd95lAM19/bf8mvNDT84pUz7nLGt8FzC7IAn55h/+8keXu9hhRzT3511KlUx2Yp3sHsfac/lKlsrSZFmsxRbrSgFWslMxtx3lhggOL1XN4qcr6qsfrKkA9dKndvEktA85DFYHnq9ETDvGBYMUJx24MnQIDAQAB"
     private val KEY_FACTORY_ALGORITHM = "RSA"
     private val SIGNATURE_ALGORITHM = "SHA1withRSA"
     private val TAG = "VERIFY PAYMENT"
@@ -45,7 +58,7 @@ class BillingDao constructor(private val listOfSku: List<String>,private val app
         fun onQuerySKU(skuDetails: MutableList<SkuDetails>)
     }
 
-    interface PaymentResponse{
+    interface PaymentResponse {
         fun onPaymentSuccess(purchases: Purchase)
         fun onPaymentFailed()
     }
@@ -75,7 +88,10 @@ class BillingDao constructor(private val listOfSku: List<String>,private val app
             .build()
 
         billingClient.querySkuDetailsAsync(params, object : SkuDetailsResponseListener {
-            override fun onSkuDetailsResponse(billingResult: BillingResult?, skuDetailsList: MutableList<SkuDetails>?) {
+            override fun onSkuDetailsResponse(
+                billingResult: BillingResult?,
+                skuDetailsList: MutableList<SkuDetails>?
+            ) {
                 if (billingResult?.responseCode == BillingClient.BillingResponseCode.OK) {
                     Log.d(LOG_TAG, "onBillingResultResponseCode is OK")
                     if (skuDetailsList != null) {
@@ -90,11 +106,11 @@ class BillingDao constructor(private val listOfSku: List<String>,private val app
         })
     }
 
-    fun lauchBillingFlow(activity: Activity, skuDetails: SkuDetails){
+    fun lauchBillingFlow(activity: Activity, skuDetails: SkuDetails) {
         var billingFlowParams = BillingFlowParams.newBuilder()
             .setSkuDetails(skuDetails)
             .build()
-        billingClient.launchBillingFlow(activity,billingFlowParams)
+        billingClient.launchBillingFlow(activity, billingFlowParams)
     }
 
     override fun onBillingServiceDisconnected() {
@@ -130,9 +146,11 @@ class BillingDao constructor(private val listOfSku: List<String>,private val app
         processPurchase(purchasesResult)
     }
 
-    override fun onPurchasesUpdated(billingResult: BillingResult?, purchases: MutableList<Purchase>?) {
+    override fun onPurchasesUpdated(
+        billingResult: BillingResult?,
+        purchases: MutableList<Purchase>?
+    ) {
         if (billingResult?.responseCode == OK && purchases != null) {
-//            paymentResponse.onPaymentSuccess(purchases)
             for (purchase in purchases) {
                 handlePurchase(purchase)
                 purchases.apply {
@@ -146,18 +164,13 @@ class BillingDao constructor(private val listOfSku: List<String>,private val app
         }
     }
 
-    fun processPurchase(purchasesResult: Set<Purchase>){
+    fun processPurchase(purchasesResult: Set<Purchase>) {
         val validPurchases = HashSet<Purchase>(purchasesResult.size)
         purchasesResult.forEach { purchase ->
             if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
-//                if (isSignatureValid(purchase)) {
-//                }
                 validPurchases.add(purchase)
-
             } else if (purchase.purchaseState == Purchase.PurchaseState.PENDING) {
                 Log.d(LOG_TAG, "Received a pending purchase of SKU: ${purchase.sku}")
-                // handle pending purchases, e.g. confirm with users about the pending
-                // purchases, prompt them to complete it, etc.
             }
         }
 
@@ -165,10 +178,7 @@ class BillingDao constructor(private val listOfSku: List<String>,private val app
             listOfSku.contains(it.sku)
         }
 
-//        val testing = billingClient.purchaseDao().getPurchases()
-//        Log.d(LOG_TAG, "processPurchases purchases in the lcl db ${testing?.size}")
-//        localCacheBillingClient.purchaseDao().insert(*validPurchases.toTypedArray())
-       handleConsumablePurchasesAsync(consumables)
+        handleConsumablePurchasesAsync(consumables)
 
     }
 
@@ -177,9 +187,9 @@ class BillingDao constructor(private val listOfSku: List<String>,private val app
         consumables.forEach {
             Log.d(LOG_TAG, "handleConsumablePurchasesAsync foreach it is $it")
 
-            val params =    ConsumeParams.newBuilder()
-                                                         .setPurchaseToken(it.purchaseToken)
-                                                         .build()
+            val params = ConsumeParams.newBuilder()
+                .setPurchaseToken(it.purchaseToken)
+                .build()
 
             billingClient.consumeAsync(params) { billingResult, purchaseToken ->
                 when (billingResult.responseCode) {
@@ -196,23 +206,24 @@ class BillingDao constructor(private val listOfSku: List<String>,private val app
         }
     }
 
-    fun disburseConsumableEntitlements(purchase: Purchase){
-        paymentResponse.onPaymentSuccess(purchase)
+    fun disburseConsumableEntitlements(purchase: Purchase) {
+        onPaymentSuccess(purchase)
         purchase.sku
 //        if (purchase.sku == GameSku.GAS) {
 //            updateGasTank(GasTank(GAS_PURCHASE))
-            /**
-             * This disburseConsumableEntitlements method was called because Play called onConsumeResponse.
-             * So if you think of a Purchase as a receipt, you no longer need to keep a copy of
-             * the receipt in the local cache since the user has just consumed the product.
-             */
+        /**
+         * This disburseConsumableEntitlements method was called because Play called onConsumeResponse.
+         * So if you think of a Purchase as a receipt, you no longer need to keep a copy of
+         * the receipt in the local cache since the user has just consumed the product.
+         */
 //            localCacheBillingClient.purchaseDao().delete(purchase)
 //        }
     }
-    fun handlePurchase(purchase:Purchase){
-        if(purchase.purchaseState==Purchase.PurchaseState.PURCHASED){
 
-        }else if(purchase.purchaseState == Purchase.PurchaseState.PENDING){
+    fun handlePurchase(purchase: Purchase) {
+        if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
+
+        } else if (purchase.purchaseState == Purchase.PurchaseState.PENDING) {
 
         }
     }
@@ -279,12 +290,65 @@ class BillingDao constructor(private val listOfSku: List<String>,private val app
         }
     }
 
-    fun getPrice(datas:List<GameProductsResponse.DataBean>?,sku:String): Double {
+    fun getPrice(datas: List<ProductData>?, sku: String): Double {
         datas?.forEach {
-            if (it.attributes?.product_code.equals(sku)){
+            if (it.attributes?.product_code.equals(sku)) {
                 return it.attributes?.price!!.toDouble()
             }
         }
         return 0.0
+    }
+
+    fun onPaymentFailed() {
+        setAdjustEventPaymentFailed()
+    }
+
+    fun onPaymentSuccess(purchase: Purchase) {
+        setAdjustEventPaymentSuccess(getPrice(productData, purchase.sku), purchase.sku)
+        val postOrderRequest = PostOrderRequest(
+            "Google Play",
+            purchase.purchaseTime,
+            CacheUtil.getPreferenceString(IConfig.SESSION_GAME, application)!!,
+            purchase.orderId,
+            purchase.packageName,
+            3000,
+            "Android",
+            "com.sdkgame.product1",
+            purchase.purchaseToken,
+            purchase.sku,
+            "Success",
+            CacheUtil.getPreferenceString(IConfig.SESSION_UID, application),
+            CacheUtil.getPreferenceString(IConfig.SESSION_USERNAME, application)
+        )
+        presenter.onPostOrder(postOrderRequest, purchase, application)
+
+    }
+
+    fun setAdjustEventPaymentSuccess(price: Double, sku: String) {
+        if (CacheUtil.getPreferenceString(IConfig.ADJUST_PAYMENT_SUCCESS, application) != null) {
+            val adjustEvent =
+                AdjustEvent(
+                    CacheUtil.getPreferenceString(
+                        IConfig.ADJUST_PAYMENT_SUCCESS,
+                        application
+                    )
+                )
+            adjustEvent.setRevenue(price, "IDR")
+            adjustEvent.setOrderId(sku)
+            Adjust.trackEvent(adjustEvent)
+        }
+    }
+
+    fun setAdjustEventPaymentFailed() {
+        if (CacheUtil.getPreferenceString(IConfig.ADJUST_PAYMENT_FAILED, application) != null) {
+            Adjust.trackEvent(
+                AdjustEvent(
+                    CacheUtil.getPreferenceString(
+                        IConfig.ADJUST_PAYMENT_FAILED,
+                        application
+                    )
+                )
+            )
+        }
     }
 }

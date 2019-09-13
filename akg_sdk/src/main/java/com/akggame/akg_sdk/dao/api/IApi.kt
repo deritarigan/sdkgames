@@ -58,5 +58,7 @@ interface IApi {
     fun callPostOrder(@HeaderMap map: Map<String, String>, @Body body: PostOrderRequest):
             Observable<BaseResponse>
 
-
+    @GET("/banners/android/{game-provider}")
+    fun callGetBanner(@HeaderMap map: Map<String,String>,@Path("game-provider") gameProvider: String?):
+            Observable<BannerResponse>
 }
