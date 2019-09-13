@@ -95,9 +95,9 @@ class BannerDialog() : BaseDialogFragment(),BannerIView {
     }
 
     override fun doOnSuccess(data: BannerResponse) {
-        if (data.data.size != 0) {
+        if (data.data!!.size != 0) {
             flDialog.visibility = View.VISIBLE
-            adapter.setData(data.data)
+            adapter.setData(data.data as MutableList<BannerResponse.DataBean>)
         } else {
             flDialog.visibility = View.GONE
             this.dismiss()

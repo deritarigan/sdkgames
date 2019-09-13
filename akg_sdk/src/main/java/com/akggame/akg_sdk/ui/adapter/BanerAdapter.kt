@@ -17,12 +17,12 @@ class BanerAdapter(val context : Context) : PagerAdapter() {
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val image = ImageView(context)
         var data = listData.get(position)
-        Picasso.get().load(data.attributes.cover_image.url).into(image)
+        Picasso.get().load(data.attributes?.cover_image!!.url).into(image)
 
         image.setOnClickListener {
-            if(data.attributes.image_link_url!=null && data.attributes.image_link_url.isNotEmpty()){
+            if(data.attributes!!.image_link_url!=null && data.attributes!!.image_link_url!!.isNotEmpty()){
                 val intent = Intent(context,WebView::class.java)
-                intent.putExtra("url",data.attributes.image_link_url)
+                intent.putExtra("url",data.attributes!!.image_link_url)
                 context.startActivity(intent)
             }
         }

@@ -9,11 +9,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.akggame.akg_sdk.AKG_SDK;
 import com.akggame.akg_sdk.MenuSDKCallback;
+import com.akggame.akg_sdk.ProductSDKCallback;
+import com.akggame.akg_sdk.PurchaseSDKCallback;
 import com.akggame.akg_sdk.dao.pojo.PurchaseItem;
 import com.akggame.akg_sdk.ui.component.FloatingButton;
 import com.akggame.akg_sdk.util.CacheUtil;
 import com.akggame.akg_sdk.util.DeviceUtil;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class GameActivity extends AppCompatActivity implements MenuSDKCallback {
 
@@ -21,7 +25,48 @@ public class GameActivity extends AppCompatActivity implements MenuSDKCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+
         FloatingButton floatingButton = findViewById(R.id.floatingButton);
+        AKG_SDK.INSTANCE.setFloatingButton(this, floatingButton,
+                this, new MenuSDKCallback() {
+            @Override
+            public void onLogout() {
+
+            }
+
+            @Override
+            public void onSuccessBind(@NotNull String token) {
+
+            }
+        });
+
+
+
+
+
+
+        AKG_SDK.INSTANCE.setRelauchDialog(this,this);
+
+
+
+        AKG_SDK.INSTANCE.getProducts(getApplication(), this, new ProductSDKCallback() {
+            @Override
+            public void ProductResult(@NotNull List<com.android.billingclient.api.SkuDetails> skuDetails) {
+
+
+
+                AKG_SDK.INSTANCE.launchBilling(GameActivity.this, skuDetails.get(0),
+                        new PurchaseSDKCallback() {
+                    @Override
+                    public void onPurchasedItem(@NotNull PurchaseItem purchaseItem) {
+
+                    }
+                });
+
+            }
+        });
+
 
         Button btnPayment = findViewById(R.id.btnPayment);
         btnPayment.setOnClickListener(new View.OnClickListener() {
@@ -30,6 +75,8 @@ public class GameActivity extends AppCompatActivity implements MenuSDKCallback {
                 AKG_SDK.INSTANCE.onSDKPayment(GameActivity.this);
             }
         });
+
+
 
     }
 

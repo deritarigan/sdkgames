@@ -14,23 +14,24 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-//        if ( AKG_SDK.checkIsLogin(this)){
-//            startActivity(new Intent(LoginActivity.this,Main2Activity.class));
-//            finish();
-//        }
-//
-//
-//
-//        AKG_SDK.onLogin(this,"Your Game", new LoginSDKCallback() {
-//            @Override
-//            public void onResponseSuccess(@NotNull String token) {
-//
-//            }
-//
-//            @Override
-//            public void onResponseFailed(@NotNull String message) {
-//
-//            }
-//        });
+        if ( AKG_SDK.INSTANCE.checkIsLogin(this)){
+            startActivity(new Intent(LoginActivity.this,Main2Activity.class));
+            finish();
+        }
+
+
+
+        AKG_SDK.INSTANCE.onLogin(this,"Your Game", new LoginSDKCallback() {
+            @Override
+            public void onResponseSuccess(@NotNull String token, @NotNull String loginType) {
+
+            }
+
+            @Override
+            public void onResponseFailed(@NotNull String message) {
+
+            }
+        });
+
     }
 }

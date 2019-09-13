@@ -12,11 +12,15 @@ import com.akggame.akg_sdk.AKG_SDK
 import com.adjust.sdk.OnDeviceIdsRead
 
 
-class AkgApplication : Application() {
+    class AkgApplication : Application() {
 
-    override fun onCreate() {
-        super.onCreate()
-        AKG_SDK.registerAdjustOnAKG("mobile-legends",this)
+        override fun onCreate() {
+            super.onCreate()
+            AKG_SDK.registerAdjustOnAKG("mobile-legends",this)
+        }
+
     }
 
-}
+
+
+
