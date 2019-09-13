@@ -1,7 +1,9 @@
 package com.akggame.akg_sdk.dao.api.model
 
+import androidx.annotation.Keep
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
+@Keep
 @JsonIgnoreProperties(ignoreUnknown = true)
 class ProductData {
 
@@ -11,6 +13,7 @@ class ProductData {
     var attributes: AttributesBean? = null
     var message : String?=null
 
+    @Keep
     @JsonIgnoreProperties(ignoreUnknown = true)
     class AttributesBean {
 
@@ -24,11 +27,13 @@ class ProductData {
         var image:ImageBean? = null
         var game_id : String? = null
 
+        @Keep
         @JsonIgnoreProperties(ignoreUnknown = true)
         class ImageBean{
             var url:String? = null
             var thumb:ThumbBean? = null
 
+            @Keep
             @JsonIgnoreProperties(ignoreUnknown = true)
             class ThumbBean{
                 var url:String? = null

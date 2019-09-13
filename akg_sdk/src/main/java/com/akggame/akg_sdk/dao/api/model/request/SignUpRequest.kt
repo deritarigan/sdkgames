@@ -1,5 +1,8 @@
 package com.akggame.akg_sdk.dao.api.model.request
 
+import androidx.annotation.Keep
+
+@Keep
 class SignUpRequest {
 
     var phone_number: String? = null

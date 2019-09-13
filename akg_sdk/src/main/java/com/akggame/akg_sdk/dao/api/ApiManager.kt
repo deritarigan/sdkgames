@@ -40,6 +40,12 @@ class ApiManager {
 
         fun getHttpClient(allowUntrustedSSL: Boolean, timeout: Int, enableLoggingHttp: Boolean): OkHttpClient {
 
+            val httpClient = OkHttpClient.Builder()
+
+            if (allowUntrustedSSL) {
+                allowUntrustedSSL(httpClient)
+            }//    implementation 'com.github.acan12:coconut:2.0.13'
+
             var trustManager = object :X509TrustManager{
                 override fun checkClientTrusted(p0: Array<out X509Certificate>?, p1: String?) {
 
@@ -53,22 +59,11 @@ class ApiManager {
                     val cArrr = arrayOf<X509Certificate>()
                     return cArrr
                 }
-
             }
-
-            val httpClient = OkHttpClient.Builder()
-
-//            if (allowUntrustedSSL) {
-//                allowUntrustedSSL(httpClient)
-//            }//    implementation 'com.github.acan12:coconut:2.0.13'
-
-
             try {
                 val sc = SSLContext.getInstance("TLS")
                 sc.init(null, null, null)
                 var noSSLv3Factory :SSLSocketFactory?= null
-
-//                httpClient.sslSocketFactory(TLSSocketFactory(sc.socketFactory))
                 if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT){
                     noSSLv3Factory = TLSSocketFactory(sc.socketFactory)
                 } else {
