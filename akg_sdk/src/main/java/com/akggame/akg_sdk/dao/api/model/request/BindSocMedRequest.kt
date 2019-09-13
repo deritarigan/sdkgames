@@ -1,5 +1,8 @@
 package com.akggame.akg_sdk.dao.api.model.request
 
+import androidx.annotation.Keep
+
+@Keep
 data class BindSocMedRequest(
     val access_token: String?,
     val auth_provider: String,
