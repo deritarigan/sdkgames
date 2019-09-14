@@ -10,10 +10,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.adjust.sdk.Adjust
-import com.adjust.sdk.AdjustConfig
-import com.adjust.sdk.LogLevel
-import com.akggame.akg_sdk.dao.BillingDao
 import com.akggame.akg_sdk.dao.api.model.FloatingItem
 import com.akggame.akg_sdk.dao.api.model.response.CurrentUserResponse
 import com.akggame.akg_sdk.presenter.InfoPresenter
@@ -62,7 +58,7 @@ object AKG_SDK : AccountIView {
     fun callBannerDialog(activity: AppCompatActivity){
         val banner = BannerDialog()
         val ftransaction = activity.supportFragmentManager.beginTransaction()
-        ftransaction?.addToBackStack("banner")
+        ftransaction.addToBackStack("banner")
         banner.show(ftransaction, "banner")
     }
     fun launchBilling(activity: Activity,skuDetails: SkuDetails,callback:PurchaseSDKCallback){
@@ -73,7 +69,7 @@ object AKG_SDK : AccountIView {
         menuCallback = menuSDKCallback
         val dialog = RelaunchDialog.newInstance(menuSDKCallback)
         val ftransaction = activity.supportFragmentManager.beginTransaction()
-        ftransaction?.addToBackStack("relaunch")
+        ftransaction.addToBackStack("relaunch")
         dialog.show(ftransaction, "relaunch")
     }
 
@@ -204,7 +200,7 @@ object AKG_SDK : AccountIView {
                 LoginDialogFragment.newInstance(activity.supportFragmentManager, customCallback)
             val ftransaction = activity.supportFragmentManager.beginTransaction()
             loginDialogFragment.clearBackStack()
-            ftransaction?.addToBackStack("login")
+            ftransaction.addToBackStack("login")
             loginDialogFragment.show(ftransaction, "login")
         } else {
             Toast.makeText(activity, "You already logged in", Toast.LENGTH_LONG).show()

@@ -66,13 +66,13 @@ class InfoPresenter(val mIView: IView) {
             })
     }
 
-    fun onGetBanner(context: Context){
+    fun onGetBanner(context: Context) {
         MainDao().onGetBanner(context)
-            .subscribe(object : RxObserver<BannerResponse>(mIView,""){
+            .subscribe(object : RxObserver<BannerResponse>(mIView, "") {
                 override fun onNext(t: BaseResponse) {
                     super.onNext(t)
                     t as BannerResponse
-                    if (t.meta?.code == 200){
+                    if (t.meta?.code == 200) {
                         (mIView as BannerIView).doOnSuccess(t)
                     }
 //                    else{
@@ -82,51 +82,54 @@ class InfoPresenter(val mIView: IView) {
             })
     }
 
-    fun onGetSDKConf(gameProvider:String,application: Application, context: Context) {
-        MainDao().onGetSDKConfig(gameProvider,context)
+    fun onGetSDKConf(gameProvider: String, application: Application, context: Context) {
+        MainDao().onGetSDKConfig(gameProvider, context)
             .subscribe(object : RxObserver<SDKConfigResponse>(mIView, "") {
                 override fun onNext(t: BaseResponse) {
                     super.onNext(t)
                     t as SDKConfigResponse
                     if (t.meta?.code == 200) {
-                        CacheUtil.putPreferenceString(
-                            IConfig.ADJUST_APP_TOKEN,
-                            t.data?.adjust?.app_token!!,
-                            context
-                        )
-                        initAdjust(application, t.data?.adjust?.app_token!!)
-                        t.data?.adjust?.events!!.forEach {
-                            when (it.name) {
-                                ADJUST_LOGIN -> CacheUtil.putPreferenceString(
-                                    ADJUST_LOGIN,
-                                    it.token,
-                                    context
-                                )
-                                ADJUST_LOGOUT -> CacheUtil.putPreferenceString(
-                                    ADJUST_LOGOUT,
-                                    it.token,
-                                    context
-                                )
-                                ADJUST_PAYMENT_FAILED -> CacheUtil.putPreferenceString(
-                                    ADJUST_PAYMENT_FAILED,
-                                    it.token,
-                                    context
-                                )
-                                ADJUST_PAYMENT_SUCCESS -> CacheUtil.putPreferenceString(
-                                    ADJUST_PAYMENT_SUCCESS,
-                                    it.token,
-                                    context
-                                )
-                                ADJUST_REGISTER_FAILED -> CacheUtil.putPreferenceString(
-                                    ADJUST_REGISTER_FAILED,
-                                    it.token,
-                                    context
-                                )
-                                ADJUST_REGISTER_SUCCESS -> CacheUtil.putPreferenceString(
-                                    ADJUST_REGISTER_SUCCESS,
-                                    it.token,
-                                    context
-                                )
+                        if (t.data?.adjust?.app_token != null) {
+
+                            CacheUtil.putPreferenceString(
+                                IConfig.ADJUST_APP_TOKEN,
+                                t.data?.adjust?.app_token!!,
+                                context
+                            )
+                            initAdjust(application, t.data?.adjust?.app_token!!)
+                            t.data?.adjust?.events!!.forEach {
+                                when (it.name) {
+                                    ADJUST_LOGIN -> CacheUtil.putPreferenceString(
+                                        ADJUST_LOGIN,
+                                        it.token,
+                                        context
+                                    )
+                                    ADJUST_LOGOUT -> CacheUtil.putPreferenceString(
+                                        ADJUST_LOGOUT,
+                                        it.token,
+                                        context
+                                    )
+                                    ADJUST_PAYMENT_FAILED -> CacheUtil.putPreferenceString(
+                                        ADJUST_PAYMENT_FAILED,
+                                        it.token,
+                                        context
+                                    )
+                                    ADJUST_PAYMENT_SUCCESS -> CacheUtil.putPreferenceString(
+                                        ADJUST_PAYMENT_SUCCESS,
+                                        it.token,
+                                        context
+                                    )
+                                    ADJUST_REGISTER_FAILED -> CacheUtil.putPreferenceString(
+                                        ADJUST_REGISTER_FAILED,
+                                        it.token,
+                                        context
+                                    )
+                                    ADJUST_REGISTER_SUCCESS -> CacheUtil.putPreferenceString(
+                                        ADJUST_REGISTER_SUCCESS,
+                                        it.token,
+                                        context
+                                    )
+                                }
                             }
                         }
                     }
