@@ -5,7 +5,6 @@ import androidx.annotation.Keep
 import com.akggame.akg_sdk.ui.component.IconForm
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
-@Keep
 class FloatingItem(
     val icon: Drawable? = null,
     val iconForm: IconForm? = null,

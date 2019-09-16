@@ -2,21 +2,18 @@ package com.akggame.akg_sdk.dao.api.model.response
 
 import androidx.annotation.Keep
 
-@Keep
 class BannerResponse : BaseResponse() {
 
 
     var meta: BaseResponse.MetaBean? = null
     var data: List<DataBean>? = null
 
-    @Keep
     class DataBean {
 
         var id: String? = null
         var type: String? = null
         var attributes: AttributesBean? = null
 
-        @Keep
         class AttributesBean {
 
             var title: String? = null
@@ -24,7 +21,6 @@ class BannerResponse : BaseResponse() {
             var cover_image: CoverImageBean? = null
             var game: GameBean? = null
 
-            @Keep
             class CoverImageBean {
 
                 var url: String? = null
@@ -36,7 +32,6 @@ class BannerResponse : BaseResponse() {
                 }
             }
 
-            @Keep
             class GameBean {
 
                 var id: String? = null

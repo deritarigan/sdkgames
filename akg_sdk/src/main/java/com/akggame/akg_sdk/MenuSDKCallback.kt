@@ -3,6 +3,6 @@ package com.akggame.akg_sdk
 interface MenuSDKCallback {
 
     fun onLogout()
-//    fun onCheckSDK()
-    fun onSuccessBind(token:String)
+    fun onSuccessBind(token:String,loginType:String)
+    fun onCheckSDK(isUpdated : Boolean)
 }

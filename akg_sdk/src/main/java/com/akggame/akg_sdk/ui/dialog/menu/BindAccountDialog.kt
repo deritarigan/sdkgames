@@ -97,10 +97,12 @@ class BindAccountDialog() : BaseDialogFragment(), BindAccountIView {
         when(socmedType){
             "google" -> {
                 CacheUtil.putPreferenceString(IConfig.LOGIN_TYPE,IConfig.LOGIN_GOOGLE,requireActivity())
+                mMenuSDKCallback.onSuccessBind(data.BaseDataResponse!!.token!!,AKG_SDK.LOGIN_GOOGLE)
 
             }
             "facebook" -> {
                 CacheUtil.putPreferenceString(IConfig.LOGIN_TYPE,IConfig.LOGIN_FACEBOOK,requireActivity())
+                mMenuSDKCallback.onSuccessBind(data.BaseDataResponse!!.token!!,AKG_SDK.LOGIN_FACEBOOK)
             }
         }
         mAkgSdk.setFloatingButton(requireActivity() as AppCompatActivity,mFloatingButton, requireContext(), mMenuSDKCallback)

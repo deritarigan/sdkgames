@@ -4,7 +4,6 @@ import androidx.annotation.Keep
 import com.akggame.akg_sdk.dao.api.model.ProductData
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
-@Keep
 @JsonIgnoreProperties(ignoreUnknown = true)
 class GameProductsResponse:BaseResponse()  {
 

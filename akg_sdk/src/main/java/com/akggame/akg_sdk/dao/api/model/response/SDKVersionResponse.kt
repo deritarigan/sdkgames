@@ -3,14 +3,12 @@ package com.akggame.akg_sdk.dao.api.model.response
 import androidx.annotation.Keep
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
-@Keep
 @JsonIgnoreProperties(ignoreUnknown = true)
 class SDKVersionResponse : BaseResponse() {
 
     var data: DataBean? = null
     var meta: BaseResponse.MetaBean? = null
 
-    @Keep
     @JsonIgnoreProperties(ignoreUnknown = true)
     class DataBean {
 
@@ -18,7 +16,6 @@ class SDKVersionResponse : BaseResponse() {
         var type: String? = null
         var attributes: AttributesBean? = null
 
-        @Keep
         @JsonIgnoreProperties(ignoreUnknown = true)
         class AttributesBean {
 

@@ -2,7 +2,6 @@ package com.akggame.akg_sdk.dao.api.model.request
 
 import androidx.annotation.Keep
 
-@Keep
 class FacebookAuthRequest {
 
     /**

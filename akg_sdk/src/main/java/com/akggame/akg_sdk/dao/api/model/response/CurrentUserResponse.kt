@@ -3,7 +3,6 @@ package com.akggame.akg_sdk.dao.api.model.response
 import androidx.annotation.Keep
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
-@Keep
 @JsonIgnoreProperties(ignoreUnknown = true)
 class CurrentUserResponse : BaseResponse() {
 
@@ -11,7 +10,6 @@ class CurrentUserResponse : BaseResponse() {
     var data: DataBean? = null
     var meta: BaseResponse.MetaBean? = null
 
-    @Keep
     @JsonIgnoreProperties(ignoreUnknown = true)
     class DataBean {
 
@@ -20,7 +18,6 @@ class CurrentUserResponse : BaseResponse() {
         var attributes: AttributesBean? = null
         var message: String? = null
 
-        @Keep
         @JsonIgnoreProperties(ignoreUnknown = true)
         class AttributesBean {
             var uid: String? = null

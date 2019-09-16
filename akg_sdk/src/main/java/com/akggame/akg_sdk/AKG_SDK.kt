@@ -41,9 +41,16 @@ object AKG_SDK : AccountIView {
 
     const val SDK_PAYMENT_CODE = 199
     const val SDK_PAYMENT_DATA = "akg_purchase_data"
+    const val LOGIN_GOOGLE="loginGoogle"
+    const val LOGIN_FACEBOOK="loginFacebook"
+    const val LOGIN_PHONE="loginPhone"
 
     fun checkIsLogin(context: Context): Boolean {
         return CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN, context)
+    }
+
+    fun getMenuCallback() : MenuSDKCallback{
+        return menuCallback
     }
 
 
