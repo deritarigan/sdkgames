@@ -4,80 +4,52 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
-import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import com.akggame.akg_sdk.dao.api.model.FloatingItem
-import com.akggame.akg_sdk.dao.api.model.response.CurrentUserResponse
-import com.akggame.akg_sdk.presenter.InfoPresenter
-import com.akggame.akg_sdk.presenter.ProductPresenter
-import com.akggame.akg_sdk.rx.IView
+import com.akggame.akg_sdk.dao.AkgDao
 import com.akggame.akg_sdk.ui.activity.PaymentActivity
-import com.akggame.akg_sdk.ui.activity.PaymentIView
-import com.akggame.akg_sdk.ui.adapter.FloatingAdapterListener
 import com.akggame.akg_sdk.ui.component.FloatingButton
-import com.akggame.akg_sdk.ui.component.FloatingItemClickListener
-import com.akggame.akg_sdk.ui.dialog.banner.BannerDialog
-import com.akggame.akg_sdk.ui.dialog.login.LoginDialogFragment
-import com.akggame.akg_sdk.ui.dialog.login.RelaunchDialog
-import com.akggame.akg_sdk.ui.dialog.menu.*
 import com.akggame.akg_sdk.util.CacheUtil
-import com.akggame.akg_sdk.util.DeviceUtil
-import com.akggame.android.sdk.R
 import com.android.billingclient.api.SkuDetails
+import com.akggame.akg_sdk.dao.*
 
-object AKG_SDK : AccountIView {
+object AKG_SDK {
 
-    private lateinit var customCallback: LoginSDKCallback
     private lateinit var menuCallback: MenuSDKCallback
     //    lateinit var activity: AppCompatActivity
     private lateinit var mFloatingButton: FloatingButton
-
-    private val productPresenter = ProductPresenter(this)
-    private val presenter = InfoPresenter(this)
-
+    private val AkgDao = AkgDao()
     const val SDK_PAYMENT_CODE = 199
     const val SDK_PAYMENT_DATA = "akg_purchase_data"
-    const val LOGIN_GOOGLE="loginGoogle"
-    const val LOGIN_FACEBOOK="loginFacebook"
-    const val LOGIN_PHONE="loginPhone"
+    const val LOGIN_GOOGLE = "loginGoogle"
+    const val LOGIN_FACEBOOK = "loginFacebook"
+    const val LOGIN_PHONE = "loginPhone"
 
     fun checkIsLogin(context: Context): Boolean {
         return CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN, context)
     }
 
-    fun getMenuCallback() : MenuSDKCallback{
+    fun getMenuCallback(): MenuSDKCallback {
         return menuCallback
     }
-
-
-    fun registerAdjustOnAKG(gameProvider:String,application: Application) {
-        presenter.onGetSDKConf(gameProvider,application, application)
+    fun registerAdjustOnAKG(gameProvider: String, application: Application) {
+        AkgDao.registerAdjust(gameProvider,application)
     }
 
-    fun getProducts(application: Application,context: Context,callback:ProductSDKCallback){
-      productPresenter.getProducts(CacheUtil.getPreferenceString(IConfig.SESSION_GAME,context),
-            application,context,callback )
+    fun getProducts(application: Application, context: Context, callback: ProductSDKCallback) {
+        AkgDao.getProducts(application,context,callback)
     }
-    fun callBannerDialog(activity: AppCompatActivity){
-        val banner = BannerDialog()
-        val ftransaction = activity.supportFragmentManager.beginTransaction()
-        ftransaction.addToBackStack("banner")
-        banner.show(ftransaction, "banner")
+
+    fun callBannerDialog(activity: AppCompatActivity) {
+        AkgDao.callBannerDialog(activity)
     }
-    fun launchBilling(activity: Activity,skuDetails: SkuDetails,callback:PurchaseSDKCallback){
-        productPresenter.lauchBilling(activity,skuDetails,callback)
+
+    fun launchBilling(activity: Activity, skuDetails: SkuDetails, callback: PurchaseSDKCallback) {
+        AkgDao.launchBilling(activity,skuDetails,callback)
     }
 
     fun setRelauchDialog(activity: AppCompatActivity, menuSDKCallback: MenuSDKCallback) {
         menuCallback = menuSDKCallback
-        val dialog = RelaunchDialog.newInstance(menuSDKCallback)
-        val ftransaction = activity.supportFragmentManager.beginTransaction()
-        ftransaction.addToBackStack("relaunch")
-        dialog.show(ftransaction, "relaunch")
+        AkgDao.callRelaunchDialog(activity, menuSDKCallback)
     }
 
     fun resetFloatingButton(activity: AppCompatActivity) {
@@ -91,173 +63,16 @@ object AKG_SDK : AccountIView {
         menuSDKCallback: MenuSDKCallback
     ) {
         menuCallback = menuSDKCallback
-        val onItemClickListener: FloatingAdapterListener = object : FloatingAdapterListener {
-            override fun onItemClick(position: Int, floatingItem: FloatingItem) {
-                val contactUsDialog = InfoDialog()
-                val checkVersionDialog = CheckVersionDialog()
-                val bindAccountDialog = BindAccountDialog.newInstance(
-                    activity.supportFragmentManager,
-                    floatingButton,
-                    this@AKG_SDK,
-                    menuSDKCallback
-                )
-                val logoutDialog = LogoutDialog.newInstance(menuCallback)
-                val accountDialog = AccountDialog.newInstance(activity.supportFragmentManager)
-                when (position) {
-                    0 -> {
-                        if (CacheUtil.getPreferenceString(
-                                IConfig.LOGIN_TYPE,
-                                activity
-                            )?.equals(IConfig.LOGIN_GUEST)!!
-                        ) {
-                            bindAccountDialog.show(activity.supportFragmentManager, "bind account")
-                        } else {
-                            accountDialog.show(activity.supportFragmentManager, "account")
-                        }
-                    }
-                    1 -> Toast.makeText(context, "fb", Toast.LENGTH_LONG).show()
-
-                    2 -> Toast.makeText(context, "eula", Toast.LENGTH_LONG).show()
-
-                    3 -> contactUsDialog.show(activity.supportFragmentManager, "contact us")
-
-                    4 -> checkVersionDialog.show(activity.supportFragmentManager, "check version")
-
-                    5 -> logoutDialog.show(activity.supportFragmentManager, "logout")
-
-                }
-            }
-        }
-
-        floatingButton.floatingAdapterListener = onItemClickListener
-
-        floatingButton.circleIcon.setImageDrawable(
-            ContextCompat.getDrawable(
-                context,
-                R.mipmap.btn_akg_logo
-            )
-        )
-        floatingButton.clearAllItems()
-        if (CacheUtil.getPreferenceString(
-                IConfig.LOGIN_TYPE,
-                activity
-            )?.equals(IConfig.LOGIN_GUEST)!!
-        ) {
-            floatingButton.addItem(
-                FloatingItem(
-                    ContextCompat.getDrawable(
-                        context,
-                        R.mipmap.btn_bind_account
-                    ), null, "Bind Account"
-                )
-            )
-
-        } else {
-            floatingButton.addItem(
-                FloatingItem(
-                    ContextCompat.getDrawable(
-                        context,
-                        R.mipmap.btn_verify_account
-                    ), null, "Account Info"
-                )
-            )
-        }
-        floatingButton.addItem(
-            FloatingItem(
-                ContextCompat.getDrawable(context, R.mipmap.btn_fb),
-                null,
-                "FB Fanpage"
-            )
-        )
-        floatingButton.addItem(
-            FloatingItem(
-                ContextCompat.getDrawable(context, R.mipmap.btn_eula),
-                null,
-                "Eula"
-            )
-        )
-        floatingButton.addItem(
-            FloatingItem(
-                ContextCompat.getDrawable(context, R.mipmap.btn_contact_us),
-                null, "Contact Us"
-            )
-        )
-        floatingButton.addItem(
-            FloatingItem(
-                ContextCompat.getDrawable(context, R.mipmap.btn_sdk_version),
-                null, "SDK Version"
-            )
-        )
-        floatingButton.addItem(
-            FloatingItem(
-                ContextCompat.getDrawable(context, R.mipmap.btn_log_out),
-                null, "Logout"
-            )
-        )
-        callGetAccount(activity, context)
-        mFloatingButton = floatingButton
+        AkgDao.setFloatingButtonListener(activity,floatingButton,context,menuSDKCallback)
+        mFloatingButton = AkgDao.setFloatingButtonItem(floatingButton,activity)
     }
 
-    //    @JvmStatic
     fun onLogin(activity: AppCompatActivity, gameName: String, loginSDKCallback: LoginSDKCallback) {
-        CacheUtil.putPreferenceString(IConfig.SESSION_GAME, gameName, activity)
-        if (!CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN, activity)) {
-            this.customCallback = loginSDKCallback
-            val loginDialogFragment =
-                LoginDialogFragment.newInstance(activity.supportFragmentManager, customCallback)
-            val ftransaction = activity.supportFragmentManager.beginTransaction()
-            loginDialogFragment.clearBackStack()
-            ftransaction.addToBackStack("login")
-            loginDialogFragment.show(ftransaction, "login")
-        } else {
-            Toast.makeText(activity, "You already logged in", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    private fun callGetAccount(activity: AppCompatActivity, context: Context) {
-        InfoPresenter(this).onGetCurrentUser(activity, context)
+        AkgDao.callLoginDialog(activity,gameName,loginSDKCallback)
     }
 
     fun onSDKPayment(activity: AppCompatActivity) {
         val intent = Intent(activity, PaymentActivity::class.java)
         activity.startActivityForResult(intent, SDK_PAYMENT_CODE)
-    }
-
-    override fun doOnSuccess(activity: AppCompatActivity, data: CurrentUserResponse) {
-        if (CacheUtil.getPreferenceString(IConfig.LOGIN_TYPE, activity) == IConfig.LOGIN_PHONE) {
-            data.data?.attributes?.phone_number
-            CacheUtil.putPreferenceString(
-                IConfig.SESSION_USERNAME,
-                data.data?.attributes?.phone_number!!,
-                activity
-            )
-        } else {
-            if (data.data?.attributes?.email != null) {
-                CacheUtil.putPreferenceString(
-                    IConfig.SESSION_USERNAME, data.data?.attributes?.email!!,
-                    activity
-                )
-            } else {
-                CacheUtil.putPreferenceString(
-                    IConfig.SESSION_USERNAME, "",
-                    activity
-                )
-            }
-        }
-        if (data.data?.attributes?.uid != null) {
-            CacheUtil.putPreferenceString(
-                IConfig.SESSION_UID, data.data?.attributes?.uid!!,
-                activity
-            )
-        }
-    }
-
-    override fun doOnError(message: String?) {
-    }
-
-    override fun handleError(message: String) {
-    }
-
-    override fun handleRetryConnection() {
     }
 }

@@ -62,7 +62,7 @@ class ForgetDialog() : BaseDialogFragment(), OTPIView {
             bundle.putString("phone","+62"+mView.etPhoneNumber.text.toString())
             val updatePassword = UpdatePasswordDialog.newInstance(myFragmentManager,bundle)
             val ftransaction = myFragmentManager!!.beginTransaction()
-            ftransaction?.addToBackStack("update password")
+            ftransaction.addToBackStack("update password")
             updatePassword.show(ftransaction, "update password")
             customDismiss()
         }

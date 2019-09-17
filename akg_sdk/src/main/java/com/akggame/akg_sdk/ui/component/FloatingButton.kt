@@ -209,12 +209,12 @@ class FloatingButton : FrameLayout {
                         )
                     } else {
                         newX = Math.min(
-                            (parentWidth - circleIcon.width!!).toFloat(),
+                            (parentWidth - circleIcon.width).toFloat(),
                             newX
                         )
 
                         newY = Math.min(
-                            (parentHeight - circleIcon.height!!).toFloat(),
+                            (parentHeight - circleIcon.height).toFloat(),
                             newY
                         )
                     }
@@ -528,11 +528,6 @@ class FloatingButton : FrameLayout {
         adapter.addItem(getWrapperItem(floatingItem))
     }
 
-    fun setVisibilityGone(position: Int) {
-        val view = adapter
-
-    }
-
     /** adds a [SubmarineItem] list to the navigation adapter. */
     fun addItems(floatingItems: List<FloatingItem>) {
         for (floattingItem in floatingItems) {
@@ -624,7 +619,7 @@ class FloatingButton : FrameLayout {
 //                updateWidthParams(expandSize, radius)
                 updateWidthParams(expandSize, radius)
                 val newX = Math.min(
-                    ((this.parent as View).width - this.width!!).toFloat(),
+                    ((this.parent as View).width - this.width).toFloat(),
                     this.x
                 )
                 if (newX != this.x && !isCircle) {
@@ -633,7 +628,6 @@ class FloatingButton : FrameLayout {
                         .setDuration(duration)
                         .start()
                 }
-//                updateWidth(radius)
             }
 
 

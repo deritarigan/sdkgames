@@ -69,7 +69,7 @@ class PhoneLoginDialogFragment() : BaseDialogFragment(), LoginIView {
             if(myFragmentManager!=null){
                 val otpDialog = OTPDialog.newInstance(myFragmentManager)
                 val ftransaction = myFragmentManager!!.beginTransaction()
-                ftransaction?.addToBackStack("registration")
+                ftransaction.addToBackStack("registration")
                 otpDialog.show(ftransaction, "registration")
                 customDismiss()
             }
@@ -89,7 +89,7 @@ class PhoneLoginDialogFragment() : BaseDialogFragment(), LoginIView {
             if(myFragmentManager!=null){
                 val forgetDialog = ForgetDialog.newInstance(myFragmentManager)
                 val ftransaction = myFragmentManager!!.beginTransaction()
-                ftransaction?.addToBackStack("forget")
+                ftransaction.addToBackStack("forget")
                 forgetDialog.show(ftransaction, "forget")
                 customDismiss()
             }

@@ -193,7 +193,7 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
             val phoneLoginDialogFragment =
                 PhoneLoginDialogFragment.newInstance(myFragmentManager, mLoginCallback)
             val ftransaction = myFragmentManager!!.beginTransaction()
-            ftransaction?.addToBackStack("phone")
+            ftransaction.addToBackStack("phone")
             phoneLoginDialogFragment.show(ftransaction, "phone")
         }
     }

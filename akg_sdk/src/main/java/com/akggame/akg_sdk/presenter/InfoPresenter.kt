@@ -83,7 +83,7 @@ class InfoPresenter(val mIView: IView) {
     }
 
     fun onGetSDKConf(gameProvider: String, application: Application, context: Context) {
-        MainDao().onGetSDKConfig(gameProvider, context)
+        MainDao().onGetSDKConfig(gameProvider)
             .subscribe(object : RxObserver<SDKConfigResponse>(mIView, "") {
                 override fun onNext(t: BaseResponse) {
                     super.onNext(t)

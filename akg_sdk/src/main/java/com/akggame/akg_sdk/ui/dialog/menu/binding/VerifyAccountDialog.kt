@@ -71,7 +71,7 @@ class VerifyAccountDialog() :BaseDialogFragment(),OTPIView{
         if (myFragmentManager!=null){
             val verificationDialog = VerificationDialog.newInstance(myFragmentManager, bundle)
             val ftransaction = myFragmentManager!!.beginTransaction()
-            ftransaction?.addToBackStack("verification password")
+            ftransaction.addToBackStack("verification password")
             verificationDialog.show(ftransaction, "verification password")
             customDismiss()
         }

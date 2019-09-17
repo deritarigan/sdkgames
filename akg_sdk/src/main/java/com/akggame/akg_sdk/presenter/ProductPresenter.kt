@@ -56,33 +56,35 @@ class ProductPresenter(val mIView: IView) {
             })
     }
 
-    fun lauchBilling(activity: Activity,skuDetails: SkuDetails,callback:PurchaseSDKCallback){
-        if(billingDao!=null){
-            billingDao.lauchBillingFlow(activity,skuDetails)
-        }
+    fun lauchBilling(activity: Activity, skuDetails: SkuDetails, callback: PurchaseSDKCallback) {
+        billingDao.lauchBillingFlow(activity, skuDetails)
+
         purchaseSDKCallback = callback
     }
 
-    fun onPostOrder(body: PostOrderRequest, purchase: Purchase, context: Context){
-        MainDao().onPostOrder(body,context).subscribe(object :RxObserver<BaseResponse>(mIView,""){
-            override fun onNext(t: BaseResponse) {
-                super.onNext(t)
-                if(t.BaseMetaResponse?.code==200){
-                    val purchaseItem = PurchaseItem()
-                    purchaseItem.product_id= purchase.sku
-                    purchaseItem.product_name = purchase.packageName
-                   if(purchaseSDKCallback!=null){
-                       purchaseSDKCallback.onPurchasedItem(purchaseItem)
-                   }
-                }else{
-                    Toast.makeText(context,"Error: "+t.BaseDataResponse?.message, Toast.LENGTH_LONG).show()
+    fun onPostOrder(body: PostOrderRequest, purchase: Purchase, context: Context) {
+        MainDao().onPostOrder(body, context)
+            .subscribe(object : RxObserver<BaseResponse>(mIView, "") {
+                override fun onNext(t: BaseResponse) {
+                    super.onNext(t)
+                    if (t.BaseMetaResponse?.code == 200) {
+                        val purchaseItem = PurchaseItem()
+                        purchaseItem.product_id = purchase.sku
+                        purchaseItem.product_name = purchase.packageName
+                        purchaseSDKCallback.onPurchasedItem(purchaseItem)
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "Error: " + t.BaseDataResponse?.message,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 }
-            }
 
-            override fun onComplete() {
-                super.onComplete()
-                (mIView as PaymentIView).doOnComplete(purchase)
-            }
-        })
+                override fun onComplete() {
+                    super.onComplete()
+                    (mIView as PaymentIView).doOnComplete(purchase)
+                }
+            })
     }
 }

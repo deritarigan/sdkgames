@@ -58,7 +58,7 @@ class UpdatePasswordDialog():BaseDialogFragment(),UpdatePasswordIView {
             clearBackStack()
             val successDialog = SuccessDialogFragment.newInstance(myFragmentManager, bundle)
             val ftransaction = myFragmentManager!!.beginTransaction()
-            ftransaction?.addToBackStack("success")
+            ftransaction.addToBackStack("success")
             successDialog.show(ftransaction, "success")
             customDismiss()
         }

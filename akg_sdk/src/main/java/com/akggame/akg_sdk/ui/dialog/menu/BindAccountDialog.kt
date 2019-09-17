@@ -53,7 +53,6 @@ class BindAccountDialog() : BaseDialogFragment(), BindAccountIView {
     lateinit var callbackManager: CallbackManager
     lateinit var mGoogleSignInClient: GoogleSignInClient
     lateinit var mFloatingButton: FloatingButton
-    lateinit var mAkgSdk: AKG_SDK
     lateinit var mMenuSDKCallback: MenuSDKCallback
     val presenter = BindAccountPresenter(this)
 
@@ -62,23 +61,20 @@ class BindAccountDialog() : BaseDialogFragment(), BindAccountIView {
         fun newInstance(
             fm: FragmentManager?,
             floatingButton: FloatingButton,
-            akgSdk: AKG_SDK,
             menuSDKCallback: MenuSDKCallback
         ): BindAccountDialog {
 
-            return BindAccountDialog(fm, floatingButton, akgSdk, menuSDKCallback)
+            return BindAccountDialog(fm, floatingButton, menuSDKCallback)
         }
     }
 
     constructor(
         fm: FragmentManager?,
         floatingButton: FloatingButton,
-        akgSdk: AKG_SDK,
         menuSDKCallback: MenuSDKCallback
     ) : this() {
         myFragmentManager = fm
         mFloatingButton = floatingButton
-        mAkgSdk = akgSdk
         mMenuSDKCallback = menuSDKCallback
     }
 
@@ -105,7 +101,7 @@ class BindAccountDialog() : BaseDialogFragment(), BindAccountIView {
                 mMenuSDKCallback.onSuccessBind(data.BaseDataResponse!!.token!!,AKG_SDK.LOGIN_FACEBOOK)
             }
         }
-        mAkgSdk.setFloatingButton(requireActivity() as AppCompatActivity,mFloatingButton, requireContext(), mMenuSDKCallback)
+        AKG_SDK.resetFloatingButton(requireActivity() as AppCompatActivity)
         customDismiss()
         clearBackStack()
     }
@@ -120,7 +116,7 @@ class BindAccountDialog() : BaseDialogFragment(), BindAccountIView {
             if(myFragmentManager!=null){
                 val verifyDialog = VerifyAccountDialog.newInstance(myFragmentManager)
                 val ftransaction = myFragmentManager!!.beginTransaction()
-                ftransaction?.addToBackStack("verify account")
+                ftransaction.addToBackStack("verify account")
                 verifyDialog.show(ftransaction, "verify account")
                 customDismiss()
             }

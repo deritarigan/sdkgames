@@ -100,8 +100,8 @@ class MainDao() {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun onGetSDKConfig(gameProvider: String?,context: Context):Observable<SDKConfigResponse>{
-        return Api.onCallGetSDKConfig(gameProvider,context)
+    fun onGetSDKConfig(gameProvider: String?):Observable<SDKConfigResponse>{
+        return Api.onCallGetSDKConfig(gameProvider)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

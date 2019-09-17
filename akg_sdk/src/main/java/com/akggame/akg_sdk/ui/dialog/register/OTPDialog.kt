@@ -67,7 +67,7 @@ class OTPDialog() : BaseDialogFragment(), OTPIView {
         if(myFragmentManager!=null){
             val setPasswordDialog = SetPasswordDialog.newInstance(myFragmentManager, bundle)
             val ftransaction = myFragmentManager!!.beginTransaction()
-            ftransaction?.addToBackStack("set password")
+            ftransaction.addToBackStack("set password")
             setPasswordDialog.show(ftransaction, "set password")
             customDismiss()
         }

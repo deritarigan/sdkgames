@@ -63,7 +63,7 @@ class PaymentActivity : AppCompatActivity(),PurchaseSDKCallback {
 
     override fun onStart() {
         super.onStart()
-        rvProduct.layoutManager = GridLayoutManager(this, 2) as RecyclerView.LayoutManager?
+        rvProduct.layoutManager = GridLayoutManager(this, 2)
         rvProduct.adapter = adapter
         rvProduct.setHasFixedSize(true)
     }

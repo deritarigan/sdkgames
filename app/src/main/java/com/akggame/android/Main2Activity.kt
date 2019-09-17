@@ -13,9 +13,14 @@ import com.akggame.akg_sdk.dao.pojo.PurchaseItem
 import kotlinx.android.synthetic.main.activity_main2.*
 
 class Main2Activity : AppCompatActivity(),MenuSDKCallback {
-    override fun onSuccessBind(token: String) {
+    override fun onSuccessBind(token: String, loginType: String) {
 
     }
+
+    override fun onCheckSDK(isUpdated: Boolean) {
+
+    }
+
 
     override fun onLogout() {
         startActivity(Intent(this@Main2Activity,MainActivity::class.java))

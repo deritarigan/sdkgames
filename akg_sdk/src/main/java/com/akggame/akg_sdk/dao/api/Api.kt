@@ -114,7 +114,7 @@ class Api {
         }
 
         @Synchronized
-        fun onCallGetSDKConfig(gameProvider: String?,context: Context):Observable<SDKConfigResponse>{
+        fun onCallGetSDKConfig(gameProvider: String?):Observable<SDKConfigResponse>{
             return initApiDomain().callGetSDKConfig(initHeader(),gameProvider)
         }
 

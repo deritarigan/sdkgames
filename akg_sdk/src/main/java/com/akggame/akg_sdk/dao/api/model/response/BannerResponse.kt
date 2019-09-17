@@ -2,6 +2,7 @@ package com.akggame.akg_sdk.dao.api.model.response
 
 import androidx.annotation.Keep
 
+
 class BannerResponse : BaseResponse() {
 
 
