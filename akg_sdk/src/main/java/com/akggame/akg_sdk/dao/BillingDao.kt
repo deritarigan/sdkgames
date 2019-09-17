@@ -335,20 +335,17 @@ class BillingDao constructor(
                 )
             adjustEvent.setRevenue(price, "IDR")
             adjustEvent.setOrderId(sku)
+            adjustEvent.addCallbackParameter("user_id",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,application))
             Adjust.trackEvent(adjustEvent)
         }
     }
 
     fun setAdjustEventPaymentFailed() {
         if (CacheUtil.getPreferenceString(IConfig.ADJUST_PAYMENT_FAILED, application) != null) {
-            Adjust.trackEvent(
-                AdjustEvent(
-                    CacheUtil.getPreferenceString(
-                        IConfig.ADJUST_PAYMENT_FAILED,
-                        application
-                    )
-                )
-            )
+            val adjustEvent = AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_PAYMENT_FAILED, application))
+            adjustEvent.addCallbackParameter("user_id",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,application))
+            Adjust.trackEvent(adjustEvent)
+
         }
     }
 }
