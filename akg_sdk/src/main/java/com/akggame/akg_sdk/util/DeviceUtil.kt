@@ -40,14 +40,16 @@ object DeviceUtil {
         }
     }
 
-     fun decoded(JWTEncoded: String) {
+     fun decoded(JWTEncoded: String) : String {
          try {
              val split =
                  JWTEncoded.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
              Log.d("JWT_DECODED", "Header: " + getJson(split[0]))
              Log.d("JWT_DECODED", "Body: " + getJson(split[1]))
+             return getJson(split[1])
          } catch (e: UnsupportedEncodingException) {
              //Error
+             return ""
          }
      }
 

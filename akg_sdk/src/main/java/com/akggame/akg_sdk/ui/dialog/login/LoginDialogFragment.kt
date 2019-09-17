@@ -84,14 +84,16 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
 
     override fun doOnSuccess(token: String,loginType:String) {
         mLoginCallback.onResponseSuccess(token,loginType)
-        DeviceUtil.decoded(token)
+        CacheUtil.putPreferenceString(IConfig.SESSION_PIW,DeviceUtil.decoded(token),requireActivity())
         setAdjustEventLogin()
         dismiss()
     }
 
     fun setAdjustEventLogin(){
         if(CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN,requireActivity())!=null){
-            Adjust.trackEvent(AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN,requireActivity())))
+            val adjustEvent = AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN,requireActivity()))
+            adjustEvent.addCallbackParameter("user_id",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,requireActivity()))
+            Adjust.trackEvent(adjustEvent)
         }
     }
 

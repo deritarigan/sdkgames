@@ -22,6 +22,7 @@ interface IConfig {
         val SESSION_USERNAME = "uName"
         val SESSION_UID = "yuaidi"
         val SESSION_GAME= "gemes"
+        val SESSION_PIW = "iddong"
 
         val ADJUST_APP_TOKEN = "app_token"
         val ADJUST_LOGIN = "login"
