@@ -11,10 +11,13 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import java.util.*
 import android.text.TextUtils
+import android.util.Base64.URL_SAFE
+import android.util.Base64.decode
+import java.io.UnsupportedEncodingException
+import java.util.Base64.Decoder
 
 
-
- object DeviceUtil {
+object DeviceUtil {
 
     fun getImei(cuntext: Context): String {
         val manager = cuntext.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -36,6 +39,22 @@ import android.text.TextUtils
             return ""
         }
     }
+
+     fun decoded(JWTEncoded: String) {
+         try {
+             val split =
+                 JWTEncoded.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+             Log.d("JWT_DECODED", "Header: " + getJson(split[0]))
+             Log.d("JWT_DECODED", "Body: " + getJson(split[1]))
+         } catch (e: UnsupportedEncodingException) {
+             //Error
+         }
+     }
+
+     private fun getJson(strEncoded: String): String {
+         val decodedBytes = decode(strEncoded,URL_SAFE)
+         return String(decodedBytes, Charsets.UTF_8)
+     }
 
      fun getDeviceName():String{
          var manufacter = Build.MANUFACTURER

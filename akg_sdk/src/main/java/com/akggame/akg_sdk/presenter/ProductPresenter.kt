@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import com.akggame.akg_sdk.AKG_SDK
 import com.akggame.akg_sdk.ProductSDKCallback
@@ -32,7 +33,6 @@ class ProductPresenter(val mIView: IView) {
     ) {
         MainDao().onGetProduct(gameProvider, context)
             .subscribe(object : RxObserver<GameProductsResponse>(mIView, "") {
-
                 override fun onNext(t: BaseResponse) {
                     super.onNext(t)
                     t as GameProductsResponse
@@ -52,6 +52,12 @@ class ProductPresenter(val mIView: IView) {
                     } else {
                         (mIView as PaymentIView).handleError("Failed for getting products")
                     }
+                }
+
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    Log.d("TESTING API", "onError : "+ e.toString())
+
                 }
             })
     }
@@ -84,6 +90,12 @@ class ProductPresenter(val mIView: IView) {
                 override fun onComplete() {
                     super.onComplete()
                     (mIView as PaymentIView).doOnComplete(purchase)
+                }
+
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    Log.d("TESTING API", "onError : "+ e.toString())
+
                 }
             })
     }

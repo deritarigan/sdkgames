@@ -72,7 +72,8 @@ class RegisterPresenter(val iView: IView) {
 
             override fun onError(e: Throwable) {
                 super.onError(e)
-                Log.d("TESTING API", "onError")
+                Log.d("TESTING API", "onError : "+ e.toString())
+
             }
         })
     }

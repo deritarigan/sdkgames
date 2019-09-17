@@ -1,6 +1,7 @@
 package com.akggame.akg_sdk.presenter
 
 import android.content.Context
+import android.util.Log
 import com.akggame.akg_sdk.dao.MainDao
 import com.akggame.akg_sdk.dao.api.model.request.BindSocMedRequest
 import com.akggame.akg_sdk.dao.api.model.request.PhoneBindingRequest
@@ -23,6 +24,12 @@ class BindAccountPresenter(val mIView:IView) {
                     (mIView as BindAccountIView).doOnError(t.BaseDataResponse?.message.toString(),socmedType)
                 }
             }
+
+            override fun onError(e: Throwable) {
+                super.onError(e)
+                Log.d("TESTING API", "onError : "+ e.toString())
+
+            }
         })
     }
 
@@ -35,6 +42,12 @@ class BindAccountPresenter(val mIView:IView) {
                 }else{
                     (mIView as SetPasswordIView).handleError(t.BaseDataResponse?.message!!)
                 }
+            }
+
+            override fun onError(e: Throwable) {
+                super.onError(e)
+                Log.d("TESTING API", "onError : "+ e.toString())
+
             }
         })
     }

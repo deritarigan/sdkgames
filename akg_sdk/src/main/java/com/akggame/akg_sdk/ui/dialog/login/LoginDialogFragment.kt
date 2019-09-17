@@ -84,6 +84,7 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
 
     override fun doOnSuccess(token: String,loginType:String) {
         mLoginCallback.onResponseSuccess(token,loginType)
+        DeviceUtil.decoded(token)
         setAdjustEventLogin()
         dismiss()
     }

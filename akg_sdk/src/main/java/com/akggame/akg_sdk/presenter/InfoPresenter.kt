@@ -63,6 +63,12 @@ class InfoPresenter(val mIView: IView) {
                         (mIView as CheckVersionIView).doOnSuccess(t)
                     }
                 }
+
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    Log.d("TESTING API", "onError : "+ e.toString())
+
+                }
             })
     }
 
@@ -78,6 +84,12 @@ class InfoPresenter(val mIView: IView) {
 //                    else{
 //                        (mIView).handleError(t.)
 //                    }
+                }
+
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    Log.d("TESTING API", "onError : "+ e.toString())
+
                 }
             })
     }
@@ -133,6 +145,12 @@ class InfoPresenter(val mIView: IView) {
                             }
                         }
                     }
+                }
+
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    Log.d("TESTING API", "onError : "+ e.toString())
+
                 }
             })
 

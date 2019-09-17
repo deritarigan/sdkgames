@@ -1,6 +1,7 @@
 package com.akggame.akg_sdk.presenter
 
 import android.content.Context
+import android.util.Log
 import com.akggame.akg_sdk.IConfig
 import com.akggame.akg_sdk.dao.MainDao
 import com.akggame.akg_sdk.dao.api.model.response.BaseResponse
@@ -36,6 +37,8 @@ class LogoutPresenter(val mIView: IView) {
 
             override fun onError(e: Throwable) {
                 super.onError(e)
+                Log.d("TESTING API", "onError : "+ e.toString())
+
             }
         })
     }
