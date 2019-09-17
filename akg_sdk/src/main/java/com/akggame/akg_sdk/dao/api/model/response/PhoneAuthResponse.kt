@@ -3,6 +3,7 @@ package com.akggame.akg_sdk.dao.api.model.response
 import androidx.annotation.Keep
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
+@Keep
 @JsonIgnoreProperties(ignoreUnknown = true)
 class PhoneAuthResponse : BaseResponse() {
 
