@@ -11,6 +11,7 @@ class BannerResponse : BaseResponse() {
     var meta: BaseResponse.MetaBean? = null
     var data: List<DataBean>? = null
 
+    @Keep
     @JsonIgnoreProperties(ignoreUnknown = true)
     class DataBean {
 
@@ -18,6 +19,7 @@ class BannerResponse : BaseResponse() {
         var type: String? = null
         var attributes: AttributesBean? = null
 
+        @Keep
         @JsonIgnoreProperties(ignoreUnknown = true)
         class AttributesBean {
 
@@ -25,12 +27,14 @@ class BannerResponse : BaseResponse() {
             var image_link_url: String? = null
             var cover_image: CoverImageBean? = null
 
+            @Keep
             @JsonIgnoreProperties(ignoreUnknown = true)
             class CoverImageBean {
 
                 var url: String? = null
                 var thumb: ThumbBean? = null
 
+                @Keep
                 @JsonIgnoreProperties(ignoreUnknown = true)
                 class ThumbBean {
 
@@ -38,6 +42,7 @@ class BannerResponse : BaseResponse() {
                 }
             }
 
+            @Keep
             @JsonIgnoreProperties(ignoreUnknown = true)
             class GameBean {
 

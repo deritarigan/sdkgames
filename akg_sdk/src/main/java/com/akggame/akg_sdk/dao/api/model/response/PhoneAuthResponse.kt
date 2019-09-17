@@ -10,12 +10,14 @@ class PhoneAuthResponse : BaseResponse() {
     var data: DataBean? = null
     var meta: MetaBean? = null
 
+    @Keep
     @JsonIgnoreProperties(ignoreUnknown = true)
     class DataBean {
         var token:String? = null
         var message: String? = null
     }
 
+    @Keep
     @JsonIgnoreProperties(ignoreUnknown = true)
     class MetaBean {
         var status: Boolean = false

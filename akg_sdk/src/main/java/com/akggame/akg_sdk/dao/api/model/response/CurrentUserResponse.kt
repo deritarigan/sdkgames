@@ -11,6 +11,7 @@ class CurrentUserResponse : BaseResponse() {
     var data: DataBean? = null
     var meta: BaseResponse.MetaBean? = null
 
+    @Keep
     @JsonIgnoreProperties(ignoreUnknown = true)
     class DataBean {
 
@@ -19,6 +20,7 @@ class CurrentUserResponse : BaseResponse() {
         var attributes: AttributesBean? = null
         var message: String? = null
 
+        @Keep
         @JsonIgnoreProperties(ignoreUnknown = true)
         class AttributesBean {
             var uid: String? = null
