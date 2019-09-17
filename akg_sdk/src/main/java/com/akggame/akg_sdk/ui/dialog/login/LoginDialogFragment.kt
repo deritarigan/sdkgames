@@ -15,6 +15,7 @@ import com.akggame.akg_sdk.IConfig
 import com.akggame.akg_sdk.LoginSDKCallback
 import com.akggame.akg_sdk.dao.api.model.request.FacebookAuthRequest
 import com.akggame.akg_sdk.dao.api.model.request.GuestLoginRequest
+import com.akggame.akg_sdk.dao.pojo.UserData
 import com.akggame.akg_sdk.presenter.LoginPresenter
 //import com.akggame.akg_sdk.ui.BaseActivity
 import com.akggame.akg_sdk.ui.dialog.BaseDialogFragment
@@ -34,6 +35,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.content_dialog_login.*
 import kotlinx.android.synthetic.main.content_dialog_login.view.*
 
@@ -84,15 +86,25 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
 
     override fun doOnSuccess(token: String,loginType:String) {
         mLoginCallback.onResponseSuccess(token,loginType)
-        CacheUtil.putPreferenceString(IConfig.SESSION_PIW,DeviceUtil.decoded(token),requireActivity())
+        val id = DeviceUtil.decoded(token).toObject<UserData>()
+        CacheUtil.putPreferenceString(IConfig.SESSION_PIW,id.id,requireActivity())
         setAdjustEventLogin()
         dismiss()
+
     }
+
+    interface JSONConvertable {
+        fun toJSON(): String = Gson().toJson(this)
+    }
+
+    inline fun <reified T: JSONConvertable> String.toObject(): T = Gson().fromJson(this, T::class.java)
+
 
     fun setAdjustEventLogin(){
         if(CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN,requireActivity())!=null){
             val adjustEvent = AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN,requireActivity()))
             adjustEvent.addCallbackParameter("user_id",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,requireActivity()))
+            Log.d("PIW ",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,requireActivity()) )
             Adjust.trackEvent(adjustEvent)
         }
     }

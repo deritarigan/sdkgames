@@ -13,6 +13,7 @@ import java.util.*
 import android.text.TextUtils
 import android.util.Base64.URL_SAFE
 import android.util.Base64.decode
+import com.google.gson.Gson
 import java.io.UnsupportedEncodingException
 import java.util.Base64.Decoder
 
@@ -40,7 +41,9 @@ object DeviceUtil {
         }
     }
 
-     fun decoded(JWTEncoded: String) : String {
+
+
+    fun decoded(JWTEncoded: String) : String {
          try {
              val split =
                  JWTEncoded.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
