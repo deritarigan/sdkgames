@@ -66,7 +66,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/btnNext"
                         style="@style/ButtonMenu"
-                        android:background="@drawable/rounded_rectangle_deepblue"
+                        android:background="@drawable/button_selector_deepblue"
                         android:layout_marginEnd="8dp"/>
                 <Button
                         android:text="Back"
@@ -76,7 +76,7 @@
                         android:layout_height="wrap_content"
                         style="@style/ButtonMenu"
                         android:layout_marginLeft="8dp"
-                        android:background="@drawable/rounded_rectangle_deepblue"
+                        android:background="@drawable/button_selector_deepblue"
                         android:id="@+id/btnBack"
                 />
             </LinearLayout>

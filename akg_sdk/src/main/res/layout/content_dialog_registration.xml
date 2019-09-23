@@ -131,7 +131,7 @@
                     android:paddingEnd="56dp"
                     android:paddingStart="56dp"
                     android:layout_marginTop="48dp"
-                    style="@style/ButtonLogin" android:background="@drawable/rounded_rectangle_tosca"
+                    style="@style/ButtonLogin" android:background="@drawable/button_selector_tosca"
                     android:drawablePadding="8dp"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp"

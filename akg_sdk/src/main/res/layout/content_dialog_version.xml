@@ -50,7 +50,7 @@
                     android:text="next"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" android:id="@+id/btnNext"
-                    android:background="@drawable/rounded_rectangle_deepblue"
+                    android:background="@drawable/button_selector_deepblue"
                     style="@style/ButtonMenu"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/tvVersion"
