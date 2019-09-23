@@ -105,9 +105,5 @@ class OTPDialog() : BaseDialogFragment(), OTPIView {
             }
         }
         mView.etOtpCode.requestFocus()
-
-//        val imm = requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
-////        imm.hideSoftInputFromWindow(mView.etPhoneNumber.getWindowToken(), InputMethodManager.SHOW_IMPLICIT)
-//        imm.hideSoftInputFromWindow(view?.getRootView()?.getWindowToken(), 0)
     }
 }

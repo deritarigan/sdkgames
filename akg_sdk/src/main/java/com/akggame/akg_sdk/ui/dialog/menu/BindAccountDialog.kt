@@ -14,10 +14,8 @@ import com.akggame.akg_sdk.AKG_SDK
 import com.akggame.akg_sdk.IConfig
 import com.akggame.akg_sdk.MenuSDKCallback
 import com.akggame.akg_sdk.dao.api.model.request.BindSocMedRequest
-import com.akggame.akg_sdk.dao.api.model.request.FacebookAuthRequest
 import com.akggame.akg_sdk.dao.api.model.response.BaseResponse
 import com.akggame.akg_sdk.presenter.BindAccountPresenter
-import com.akggame.akg_sdk.presenter.LoginPresenter
 import com.akggame.akg_sdk.ui.component.FloatingButton
 import com.akggame.akg_sdk.ui.dialog.BaseDialogFragment
 import com.akggame.akg_sdk.ui.dialog.menu.binding.VerifyAccountDialog
@@ -35,16 +33,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import kotlinx.android.synthetic.main.content_dialog_bind_account.*
 import kotlinx.android.synthetic.main.content_dialog_bind_account.btnBack
-import kotlinx.android.synthetic.main.content_dialog_bind_account.btnBindFacebook
-import kotlinx.android.synthetic.main.content_dialog_bind_account.btnBindGoogle
 import kotlinx.android.synthetic.main.content_dialog_bind_account.fbLoginButton
 import kotlinx.android.synthetic.main.content_dialog_bind_account.view.*
-import kotlinx.android.synthetic.main.content_dialog_bind_account.view.btnBindFacebook
 import kotlinx.android.synthetic.main.content_dialog_bind_account.view.fbLoginButton
-import kotlinx.android.synthetic.main.content_dialog_login.*
-import kotlinx.android.synthetic.main.content_dialog_login.view.*
 
 class BindAccountDialog() : BaseDialogFragment(), BindAccountIView {
 
@@ -188,7 +180,7 @@ class BindAccountDialog() : BaseDialogFragment(), BindAccountIView {
 
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
-        btnBindGoogle.setOnClickListener {
+        mView.btnBindGoogle.setOnClickListener {
             if (DeviceUtil.getImei(requireActivity()).isNotEmpty()) {
                 val signInIntent = mGoogleSignInClient.getSignInIntent()
                 startActivityForResult(signInIntent, 101)

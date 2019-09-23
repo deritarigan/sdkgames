@@ -15,21 +15,14 @@ class LogoutPresenter(val mIView: IView) {
 
     fun logout(context: Context){
         MainDao().onLogout(context).subscribe(object: RxObserver<BaseResponse>(mIView,""){
-            override fun onComplete() {
-                super.onComplete()
-            }
-
-            override fun onSubscribe(d: Disposable) {
-                super.onSubscribe(d)
-            }
 
             override fun onNext(t: BaseResponse) {
                 super.onNext(t)
                 if (t.BaseMetaResponse?.code == 200 || t.BaseDataResponse?.message.equals("success")) {
-                    (mIView as LogoutIView).doSuccess()
                     CacheUtil.putPreferenceString(IConfig.LOGIN_TYPE, "", context)
                     CacheUtil.putPreferenceString(IConfig.SESSION_TOKEN, "", context)
                     CacheUtil.putPreferenceBoolean(IConfig.SESSION_LOGIN,false,context)
+                    (mIView as LogoutIView).doSuccess()
                 } else {
                     (mIView as LogoutIView).doError()
                 }

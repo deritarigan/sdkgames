@@ -89,7 +89,6 @@ open class BaseDialogFragment() : DialogFragment(), IView{
         if (backStackSize != null) {
             if (backStackSize > 0) {
                 var backEntry = myFragmentManager?.getBackStackEntryAt(0)
-//                clearBackStack()
                 val count = myFragmentManager?.getBackStackEntryCount()!!
                 if (count > 0) {
                     for (i in 0 until count - 1) {
@@ -104,26 +103,9 @@ open class BaseDialogFragment() : DialogFragment(), IView{
                 }
             }
         }
-
-//        showLastFragment()
     }
 
     fun onRelauch() {
-//        var backStackSize = myFragmentManager?.backStackEntryCount
-//        if (backStackSize != null) {
-//            if (backStackSize > 0) {
-//                var backEntry = myFragmentManager?.getBackStackEntryAt(backStackSize-1)
-//                customDismiss()
-//                myFragmentManager?.popBackStack(this.tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-//                val mDialog =
-//                    myFragmentManager?.findFragmentByTag(backEntry?.name) as BaseDialogFragment
-//                if (myFragmentManager != null) {
-//                    myFragmentManager!!.beginTransaction().remove(mDialog)
-//                    mDialog.show(myFragmentManager!!.beginTransaction(), backEntry?.name)
-//                }
-//            }
-//        }
-//        customDismiss()
         clearBackStack()
     }
 

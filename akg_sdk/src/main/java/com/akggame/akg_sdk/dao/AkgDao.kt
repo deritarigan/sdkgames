@@ -27,8 +27,8 @@ class AkgDao : AccountIView{
     private val productPresenter = ProductPresenter(this)
     private val presenter = InfoPresenter(this)
 
-    fun callRelaunchDialog(activity: AppCompatActivity, menuSDKCallback: MenuSDKCallback) {
-        val dialog = RelaunchDialog.newInstance(menuSDKCallback)
+    fun callRelaunchDialog(activity: AppCompatActivity, callback: RelaunchSDKCallback) {
+        val dialog = RelaunchDialog.newInstance(callback)
         val ftransaction = activity.supportFragmentManager.beginTransaction()
         ftransaction.addToBackStack("relaunch")
         dialog.show(ftransaction, "relaunch")

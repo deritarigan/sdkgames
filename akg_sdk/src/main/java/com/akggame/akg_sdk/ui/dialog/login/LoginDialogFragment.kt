@@ -1,6 +1,5 @@
 package com.akggame.akg_sdk.ui.dialog.login
 
-import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -26,7 +25,6 @@ import com.akggame.akg_sdk.util.DeviceUtil
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
-import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -172,7 +170,6 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
         callbackManager.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 101) {
-//            if (resultCode == RESULT_OK) {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(data)
                 handleSignInResult(task)
 //            }

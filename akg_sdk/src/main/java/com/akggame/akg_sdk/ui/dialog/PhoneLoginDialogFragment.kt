@@ -65,6 +65,7 @@ class PhoneLoginDialogFragment() : BaseDialogFragment(), LoginIView {
     }
 
     fun initView() {
+
         mView.tvResendOTP.setOnClickListener {
             if(myFragmentManager!=null){
                 val otpDialog = OTPDialog.newInstance(myFragmentManager)
@@ -74,6 +75,7 @@ class PhoneLoginDialogFragment() : BaseDialogFragment(), LoginIView {
                 customDismiss()
             }
         }
+
         mView.btnBack.setOnClickListener {
             val phoneAuthRequest = PhoneAuthRequest()
             phoneAuthRequest.phone_number = "+62" + etPhoneNumber.text.toString()
@@ -85,6 +87,7 @@ class PhoneLoginDialogFragment() : BaseDialogFragment(), LoginIView {
             phoneAuthRequest.operating_system = "Android"
             presenter.phoneLogin(phoneAuthRequest, requireActivity())
         }
+
         mView.tvForgotPassword.setOnClickListener {
             if(myFragmentManager!=null){
                 val forgetDialog = ForgetDialog.newInstance(myFragmentManager)
@@ -94,6 +97,5 @@ class PhoneLoginDialogFragment() : BaseDialogFragment(), LoginIView {
                 customDismiss()
             }
         }
-
     }
 }

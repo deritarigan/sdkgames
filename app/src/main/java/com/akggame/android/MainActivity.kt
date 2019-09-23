@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.akggame.akg_sdk.AKG_SDK
 import com.akggame.akg_sdk.LoginSDKCallback
+import com.akggame.akg_sdk.RelaunchSDKCallback
 import com.crashlytics.android.Crashlytics
 
 import io.fabric.sdk.android.Fabric
@@ -18,15 +19,29 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Fabric.with(this, Crashlytics())
         setContentView(R.layout.activity_main)
-        if (AKG_SDK.checkIsLogin(this)){
-            startActivity(Intent(this@MainActivity,Main2Activity::class.java))
-            finish()
-        }
+        if (AKG_SDK.checkIsLogin(this)) {
+            AKG_SDK.setRelauchDialog(this, object : RelaunchSDKCallback {
+                override fun onContinue() {
+                    Toast.makeText(this@MainActivity,"onContinue",Toast.LENGTH_LONG).show()
+                    startActivity(Intent(this@MainActivity, Main2Activity::class.java))
+                    finish()
+                }
 
-        AKG_SDK.onLogin(this,"mobile-legends",object : LoginSDKCallback{
-            override fun onResponseSuccess(token: String,loginType:String) {
+                override fun onReLogin() {
+                    Toast.makeText(this@MainActivity,"onRelogin",Toast.LENGTH_LONG).show()
+                    callLogin()
+                }
+            })
+        } else {
+            callLogin()
+        }
+    }
+
+    private fun callLogin() {
+        AKG_SDK.onLogin(this, "mobile-legends", object : LoginSDKCallback {
+            override fun onResponseSuccess(token: String, loginType: String) {
                 Toast.makeText(this@MainActivity, "Success Login ", Toast.LENGTH_LONG).show()
-                startActivity(Intent(this@MainActivity,Main2Activity::class.java))
+                startActivity(Intent(this@MainActivity, Main2Activity::class.java))
                 finish()
             }
 

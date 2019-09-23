@@ -71,7 +71,6 @@ class SetPasswordDialog() : BaseDialogFragment(), SetPasswordIView {
             successDialog.show(ftransaction, "success")
             customDismiss()
         }
-
     }
     override fun doOnError() {
         setAdjustEventRegisterError()

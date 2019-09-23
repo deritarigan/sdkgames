@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.akggame.akg_sdk.IConfig
-import com.akggame.akg_sdk.MenuSDKCallback
+import com.akggame.akg_sdk.RelaunchSDKCallback
 import com.akggame.akg_sdk.dao.SocmedDao
 import com.akggame.akg_sdk.presenter.LogoutPresenter
 import com.akggame.akg_sdk.ui.dialog.BaseDialogFragment
@@ -23,12 +23,13 @@ class RelaunchDialog() : BaseDialogFragment(), LogoutIView {
 
     lateinit var mView: View
     private val presenter = LogoutPresenter(this)
+    lateinit var countDown : CountDownTimer
 
     companion object {
-        lateinit var menuSDKCallback: MenuSDKCallback
-        fun newInstance(callback: MenuSDKCallback): RelaunchDialog {
+        lateinit var callback: RelaunchSDKCallback
+        fun newInstance(callback: RelaunchSDKCallback): RelaunchDialog {
             val mDialogFragment = RelaunchDialog()
-            menuSDKCallback = callback
+           this.callback = callback
 
             return mDialogFragment
         }
@@ -46,8 +47,9 @@ class RelaunchDialog() : BaseDialogFragment(), LogoutIView {
     }
 
     override fun doSuccess() {
-        this.dismiss()
-        menuSDKCallback.onLogout()
+       this.dismiss()
+
+        callback.onReLogin()
     }
 
     override fun doError() {
@@ -57,23 +59,25 @@ class RelaunchDialog() : BaseDialogFragment(), LogoutIView {
     fun initialize() {
         tvPhoneNumber.text = "Welcome " + CacheUtil.getPreferenceString(IConfig.SESSION_USERNAME, requireActivity())
         tvUID.text = "UID : "+CacheUtil.getPreferenceString(IConfig.SESSION_UID, requireActivity())
-        val countDown = object : CountDownTimer(4000, 1000) {
+        countDown = object : CountDownTimer(4000, 1000) {
             override fun onFinish() {
-                mView.btnBindFacebook.text = "Continue in 0s"
-                mView.btnBindFacebook.performClick()
+                mView.btnContinue.text = "Continue in 0s"
+                mView.btnContinue.performClick()
             }
 
             override fun onTick(millisUntilFinished: Long) {
-                mView.btnBindFacebook.text = "Continue in " + (millisUntilFinished / 1000).toString() + "s"
+                mView.btnContinue.text = "Continue in " + (millisUntilFinished / 1000).toString() + "s"
             }
         }
         countDown.start()
 
-        mView.btnBindFacebook.setOnClickListener {
+        mView.btnContinue.setOnClickListener {
             dismiss()
+            countDown.cancel()
+            callback.onContinue()
         }
 
-        mView.btnBindGoogle.setOnClickListener {
+        mView.btnRelogin.setOnClickListener {
             val loginType = CacheUtil.getPreferenceString(IConfig.LOGIN_TYPE, requireActivity())
             when (loginType) {
                 IConfig.LOGIN_PHONE -> SocmedDao.logoutPhone(requireActivity(), this, presenter)
@@ -81,6 +85,7 @@ class RelaunchDialog() : BaseDialogFragment(), LogoutIView {
                 IConfig.LOGIN_GOOGLE -> SocmedDao.logoutGoogle(requireActivity(), this, presenter)
                 IConfig.LOGIN_FACEBOOK -> SocmedDao.logoutFacebook(requireActivity(), this, presenter)
             }
+            countDown.cancel()
         }
     }
 }

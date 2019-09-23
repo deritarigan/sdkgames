@@ -47,9 +47,8 @@ object AKG_SDK {
         AkgDao.launchBilling(activity,skuDetails,callback)
     }
 
-    fun setRelauchDialog(activity: AppCompatActivity, menuSDKCallback: MenuSDKCallback) {
-        menuCallback = menuSDKCallback
-        AkgDao.callRelaunchDialog(activity, menuSDKCallback)
+    fun setRelauchDialog(activity: AppCompatActivity,callback : RelaunchSDKCallback) {
+        AkgDao.callRelaunchDialog(activity, callback)
     }
 
     fun resetFloatingButton(activity: AppCompatActivity) {
