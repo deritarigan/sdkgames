@@ -30,6 +30,7 @@ import com.akggame.akg_sdk.ui.adapter.FloatingAdapter
 import com.akggame.akg_sdk.ui.adapter.FloatingAdapterListener
 import com.akggame.android.sdk.R
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlin.math.abs
 
 class FloatingButton : FrameLayout {
 
@@ -58,6 +59,8 @@ class FloatingButton : FrameLayout {
         private set
     var isCircle = false
         private set
+    var isMove = false
+        private set
 
     private lateinit var drawable: GradientDrawable
     private var orientation = ORIENTATION.HORIZONTAL
@@ -67,6 +70,8 @@ class FloatingButton : FrameLayout {
     var autoNavigate = true
     var autoDip = true
     var duration = 350L
+    var beforeExpandX = 0f;
+    var beforeExpandY = 0f;
 
     var circleSize = 24f
         set(value) {
@@ -95,8 +100,8 @@ class FloatingButton : FrameLayout {
             updateSubmarine()
         }
 
-     var expandSize :Int = 0
-//        set(value) {
+    var expandSize: Int = 0
+    //        set(value) {
 //            field = value
 //            updateSubmarine()
 //        }
@@ -149,14 +154,18 @@ class FloatingButton : FrameLayout {
         getAttrs(attributeSet)
     }
 
-    constructor(context: Context, attributeSet: AttributeSet, defStyle: Int) : super(context, attributeSet, defStyle) {
+    constructor(context: Context, attributeSet: AttributeSet, defStyle: Int) : super(
+        context,
+        attributeSet,
+        defStyle
+    ) {
         getAttrs(attributeSet, defStyle)
     }
 
     init {
-        if(context.resources.configuration.orientation== Configuration.ORIENTATION_LANDSCAPE){
+        if (context.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             expandSize = context.displaySize().y - dp2Px(30)
-        }else{
+        } else {
             expandSize = context.displaySize().x - dp2Px(30)
         }
         updateSubmarine()
@@ -180,7 +189,6 @@ class FloatingButton : FrameLayout {
                     return true // Consumed
 
                 } else if (action == MotionEvent.ACTION_MOVE) {
-
                     val viewWidth = view?.width
                     val viewHeight = view?.height
 
@@ -189,13 +197,26 @@ class FloatingButton : FrameLayout {
                     val parentHeight = viewParent.height
 
                     var newX = motionEvent.rawX + dX
-                    newX = Math.max(0f, newX) // Don't allow the FAB past the left hand side of the parent
+                    newX = Math.max(
+                        0f,
+                        newX
+                    ) // Don't allow the FAB past the left hand side of the parent
 
                     // Don't allow the FAB past the right hand side of the parent
 
                     var newY = motionEvent.rawY + dY
                     newY = Math.max(0f, newY) // Don't allow the FAB past the top of the parent
                     // Don't allow the FAB past the bottom of the parent
+
+                    val upRawX = motionEvent.rawX
+                    val upRawY = motionEvent.rawY
+
+                    val upDX = upRawX - downRawX
+                    val upDY = upRawY - downRawY
+
+//                    if (Math.abs(upDX) > CLICK_DRAG_TOLERANCE && Math.abs(upDY) > CLICK_DRAG_TOLERANCE) {
+//                       isMove = true
+//                    }
 
                     if (!isCircle) {
                         newX = Math.min(
@@ -207,6 +228,8 @@ class FloatingButton : FrameLayout {
                             (parentHeight - viewHeight!!).toFloat(),
                             newY
                         )
+
+
                     } else {
                         newX = Math.min(
                             (parentWidth - circleIcon.width).toFloat(),
@@ -243,12 +266,14 @@ class FloatingButton : FrameLayout {
                         } else {
                             if (recyclerView.visibility == View.GONE) {
                                 expandContainer()
+                                isMove = false
                             } else {
                                 shrinkContainer()
                             }
                         }
                         false
                     } else { // A drag
+                        isMove = true
                         true // Consumed
                     }
 
@@ -278,17 +303,28 @@ class FloatingButton : FrameLayout {
             1 -> this.floatingButtonAnimation = Animation.FADE
             2 -> this.floatingButtonAnimation = Animation.SCALE
         }
-        this.autoNavigate = a.getBoolean(R.styleable.FloatingButton_floating_button_autoNavigate, this.autoNavigate)
-        this.autoDip = a.getBoolean(R.styleable.FloatingButton_floating_button_autoDip, this.autoDip)
-        this.duration = a.getInt(R.styleable.FloatingButton_floating_button_duration, this.duration.toInt()).toLong()
-        this.circleSize = a.getDimension(R.styleable.FloatingButton_floating_button_circleSize, this.circleSize)
+        this.autoNavigate =
+            a.getBoolean(R.styleable.FloatingButton_floating_button_autoNavigate, this.autoNavigate)
+        this.autoDip =
+            a.getBoolean(R.styleable.FloatingButton_floating_button_autoDip, this.autoDip)
+        this.duration =
+            a.getInt(R.styleable.FloatingButton_floating_button_duration, this.duration.toInt())
+                .toLong()
+        this.circleSize =
+            a.getDimension(R.styleable.FloatingButton_floating_button_circleSize, this.circleSize)
         this.circleImage = a.getDrawable(R.styleable.FloatingButton_floating_button_circleDrawable)
         this.circlePadding =
-            a.getDimension(R.styleable.FloatingButton_floating_button_circlePadding, this.circlePadding)
+            a.getDimension(
+                R.styleable.FloatingButton_floating_button_circlePadding,
+                this.circlePadding
+            )
         this.radius = a.getDimension(R.styleable.FloatingButton_floating_button_radius, this.radius)
         this.color = a.getColor(R.styleable.FloatingButton_floating_button_color, this.color)
         this.expandSize =
-            a.getDimension(R.styleable.FloatingButton_floating_button_expandSize, this.expandSize.toFloat()).toInt()
+            a.getDimension(
+                R.styleable.FloatingButton_floating_button_expandSize,
+                this.expandSize.toFloat()
+            ).toInt()
     }
 
 
@@ -297,7 +333,6 @@ class FloatingButton : FrameLayout {
         updateSubmarine()
     }
 
-    /** updates submarine attributes. */
     private fun updateSubmarine() {
         updateSize()
         updateBackground()
@@ -306,29 +341,28 @@ class FloatingButton : FrameLayout {
         updateAnimation()
     }
 
-    /** updates the submarine view's param sizes. */
     private fun updateSize() {
-        this.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        this.viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 viewTreeObserver.removeOnGlobalLayoutListener(this)
                 updateLayoutParams {
-                        width = dp2Px(circleSize)
-                      height = dp2Px(circleSize)
+                    width = dp2Px(circleSize)
+                    height = dp2Px(circleSize)
 
                 }
             }
         })
     }
 
-    /** updates background and bordering. */
     private fun updateBackground() {
-        drawable = ContextCompat.getDrawable(context, R.drawable.rectangle_layout) as GradientDrawable
+        drawable =
+            ContextCompat.getDrawable(context, R.drawable.rectangle_layout) as GradientDrawable
         drawable.cornerRadius = radius
         drawable.setColor(color)
         background = drawable
     }
 
-    /** updates the circle icon. */
     private fun updateCircleIcon() {
         if (circleImage != null) {
             circleIcon.scaleType = ImageView.ScaleType.CENTER_CROP
@@ -342,7 +376,6 @@ class FloatingButton : FrameLayout {
         }
     }
 
-    /** updates the recyclerView and circle icon. */
     private fun updateChildViews() {
         removeAllViews()
         if (orientation == ORIENTATION.HORIZONTAL) {
@@ -367,7 +400,6 @@ class FloatingButton : FrameLayout {
         invalidate()
     }
 
-    /** updates the view attributes following animation. */
     private fun updateAnimation() {
         when (floatingButtonAnimation) {
             Animation.SCALE -> {
@@ -388,12 +420,10 @@ class FloatingButton : FrameLayout {
         }
     }
 
-    /** draws circle icon view. */
     private fun addCircleImageView() {
         addView(circleIcon, dp2Px(circleSize), dp2Px(circleSize))
     }
 
-    /** draws recyclerView horizontally. */
     private fun addHorizontalRecyclerView() {
         recyclerView.visible(false)
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
@@ -401,7 +431,6 @@ class FloatingButton : FrameLayout {
         addView(recyclerView, getRecyclerViewSize(), dp2Px(circleSize))
     }
 
-    /** draws recyclerView vertically. */
     private fun addVerticalRecyclerView() {
         recyclerView.visible(false)
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -409,8 +438,9 @@ class FloatingButton : FrameLayout {
         addView(recyclerView, dp2Px(circleSize), getRecyclerViewSize())
     }
 
-    /** floats the circle icon on the layout. */
     fun float() {
+        beforeExpandX = this.x
+        beforeExpandY = this.y
         if (!isFloating) {
             isFloating = true
             visible(true)
@@ -429,7 +459,6 @@ class FloatingButton : FrameLayout {
         }
     }
 
-    /** spreads the navigation views and listing items. */
     fun navigate() {
         if (!isNavigating) {
             isNavigating = true
@@ -449,7 +478,6 @@ class FloatingButton : FrameLayout {
         }
     }
 
-    /** folds the navigation views and un-lists items. */
     fun retreat() {
         if (isNavigating) {
             isNavigating = false
@@ -516,31 +544,26 @@ class FloatingButton : FrameLayout {
         }
     }
 
-    /** dips if the [autoDip] attribute is true. */
     private fun autoDip() {
         if (autoDip) {
             dip()
         }
     }
 
-    /** adds a [SubmarineItem] to the navigation adapter. */
     fun addItem(floatingItem: FloatingItem) {
         adapter.addItem(getWrapperItem(floatingItem))
     }
 
-    /** adds a [SubmarineItem] list to the navigation adapter. */
     fun addItems(floatingItems: List<FloatingItem>) {
         for (floattingItem in floatingItems) {
             adapter.addItem(getWrapperItem(floattingItem))
         }
     }
 
-    /** removes a [SubmarineItem] to the navigation adapter. */
     fun removeItems(floatingItem: FloatingItem) {
         adapter.removeItem(getWrapperItem(floatingItem))
     }
 
-    /** clears all of the [SubmarineItem] on the navigation adapter. */
     fun clearAllItems() {
         adapter.clearAllItems()
     }
@@ -611,12 +634,12 @@ class FloatingButton : FrameLayout {
     }
 
     fun expandContainer() {
+        beforeExpandX = this.x
+        beforeExpandY = this.y
         isCircle = false
         this.recyclerView.visibility = View.VISIBLE
         animateScale(1.0f, 1.0f, duration / 2)
             .doAfterAnimate {
-                //                beginDelayedTransition(duration)
-//                updateWidthParams(expandSize, radius)
                 updateWidthParams(expandSize, radius)
                 val newX = Math.min(
                     ((this.parent as View).width - this.width).toFloat(),
@@ -630,12 +653,17 @@ class FloatingButton : FrameLayout {
                 }
             }
 
-
     }
 
     fun shrinkContainer() {
         isCircle = true
         this.recyclerView.visibility = View.GONE
+        if (!isMove) {
+            this.animate()
+                .x(beforeExpandX)
+                .setDuration(duration)
+                .start()
+        }
 //        animateScale(1.0f, 1.0f, duration / 2)
 //            .doAfterAnimate {
 //                beginDelayedTransition(duration)

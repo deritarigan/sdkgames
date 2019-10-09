@@ -2,6 +2,7 @@ package com.akggame.android
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.akggame.akg_sdk.AKG_SDK
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Fabric.with(this, Crashlytics())
         setContentView(R.layout.activity_main)
+        Log.d("Density", resources.displayMetrics.widthPixels.toString())
         if (AKG_SDK.checkIsLogin(this)) {
             AKG_SDK.setRelauchDialog(this, object : RelaunchSDKCallback {
                 override fun onContinue() {
@@ -33,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         } else {
-            callLogin()
+            callLogin()//441
         }
     }
 

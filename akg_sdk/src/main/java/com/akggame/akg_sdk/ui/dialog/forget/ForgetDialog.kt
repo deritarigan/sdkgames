@@ -79,7 +79,6 @@ class ForgetDialog() : BaseDialogFragment(), OTPIView {
                 sendOtpRequest.phone_number = "+62"+mView.etPhoneNumber.text.toString()
                 if (!isGenerateOTP) {
                     presenter.sendOtp(sendOtpRequest, requireActivity() as Context)
-                    isGenerateOTP = true
                 } else {
                     sendOtpRequest.otp_code = mView.etOtpCode.text.toString()
                     presenter.checkOtp(sendOtpRequest, requireActivity())

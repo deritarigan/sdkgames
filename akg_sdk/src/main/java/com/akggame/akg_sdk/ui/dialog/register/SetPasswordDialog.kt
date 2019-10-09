@@ -78,7 +78,8 @@ class SetPasswordDialog() : BaseDialogFragment(), SetPasswordIView {
 
     fun setAdjustEventRegisterSuccess() {
         if(CacheUtil.getPreferenceString(IConfig.ADJUST_REGISTER_SUCCESS,requireActivity())!=null){
-            Adjust.trackEvent(AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_REGISTER_SUCCESS,requireActivity())))
+            var adjustEvent = AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_REGISTER_SUCCESS,requireActivity()))
+            Adjust.trackEvent(adjustEvent)
         }
     }
 

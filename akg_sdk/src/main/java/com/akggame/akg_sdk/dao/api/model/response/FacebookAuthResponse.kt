@@ -13,6 +13,7 @@ class FacebookAuthResponse : BaseResponse() {
     @Keep
     @JsonIgnoreProperties(ignoreUnknown = true)
     class DataBean {
+        var is_first_login:Boolean? = null
         var message: String? = null
         var token:String? = null
     }

@@ -8,6 +8,13 @@
     <uses-permission android:name="com.android.vending.BILLING " />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
+
+    <supports-screens android:smallScreens="true"
+            android:normalScreens="true"
+            android:largeScreens="true"
+            android:xlargeScreens="true"
+            android:anyDensity="true" />
+
     <application>
         <activity android:name="com.akggame.akg_sdk.ui.activity.WebView"></activity>
 

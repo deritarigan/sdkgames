@@ -82,13 +82,12 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
         initialize()
     }
 
-    override fun doOnSuccess(token: String,loginType:String) {
+    override fun doOnSuccess(isFirstLogin:Boolean,token: String,loginType:String) {
         mLoginCallback.onResponseSuccess(token,loginType)
         val id = DeviceUtil.decoded(token).toObject<UserData>()
         CacheUtil.putPreferenceString(IConfig.SESSION_PIW,id.id,requireActivity())
-        setAdjustEventLogin()
+        setAdjustEventLogin(isFirstLogin)
         dismiss()
-
     }
 
     interface JSONConvertable {
@@ -98,10 +97,14 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
     inline fun <reified T: JSONConvertable> String.toObject(): T = Gson().fromJson(this, T::class.java)
 
 
-    fun setAdjustEventLogin(){
+    fun setAdjustEventLogin(isFirstLogin: Boolean){
         if(CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN,requireActivity())!=null){
             val adjustEvent = AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN,requireActivity()))
             adjustEvent.addCallbackParameter("user_id",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,requireActivity()))
+            if(isFirstLogin){
+                adjustEvent.addCallbackParameter("cost_type","CPI")
+                adjustEvent.addCallbackParameter("cost_amount","1.0")
+            }
             Log.d("PIW ",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,requireActivity()) )
             Adjust.trackEvent(adjustEvent)
         }
