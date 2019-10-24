@@ -11,6 +11,7 @@ class PurchaseItem() : Parcelable {
     var amount: String? = ""
 
     constructor(source: Parcel) : this(
+
     )
 
     override fun describeContents() = 0
