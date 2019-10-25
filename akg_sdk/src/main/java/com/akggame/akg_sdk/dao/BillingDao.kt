@@ -300,11 +300,11 @@ class BillingDao constructor(
     }
 
     fun onPaymentFailed() {
-        setAdjustEventPaymentFailed()
+//        setAdjustEventPaymentFailed()
     }
 
     fun onPaymentSuccess(purchase: Purchase) {
-        setAdjustEventPaymentSuccess(getPrice(productData, purchase.sku), purchase.sku)
+//        setAdjustEventPaymentSuccess(getPrice(productData, purchase.sku), purchase.sku)
         val postOrderRequest = PostOrderRequest(
             "Google Play",
             purchase.purchaseTime,

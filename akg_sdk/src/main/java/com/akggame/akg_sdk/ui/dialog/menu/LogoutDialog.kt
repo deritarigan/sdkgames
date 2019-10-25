@@ -53,7 +53,7 @@ class LogoutDialog() : BaseDialogFragment(), LogoutIView {
 
     override fun doSuccess() {
         this.dismiss()
-        setAdjustEventLogout()
+//        setAdjustEventLogout()
         menuSDKCallback.onLogout()
     }
 

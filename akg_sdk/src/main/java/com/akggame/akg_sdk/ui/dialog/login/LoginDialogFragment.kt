@@ -86,7 +86,7 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
         mLoginCallback.onResponseSuccess(token,loginType)
         val id = DeviceUtil.decoded(token).toObject<UserData>()
         CacheUtil.putPreferenceString(IConfig.SESSION_PIW,id.id,requireActivity())
-        setAdjustEventLogin(isFirstLogin)
+//        setAdjustEventLogin(isFirstLogin)
         dismiss()
     }
 
@@ -98,16 +98,16 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
 
 
     fun setAdjustEventLogin(isFirstLogin: Boolean){
-        if(CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN,requireActivity())!=null){
-            val adjustEvent = AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN,requireActivity()))
-            adjustEvent.addCallbackParameter("user_id",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,requireActivity()))
-            if(isFirstLogin){
-                adjustEvent.addCallbackParameter("cost_type","CPI")
-                adjustEvent.addCallbackParameter("cost_amount","1.0")
-            }
-            Log.d("PIW ",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,requireActivity()) )
-            Adjust.trackEvent(adjustEvent)
-        }
+//        if(CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN,requireActivity())!=null){
+//            val adjustEvent = AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN,requireActivity()))
+//            adjustEvent.addCallbackParameter("user_id",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,requireActivity()))
+//            if(isFirstLogin){
+//                adjustEvent.addCallbackParameter("cost_type","CPI")
+//                adjustEvent.addCallbackParameter("cost_amount","1.0")
+//            }
+//            Log.d("PIW ",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,requireActivity()) )
+//            Adjust.trackEvent(adjustEvent)
+//        }
     }
 
     override fun doOnError(message: String) {

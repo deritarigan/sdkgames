@@ -32,7 +32,7 @@ object AKG_SDK {
         return menuCallback
     }
     fun registerAdjustOnAKG(gameProvider: String, application: Application) {
-        AkgDao.registerAdjust(gameProvider,application)
+//        AkgDao.registerAdjust(gameProvider,application)
     }
 
     fun getProducts(application: Application, context: Context, callback: ProductSDKCallback) {

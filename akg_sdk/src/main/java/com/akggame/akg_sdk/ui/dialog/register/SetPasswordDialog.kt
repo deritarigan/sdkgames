@@ -63,7 +63,7 @@ class SetPasswordDialog() : BaseDialogFragment(), SetPasswordIView {
     override fun doOnSuccess(data: BaseResponse) {
         val bundle = Bundle()
         bundle.putString("phone", phone)
-        setAdjustEventRegisterSuccess()
+//        setAdjustEventRegisterSuccess()
         if (myFragmentManager!=null){
             val successDialog = SuccessDialogFragment.newInstance(myFragmentManager, bundle)
             val ftransaction = myFragmentManager!!.beginTransaction()
@@ -73,7 +73,7 @@ class SetPasswordDialog() : BaseDialogFragment(), SetPasswordIView {
         }
     }
     override fun doOnError() {
-        setAdjustEventRegisterError()
+//        setAdjustEventRegisterError()
     }
 
     fun setAdjustEventRegisterSuccess() {
