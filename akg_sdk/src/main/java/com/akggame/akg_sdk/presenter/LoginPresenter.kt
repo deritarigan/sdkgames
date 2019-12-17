@@ -143,11 +143,10 @@ class LoginPresenter(val mIView: IView) {
                 t as FacebookAuthResponse
                 Log.d("TESTING API", "onNext")
                 if (t.meta?.code == 200) {
-                    (mIView as LoginIView).doOnSuccess(t.data?.is_first_login!!,t.data?.token!!, LOGIN_FACEBOOK)
+                    (mIView as LoginIView).doOnSuccess(t.data!!.is_first_login,t.data?.token!!, LOGIN_FACEBOOK)
                     CacheUtil.putPreferenceString(LOGIN_TYPE, LOGIN_FACEBOOK, context)
                     CacheUtil.putPreferenceString(SESSION_TOKEN, t.data?.token!!, context)
                     CacheUtil.putPreferenceBoolean(IConfig.SESSION_LOGIN,true,context)
-
                 } else {
                     (mIView as LoginIView).doOnError(t.data?.message!!)
                 }

@@ -43,7 +43,6 @@ class PaymentAdapter(val context: Context,val purchaseSDKCallback: PurchaseSDKCa
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvProductName = itemView.tvProductName
-
     }
 
     fun setInAppProduct(skuList: MutableList<SkuDetails>) {

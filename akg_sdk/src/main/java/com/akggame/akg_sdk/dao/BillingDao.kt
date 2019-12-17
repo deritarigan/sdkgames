@@ -49,9 +49,15 @@ class BillingDao constructor(
         val tempeOrek2 = "com.sdkgame.product2"
         val product3 = "com.sdkgame.product3"
 
+        val testingPurchased = "android.test.purchased"
+        val testingCancelled = "android.test.canceled"
+        val testingUnavailable = "android.test.item_unavailable"
+
         val myTestListSKU = listOf(janjiDoang2, tempeOrek2, product3)
 
         val myListSKU = listOf(janjiDoang, tempeOrek)
+
+        val testListSKU = listOf(testingPurchased, testingCancelled, testingUnavailable)
     }
 
     interface BillingDaoQuerySKU {
@@ -194,8 +200,6 @@ class BillingDao constructor(
             billingClient.consumeAsync(params) { billingResult, purchaseToken ->
                 when (billingResult.responseCode) {
                     OK -> {
-//                        paymentResponse.onPaymentSuccess(it)
-                        // Update the appropriate tables/databases to grant user the items
                         purchaseToken.apply { disburseConsumableEntitlements(it) }
                     }
                     else -> {
@@ -209,15 +213,6 @@ class BillingDao constructor(
     fun disburseConsumableEntitlements(purchase: Purchase) {
         onPaymentSuccess(purchase)
         purchase.sku
-//        if (purchase.sku == GameSku.GAS) {
-//            updateGasTank(GasTank(GAS_PURCHASE))
-        /**
-         * This disburseConsumableEntitlements method was called because Play called onConsumeResponse.
-         * So if you think of a Purchase as a receipt, you no longer need to keep a copy of
-         * the receipt in the local cache since the user has just consumed the product.
-         */
-//            localCacheBillingClient.purchaseDao().delete(purchase)
-//        }
     }
 
     fun handlePurchase(purchase: Purchase) {
@@ -304,7 +299,7 @@ class BillingDao constructor(
     }
 
     fun onPaymentSuccess(purchase: Purchase) {
-//        setAdjustEventPaymentSuccess(getPrice(productData, purchase.sku), purchase.sku)
+        setAdjustEventPaymentSuccess(getPrice(productData, purchase.sku), purchase.sku)
         val postOrderRequest = PostOrderRequest(
             "Google Play",
             purchase.purchaseTime,

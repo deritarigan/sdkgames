@@ -73,7 +73,7 @@ class FloatingButton : FrameLayout {
     var beforeExpandX = 0f;
     var beforeExpandY = 0f;
 
-    var circleSize = 24f
+    var circleSize = 64f
         set(value) {
             field = value
             updateSubmarine()
@@ -94,7 +94,7 @@ class FloatingButton : FrameLayout {
             field = value
             updateSubmarine()
         }
-    var color = ContextCompat.getColor(context, R.color.red)
+    var color = ContextCompat.getColor(context,android.R.color.transparent)
         set(value) {
             field = value
             updateSubmarine()
@@ -105,7 +105,7 @@ class FloatingButton : FrameLayout {
 //            field = value
 //            updateSubmarine()
 //        }
-    var floatingButtonAnimation = Animation.NONE
+    var floatingButtonAnimation = Animation.SCALE
         set(value) {
             field = value
             updateSubmarine()
@@ -117,6 +117,7 @@ class FloatingButton : FrameLayout {
             field = value
             circleIcon.setOnClickListener { value?.onCircleClick() }
         }
+
     var floatingAdapterListener: FloatingAdapterListener? = null
         set(value) {
             field = value
@@ -288,25 +289,25 @@ class FloatingButton : FrameLayout {
     }
 
     private fun setTypeArray(a: TypedArray) {
-        when (a.getInt(R.styleable.FloatingButton_floating_button_orientation, 0)) {
-            0 -> this.orientation = ORIENTATION.HORIZONTAL
-            1 -> this.orientation = ORIENTATION.VERTICAL
-        }
-        when (a.getInt(R.styleable.FloatingButton_floating_button_circleAnchor, 0)) {
-            0 -> this.circleAnchor = CircleAnchor.LEFT
-            1 -> this.circleAnchor = CircleAnchor.RIGHT
-            2 -> this.circleAnchor = CircleAnchor.TOP
-            3 -> this.circleAnchor = CircleAnchor.BOTTOM
-        }
-        when (a.getInt(R.styleable.FloatingButton_floating_button_animation, 0)) {
-            0 -> this.floatingButtonAnimation = Animation.NONE
-            1 -> this.floatingButtonAnimation = Animation.FADE
-            2 -> this.floatingButtonAnimation = Animation.SCALE
-        }
-        this.autoNavigate =
-            a.getBoolean(R.styleable.FloatingButton_floating_button_autoNavigate, this.autoNavigate)
-        this.autoDip =
-            a.getBoolean(R.styleable.FloatingButton_floating_button_autoDip, this.autoDip)
+//        when (a.getInt(R.styleable.FloatingButton_floating_button_orientation, 0)) {
+//            0 -> this.orientation = ORIENTATION.HORIZONTAL
+//            1 -> this.orientation = ORIENTATION.VERTICAL
+//        }
+//        when (a.getInt(R.styleable.FloatingButton_floating_button_circleAnchor, 0)) {
+//            0 -> this.circleAnchor = CircleAnchor.LEFT
+//            1 -> this.circleAnchor = CircleAnchor.RIGHT
+//            2 -> this.circleAnchor = CircleAnchor.TOP
+//            3 -> this.circleAnchor = CircleAnchor.BOTTOM
+//        }
+//        when (a.getInt(R.styleable.FloatingButton_floating_button_animation, 0)) {
+//            0 -> this.floatingButtonAnimation = Animation.NONE
+//            1 -> this.floatingButtonAnimation = Animation.FADE
+//            2 -> this.floatingButtonAnimation = Animation.SCALE
+//        }
+//        this.autoNavigate =
+//            a.getBoolean(R.styleable.FloatingButton_floating_button_autoNavigate, this.autoNavigate)
+//        this.autoDip =
+//            a.getBoolean(R.styleable.FloatingButton_floating_button_autoDip, this.autoDip)
         this.duration =
             a.getInt(R.styleable.FloatingButton_floating_button_duration, this.duration.toInt())
                 .toLong()
@@ -320,11 +321,11 @@ class FloatingButton : FrameLayout {
             )
         this.radius = a.getDimension(R.styleable.FloatingButton_floating_button_radius, this.radius)
         this.color = a.getColor(R.styleable.FloatingButton_floating_button_color, this.color)
-        this.expandSize =
-            a.getDimension(
-                R.styleable.FloatingButton_floating_button_expandSize,
-                this.expandSize.toFloat()
-            ).toInt()
+//        this.expandSize =
+//            a.getDimension(
+//                R.styleable.FloatingButton_floating_button_expandSize,
+//                this.expandSize.toFloat()
+//            ).toInt()
     }
 
 
@@ -652,7 +653,6 @@ class FloatingButton : FrameLayout {
                         .start()
                 }
             }
-
     }
 
     fun shrinkContainer() {
@@ -664,10 +664,5 @@ class FloatingButton : FrameLayout {
                 .setDuration(duration)
                 .start()
         }
-//        animateScale(1.0f, 1.0f, duration / 2)
-//            .doAfterAnimate {
-//                beginDelayedTransition(duration)
-//                updateWidthParams(getCircleViewAllocation(), radius)
-//            }
     }
 }

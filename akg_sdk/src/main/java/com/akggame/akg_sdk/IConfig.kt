@@ -32,7 +32,6 @@ interface IConfig {
         val ADJUST_REGISTER_SUCCESS = "register_success"
         val ADJUST_REGISTER_FAILED = "register_failed"
 
-
         val monthLabels = arrayOf(
             "January_Januari",
             "February_Februari",

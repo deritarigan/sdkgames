@@ -66,7 +66,7 @@ class InfoPresenter(val mIView: IView) {
 
                 override fun onError(e: Throwable) {
                     super.onError(e)
-                    Log.d("TESTING API", "onError : "+ e.toString())
+                    Log.d("TESTING API", "onError : " + e.toString())
 
                 }
             })
@@ -88,7 +88,7 @@ class InfoPresenter(val mIView: IView) {
 
                 override fun onError(e: Throwable) {
                     super.onError(e)
-                    Log.d("TESTING API", "onError : "+ e.toString())
+                    Log.d("TESTING API", "onError : " + e.toString())
 
                 }
             })
@@ -102,45 +102,47 @@ class InfoPresenter(val mIView: IView) {
                     t as SDKConfigResponse
                     if (t.meta?.code == 200) {
                         if (t.data?.adjust?.app_token != null) {
-
                             CacheUtil.putPreferenceString(
                                 IConfig.ADJUST_APP_TOKEN,
                                 t.data?.adjust?.app_token!!,
                                 context
                             )
+
                             initAdjust(application, t.data?.adjust?.app_token!!)
-                            t.data?.adjust?.events!!.forEach {
-                                when (it.name) {
-                                    ADJUST_LOGIN -> CacheUtil.putPreferenceString(
-                                        ADJUST_LOGIN,
-                                        it.token,
-                                        context
-                                    )
-                                    ADJUST_LOGOUT -> CacheUtil.putPreferenceString(
-                                        ADJUST_LOGOUT,
-                                        it.token,
-                                        context
-                                    )
-                                    ADJUST_PAYMENT_FAILED -> CacheUtil.putPreferenceString(
-                                        ADJUST_PAYMENT_FAILED,
-                                        it.token,
-                                        context
-                                    )
-                                    ADJUST_PAYMENT_SUCCESS -> CacheUtil.putPreferenceString(
-                                        ADJUST_PAYMENT_SUCCESS,
-                                        it.token,
-                                        context
-                                    )
-                                    ADJUST_REGISTER_FAILED -> CacheUtil.putPreferenceString(
-                                        ADJUST_REGISTER_FAILED,
-                                        it.token,
-                                        context
-                                    )
-                                    ADJUST_REGISTER_SUCCESS -> CacheUtil.putPreferenceString(
-                                        ADJUST_REGISTER_SUCCESS,
-                                        it.token,
-                                        context
-                                    )
+                            if (t.data?.adjust?.events != null) {
+                                t.data?.adjust?.events!!.forEach {
+                                    when (it.name) {
+                                        ADJUST_LOGIN -> CacheUtil.putPreferenceString(
+                                            ADJUST_LOGIN,
+                                            it.token,
+                                            context
+                                        )
+                                        ADJUST_LOGOUT -> CacheUtil.putPreferenceString(
+                                            ADJUST_LOGOUT,
+                                            it.token,
+                                            context
+                                        )
+                                        ADJUST_PAYMENT_FAILED -> CacheUtil.putPreferenceString(
+                                            ADJUST_PAYMENT_FAILED,
+                                            it.token,
+                                            context
+                                        )
+                                        ADJUST_PAYMENT_SUCCESS -> CacheUtil.putPreferenceString(
+                                            ADJUST_PAYMENT_SUCCESS,
+                                            it.token,
+                                            context
+                                        )
+                                        ADJUST_REGISTER_FAILED -> CacheUtil.putPreferenceString(
+                                            ADJUST_REGISTER_FAILED,
+                                            it.token,
+                                            context
+                                        )
+                                        ADJUST_REGISTER_SUCCESS -> CacheUtil.putPreferenceString(
+                                            ADJUST_REGISTER_SUCCESS,
+                                            it.token,
+                                            context
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -149,7 +151,7 @@ class InfoPresenter(val mIView: IView) {
 
                 override fun onError(e: Throwable) {
                     super.onError(e)
-                    Log.d("TESTING API", "onError : "+ e.toString())
+                    Log.d("TESTING API", "onError : " + e.toString())
 
                 }
             })

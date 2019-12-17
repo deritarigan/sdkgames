@@ -25,6 +25,27 @@ import io.reactivex.disposables.Disposable
 class ProductPresenter(val mIView: IView) {
     private lateinit var purchaseSDKCallback: PurchaseSDKCallback
     private lateinit var billingDao: BillingDao
+
+
+
+    object SKU {
+        val janjiDoang = "com.sdkgame.product1"
+        val tempeOrek = "com.sdkgame.product2"
+        val janjiDoang2 = "com.sdkgame.product1"
+        val tempeOrek2 = "com.sdkgame.product2"
+        val product3 = "com.sdkgame.product3"
+
+        val testingPurchased = "android.test.purchased"
+        val testingCancelled = "android.test.canceled"
+        val testingUnavailable = "android.test.item_unavailable"
+
+        val myTestListSKU = listOf(janjiDoang2, tempeOrek2, product3)
+
+        val myListSKU = listOf(janjiDoang, tempeOrek)
+
+        val testListSKU = listOf(testingPurchased, testingCancelled, testingUnavailable)
+    }
+
     fun getProducts(
         gameProvider: String?,
         application: Application,
@@ -38,7 +59,8 @@ class ProductPresenter(val mIView: IView) {
                     t as GameProductsResponse
                     if (t.meta?.code == 200) {
                         billingDao = BillingDao(
-                            GameProductsResponse().getListOfSKU(t.data),
+//                            GameProductsResponse().getListOfSKU(t.data),
+                            SKU.testListSKU,
                             t.data,
                             this@ProductPresenter,
                             application,
@@ -89,7 +111,7 @@ class ProductPresenter(val mIView: IView) {
 
                 override fun onComplete() {
                     super.onComplete()
-                    (mIView as PaymentIView).doOnComplete(purchase)
+//                    (mIView as PaymentIView).doOnComplete(purchase)
                 }
 
                 override fun onError(e: Throwable) {

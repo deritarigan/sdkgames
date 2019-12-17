@@ -8,10 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
-import com.adjust.sdk.Adjust
-import com.adjust.sdk.AdjustEvent
 import com.akggame.akg_sdk.IConfig
 import com.akggame.akg_sdk.LoginSDKCallback
+import com.akggame.akg_sdk.dao.SocmedDao
 import com.akggame.akg_sdk.dao.api.model.request.FacebookAuthRequest
 import com.akggame.akg_sdk.dao.api.model.request.GuestLoginRequest
 import com.akggame.akg_sdk.dao.pojo.UserData
@@ -22,15 +21,13 @@ import com.akggame.akg_sdk.ui.dialog.PhoneLoginDialogFragment
 import com.akggame.akg_sdk.util.CacheUtil
 import com.akggame.android.sdk.R
 import com.akggame.akg_sdk.util.DeviceUtil
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
+import com.facebook.*
 import com.facebook.appevents.AppEventsLogger
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.gson.Gson
@@ -44,11 +41,16 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
     lateinit var callbackManager: CallbackManager
     lateinit var mGoogleSignInClient: GoogleSignInClient
     val presenter = LoginPresenter(this@LoginDialogFragment)
-
-
     var mDismissed: Boolean = true
     var mShownByMe = false
     var onViewDestroyed = true
+
+    interface JSONConvertable {
+        fun toJSON(): String = Gson().toJson(this)
+    }
+
+    inline fun <reified T : JSONConvertable> String.toObject(): T =
+        Gson().fromJson(this, T::class.java)
 
     constructor(fm: FragmentManager?) : this() {
         myFragmentManager = fm
@@ -56,17 +58,24 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
 
     companion object {
         private lateinit var mLoginCallback: LoginSDKCallback
-
-        fun newInstance(mFragmentManager: FragmentManager, loginCallback: LoginSDKCallback): LoginDialogFragment {
+        fun newInstance(
+            mFragmentManager: FragmentManager,
+            loginCallback: LoginSDKCallback
+        ): LoginDialogFragment {
             val mDialogFragment = LoginDialogFragment(mFragmentManager)
             mLoginCallback = loginCallback
             return mDialogFragment
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         mView =
-            LayoutInflater.from(requireActivity() as Context).inflate(R.layout.content_dialog_login, null, false)
+            LayoutInflater.from(requireActivity() as Context)
+                .inflate(R.layout.content_dialog_login, null, false)
 
         return mView
     }
@@ -82,32 +91,12 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
         initialize()
     }
 
-    override fun doOnSuccess(isFirstLogin:Boolean,token: String,loginType:String) {
-        mLoginCallback.onResponseSuccess(token,loginType)
+    override fun doOnSuccess(isFirstLogin: Boolean, token: String, loginType: String) {
+        mLoginCallback.onResponseSuccess(token, loginType)
         val id = DeviceUtil.decoded(token).toObject<UserData>()
-        CacheUtil.putPreferenceString(IConfig.SESSION_PIW,id.id,requireActivity())
-//        setAdjustEventLogin(isFirstLogin)
+        CacheUtil.putPreferenceString(IConfig.SESSION_PIW, id.id, requireActivity())
+        SocmedDao.setAdjustEventLogin(isFirstLogin, requireActivity())
         dismiss()
-    }
-
-    interface JSONConvertable {
-        fun toJSON(): String = Gson().toJson(this)
-    }
-
-    inline fun <reified T: JSONConvertable> String.toObject(): T = Gson().fromJson(this, T::class.java)
-
-
-    fun setAdjustEventLogin(isFirstLogin: Boolean){
-//        if(CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN,requireActivity())!=null){
-//            val adjustEvent = AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN,requireActivity()))
-//            adjustEvent.addCallbackParameter("user_id",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,requireActivity()))
-//            if(isFirstLogin){
-//                adjustEvent.addCallbackParameter("cost_type","CPI")
-//                adjustEvent.addCallbackParameter("cost_amount","1.0")
-//            }
-//            Log.d("PIW ",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,requireActivity()) )
-//            Adjust.trackEvent(adjustEvent)
-//        }
     }
 
     override fun doOnError(message: String) {
@@ -132,13 +121,7 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
 
         fbLoginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult?) {
-                var model = FacebookAuthRequest()
-                model.access_token = result?.accessToken?.token
-                model.auth_provider = "facebook"
-                model.device_id = DeviceUtil.getImei(requireActivity())
-                model.game_provider = CacheUtil.getPreferenceString(IConfig.SESSION_GAME,requireActivity())
-                model.operating_system = "android"
-                model.phone_model = DeviceUtil.getDeviceName()
+                var model = SocmedDao.setSuccessFacebookRequest(result, requireActivity())
                 presenter.facebookLogin(model, requireActivity())
             }
 
@@ -146,6 +129,11 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
             }
 
             override fun onError(error: FacebookException?) {
+                if (error is FacebookAuthorizationException) {
+                    if (AccessToken.getCurrentAccessToken() != null) {
+                        LoginManager.getInstance().logOut()
+                    }
+                }
             }
         })
     }
@@ -154,12 +142,7 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
      * GOOGLE SIGN IN----------------------------------------->
      **/
     fun setGoogleLogin() {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .requestIdToken(IConfig.GOOGLE_CLIENT_ID)
-            .build()
-
-        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+        mGoogleSignInClient = SocmedDao.setGoogleSigninClient(requireContext())
 
         btnBindGoogle.setOnClickListener {
             if (DeviceUtil.getImei(requireActivity()).isNotEmpty()) {
@@ -173,13 +156,12 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
         callbackManager.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 101) {
-                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-                handleSignInResult(task)
-//            }
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
         }
     }
 
-    fun initialize() {
+    private fun initialize() {
         setGoogleLogin()
         setFacebookLogin()
         mView.btnBack.setOnClickListener {
@@ -194,7 +176,7 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
                 val model = GuestLoginRequest(
                     "guest",
                     DeviceUtil.getImei(requireActivity()),
-                    CacheUtil.getPreferenceString(IConfig.SESSION_GAME,requireActivity()),
+                    CacheUtil.getPreferenceString(IConfig.SESSION_GAME, requireActivity()),
                     "Android",
                     DeviceUtil.getDeviceName()
                 )
@@ -203,8 +185,8 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
         }
     }
 
-    fun changeToPhoneLogin() {
-        if(myFragmentManager!=null){
+    private fun changeToPhoneLogin() {
+        if (myFragmentManager != null) {
             val phoneLoginDialogFragment =
                 PhoneLoginDialogFragment.newInstance(myFragmentManager, mLoginCallback)
             val ftransaction = myFragmentManager!!.beginTransaction()
@@ -220,7 +202,8 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
             model.access_token = account?.idToken
             model.auth_provider = "google"
             model.device_id = DeviceUtil.getImei(requireActivity())
-            model.game_provider = CacheUtil.getPreferenceString(IConfig.SESSION_GAME,requireActivity())
+            model.game_provider =
+                CacheUtil.getPreferenceString(IConfig.SESSION_GAME, requireActivity())
             model.operating_system = "android"
             model.phone_model = DeviceUtil.getDeviceName()
             model.expires_in = 3600

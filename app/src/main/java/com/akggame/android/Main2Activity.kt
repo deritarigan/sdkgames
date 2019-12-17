@@ -20,8 +20,6 @@ class Main2Activity : AppCompatActivity(),MenuSDKCallback {
     override fun onCheckSDK(isUpdated: Boolean) {
 
     }
-
-
     override fun onLogout() {
         startActivity(Intent(this@Main2Activity,MainActivity::class.java))
         finish()
