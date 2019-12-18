@@ -262,8 +262,7 @@ class FloatingButton : FrameLayout {
                     return if (Math.abs(upDX) < CLICK_DRAG_TOLERANCE && Math.abs(upDY) < CLICK_DRAG_TOLERANCE) { // A click
 //                performClick()
                         if (!isFloating) {
-                            float()
-
+                            setFloat()
                         } else {
                             if (recyclerView.visibility == View.GONE) {
                                 expandContainer()
@@ -439,7 +438,7 @@ class FloatingButton : FrameLayout {
         addView(recyclerView, dp2Px(circleSize), getRecyclerViewSize())
     }
 
-    fun float() {
+    fun setFloat() {
         beforeExpandX = this.x
         beforeExpandY = this.y
         if (!isFloating) {
