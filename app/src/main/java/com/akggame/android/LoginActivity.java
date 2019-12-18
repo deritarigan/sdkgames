@@ -20,7 +20,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this,Main2Activity.class));
             finish();
         }
-
+        
         Log.d("Density Check",String.valueOf(getResources().getDisplayMetrics().heightPixels));
 
         AKG_SDK.INSTANCE.onLogin(this,"Your Game", new LoginSDKCallback() {

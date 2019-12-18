@@ -24,37 +24,47 @@ object AKG_SDK {
     const val LOGIN_FACEBOOK = "loginFacebook"
     const val LOGIN_PHONE = "loginPhone"
 
+    @JvmStatic
     fun checkIsLogin(context: Context): Boolean {
         return CacheUtil.getPreferenceBoolean(IConfig.SESSION_LOGIN, context)
     }
 
+    @JvmStatic
     fun getMenuCallback(): MenuSDKCallback {
         return menuCallback
     }
+
+    @JvmStatic
     fun registerAdjustOnAKG(gameProvider: String, application: Application) {
         AkgDao.registerAdjust(gameProvider,application)
     }
 
+    @JvmStatic
     fun getProducts(application: Application, context: Context, callback: ProductSDKCallback) {
         AkgDao.getProducts(application,context,callback)
     }
 
+    @JvmStatic
     fun callBannerDialog(activity: AppCompatActivity) {
         AkgDao.callBannerDialog(activity)
     }
 
+    @JvmStatic
     fun launchBilling(activity: Activity, skuDetails: SkuDetails, callback: PurchaseSDKCallback) {
         AkgDao.launchBilling(activity,skuDetails,callback)
     }
 
+    @JvmStatic
     fun setRelauchDialog(activity: AppCompatActivity,callback : RelaunchSDKCallback) {
         AkgDao.callRelaunchDialog(activity, callback)
     }
 
+    @JvmStatic
     fun resetFloatingButton(activity: AppCompatActivity) {
         setFloatingButton(activity, mFloatingButton, activity, menuCallback)
     }
 
+    @JvmStatic
     fun setFloatingButton(
         activity: AppCompatActivity,
         floatingButton: FloatingButton,
@@ -66,10 +76,12 @@ object AKG_SDK {
         mFloatingButton = AkgDao.setFloatingButtonItem(floatingButton,activity)
     }
 
+    @JvmStatic
     fun onLogin(activity: AppCompatActivity, gameName: String, loginSDKCallback: LoginSDKCallback) {
         AkgDao.callLoginDialog(activity,gameName,loginSDKCallback)
     }
 
+    @JvmStatic
     fun onSDKPayment(activity: AppCompatActivity) {
         val intent = Intent(activity, PaymentActivity::class.java)
         activity.startActivityForResult(intent, SDK_PAYMENT_CODE)

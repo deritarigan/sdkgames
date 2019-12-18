@@ -52,7 +52,6 @@ class Main2Activity : AppCompatActivity(),MenuSDKCallback {
         if(resultCode== Activity.RESULT_OK){
             if(requestCode == AKG_SDK.SDK_PAYMENT_CODE){
                 val payment : PurchaseItem? = data?.getParcelableExtra("orderDetail")
-
                 Toast.makeText(this,payment?.product_name,Toast.LENGTH_LONG).show()
             }
         }
