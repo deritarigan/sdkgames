@@ -44,7 +44,7 @@ class LoginPresenter(val mIView: IView) {
 
                 Log.d("TESTING API", "onNext")
                 if (t.meta?.code == 200) {
-                    (mIView as LoginIView).doOnSuccess(t.data?.is_first_login!!,t.data?.token!!, LOGIN_GUEST)
+                    (mIView as LoginIView).doOnSuccess(t.data?.is_first_login!!,t.data?.token!!,  LOGIN_GUEST)
                     CacheUtil.putPreferenceString(LOGIN_TYPE, LOGIN_GUEST, context)
                     CacheUtil.putPreferenceString(SESSION_TOKEN, t.data?.token!!, context)
                     CacheUtil.putPreferenceBoolean(IConfig.SESSION_LOGIN,true,context)

@@ -13,9 +13,18 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.akggame.akg_sdk.rx.IView
 import com.akggame.android.sdk.R
+import com.google.gson.Gson
 
 
 open class BaseDialogFragment() : DialogFragment(), IView{
+
+    interface JSONConvertable {
+        fun toJSON(): String = Gson().toJson(this)
+    }
+
+    inline fun <reified T : JSONConvertable> String.toObject(): T =
+        Gson().fromJson(this, T::class.java)
+
     override fun handleError(message: String) {
         Toast.makeText(requireActivity(),message,Toast.LENGTH_LONG).show()
     }

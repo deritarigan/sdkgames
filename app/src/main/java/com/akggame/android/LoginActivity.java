@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
 
         AKG_SDK.INSTANCE.onLogin(this,"Your Game", new LoginSDKCallback() {
             @Override
-            public void onResponseSuccess(@NotNull String token, @NotNull String loginType) {
+            public void onResponseSuccess(@NotNull String token, @NotNull String username, @NotNull String loginType) {
 
             }
 

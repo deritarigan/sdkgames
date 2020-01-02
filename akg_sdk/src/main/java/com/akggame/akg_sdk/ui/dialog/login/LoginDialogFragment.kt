@@ -45,12 +45,6 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
     var mShownByMe = false
     var onViewDestroyed = true
 
-    interface JSONConvertable {
-        fun toJSON(): String = Gson().toJson(this)
-    }
-
-    inline fun <reified T : JSONConvertable> String.toObject(): T =
-        Gson().fromJson(this, T::class.java)
 
     constructor(fm: FragmentManager?) : this() {
         myFragmentManager = fm
@@ -86,14 +80,14 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
         mShownByMe = true
         onViewDestroyed = false
 
-        AppEventsLogger.activateApp(requireActivity().application);
+        AppEventsLogger.activateApp(requireActivity().application)
 
         initialize()
     }
 
     override fun doOnSuccess(isFirstLogin: Boolean, token: String, loginType: String) {
-        mLoginCallback.onResponseSuccess(token, loginType)
         val id = DeviceUtil.decoded(token).toObject<UserData>()
+        mLoginCallback.onResponseSuccess(token, id.id, loginType)
         CacheUtil.putPreferenceString(IConfig.SESSION_PIW, id.id, requireActivity())
         SocmedDao.setAdjustEventLogin(isFirstLogin, requireActivity())
         dismiss()

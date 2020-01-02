@@ -61,7 +61,7 @@ object AKG_SDK {
 
     @JvmStatic
     fun resetFloatingButton(activity: AppCompatActivity) {
-        setFloatingButton(activity, mFloatingButton, activity, menuCallback)
+        setFloatingButton(activity, mFloatingButton, activity as Context, menuCallback)
     }
 
     @JvmStatic

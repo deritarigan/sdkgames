@@ -31,7 +31,7 @@ class Main2Activity : AppCompatActivity(),MenuSDKCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
         AKG_SDK.setFloatingButton(this,floatingButton, this,this)
-        floatingButton.float()
+        floatingButton.setFloat()
         callBanner()
 
         btnPayment.setOnClickListener {
