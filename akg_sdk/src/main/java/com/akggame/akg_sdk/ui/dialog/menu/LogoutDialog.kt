@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
-import com.adjust.sdk.Adjust
-import com.adjust.sdk.AdjustEvent
+//import com.adjust.sdk.Adjust
+//import com.adjust.sdk.AdjustEvent
 import com.akggame.akg_sdk.IConfig
 import com.akggame.akg_sdk.MenuSDKCallback
 import com.akggame.akg_sdk.dao.SocmedDao
@@ -15,6 +15,7 @@ import com.akggame.akg_sdk.presenter.LogoutPresenter
 import com.akggame.akg_sdk.ui.dialog.BaseDialogFragment
 import com.akggame.akg_sdk.util.CacheUtil
 import com.akggame.android.sdk.R
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.content_dialog_logout.*
 import kotlinx.android.synthetic.main.content_dialog_logout.view.*
 
@@ -93,16 +94,23 @@ class LogoutDialog() : BaseDialogFragment(), LogoutIView {
     }
 
     fun setAdjustEventLogout() {
-        if (CacheUtil.getPreferenceString(IConfig.ADJUST_LOGOUT, requireActivity()) != null) {
-            Adjust.trackEvent(
-                AdjustEvent(
-                    CacheUtil.getPreferenceString(
-                        IConfig.ADJUST_LOGOUT,
-                        requireActivity()
-                    )
-                )
-            )
-        }
+//        if (CacheUtil.getPreferenceString(IConfig.ADJUST_LOGOUT, requireActivity()) != null) {
+//            Adjust.trackEvent(
+//                AdjustEvent(
+//                    CacheUtil.getPreferenceString(
+//                        IConfig.ADJUST_LOGOUT,
+//                        requireActivity()
+//                    )
+//                )
+//            )
+//        }
+        val bundle = Bundle()
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(requireActivity())
+        bundle.putString(
+            "user_id",
+            CacheUtil.getPreferenceString(IConfig.SESSION_PIW, requireActivity())
+        )
+        firebaseAnalytics.logEvent("logout", bundle)
     }
 
 }

@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
-import com.adjust.sdk.Adjust
-import com.adjust.sdk.AdjustEvent
+//import com.adjust.sdk.Adjust
+//import com.adjust.sdk.AdjustEvent
 import com.akggame.akg_sdk.IConfig
 import com.akggame.akg_sdk.dao.api.model.request.SignUpRequest
 import com.akggame.akg_sdk.dao.api.model.response.BaseResponse
@@ -17,6 +17,7 @@ import com.akggame.akg_sdk.ui.dialog.SuccessDialogFragment
 import com.akggame.akg_sdk.util.CacheUtil
 import com.akggame.akg_sdk.util.DeviceUtil
 import com.akggame.android.sdk.R
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.content_dialog_input_password.*
 import kotlinx.android.synthetic.main.content_dialog_input_password.view.btnNext
 import kotlinx.android.synthetic.main.content_dialog_input_password.view.etConfPassword
@@ -77,16 +78,30 @@ class SetPasswordDialog() : BaseDialogFragment(), SetPasswordIView {
     }
 
     fun setAdjustEventRegisterSuccess() {
-        if(CacheUtil.getPreferenceString(IConfig.ADJUST_REGISTER_SUCCESS,requireActivity())!=null){
-            var adjustEvent = AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_REGISTER_SUCCESS,requireActivity()))
-            Adjust.trackEvent(adjustEvent)
-        }
+//        if(CacheUtil.getPreferenceString(IConfig.ADJUST_REGISTER_SUCCESS,requireActivity())!=null){
+//            var adjustEvent = AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_REGISTER_SUCCESS,requireActivity()))
+//            Adjust.trackEvent(adjustEvent)
+//        }
+        val bundle = Bundle()
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
+        bundle.putString(
+            "status",
+            "success"
+        )
+        firebaseAnalytics.logEvent("register", bundle)
     }
 
     fun setAdjustEventRegisterError(){
-        if(CacheUtil.getPreferenceString(IConfig.ADJUST_REGISTER_FAILED,requireActivity())!=null){
-            Adjust.trackEvent(AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_REGISTER_FAILED,requireActivity())))
-        }
+//        if(CacheUtil.getPreferenceString(IConfig.ADJUST_REGISTER_FAILED,requireActivity())!=null){
+//            Adjust.trackEvent(AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_REGISTER_FAILED,requireActivity())))
+//        }
+        val bundle = Bundle()
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
+        bundle.putString(
+            "status",
+            "failed"
+        )
+        firebaseAnalytics.logEvent("register", bundle)
     }
 
     fun initialize() {

@@ -2,12 +2,13 @@ package com.akggame.akg_sdk.dao
 
 import android.app.Activity
 import android.app.Application
+import android.os.Bundle
 import android.text.TextUtils
 import android.util.Base64
 import android.util.Log
-import android.widget.Toast
-import com.adjust.sdk.Adjust
-import com.adjust.sdk.AdjustEvent
+//import android.widget.Toast
+//import com.adjust.sdk.Adjust
+//import com.adjust.sdk.AdjustEvent
 import com.akggame.akg_sdk.IConfig
 import com.akggame.akg_sdk.dao.api.model.ProductData
 import com.akggame.akg_sdk.dao.api.model.request.PostOrderRequest
@@ -16,6 +17,7 @@ import com.akggame.akg_sdk.presenter.ProductPresenter
 import com.akggame.akg_sdk.util.CacheUtil
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
+import com.google.firebase.analytics.FirebaseAnalytics
 import java.io.IOException
 import java.security.*
 import java.security.spec.InvalidKeySpecException
@@ -40,7 +42,9 @@ class BillingDao constructor(
     private val KEY_FACTORY_ALGORITHM = "RSA"
     private val SIGNATURE_ALGORITHM = "SHA1withRSA"
     private val TAG = "VERIFY PAYMENT"
-
+    private val firebaseAnalytics by lazy {
+        FirebaseAnalytics.getInstance(application)
+    }
 
     object SKU {
         val janjiDoang = "com.sdkgame.product1"
@@ -321,26 +325,37 @@ class BillingDao constructor(
 
     fun setAdjustEventPaymentSuccess(price: Double, sku: String) {
         if (CacheUtil.getPreferenceString(IConfig.ADJUST_PAYMENT_SUCCESS, application) != null) {
-            val adjustEvent =
-                AdjustEvent(
-                    CacheUtil.getPreferenceString(
-                        IConfig.ADJUST_PAYMENT_SUCCESS,
-                        application
-                    )
-                )
-            adjustEvent.setRevenue(price, "IDR")
-            adjustEvent.setOrderId(sku)
-            adjustEvent.addCallbackParameter("user_id",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,application))
-            Adjust.trackEvent(adjustEvent)
+//            val adjustEvent =
+//                AdjustEvent(
+//                    CacheUtil.getPreferenceString(
+//                        IConfig.ADJUST_PAYMENT_SUCCESS,
+//                        application
+//                    )
+//                )
+//            adjustEvent.setRevenue(price, "IDR")
+//            adjustEvent.setOrderId(sku)
+//            adjustEvent.addCallbackParameter("user_id",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,application))
+//            Adjust.trackEvent(adjustEvent)
+
+            val bundle = Bundle()
+            bundle.putString(FirebaseAnalytics.Param.CURRENCY,"IDR")
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID,sku)
+            bundle.putString("user_id",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,application))
+            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.ECOMMERCE_PURCHASE,bundle)
         }
     }
 
-    fun setAdjustEventPaymentFailed() {
-        if (CacheUtil.getPreferenceString(IConfig.ADJUST_PAYMENT_FAILED, application) != null) {
-            val adjustEvent = AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_PAYMENT_FAILED, application))
-            adjustEvent.addCallbackParameter("user_id",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,application))
-            Adjust.trackEvent(adjustEvent)
-
-        }
+    fun setAdjustEventPaymentFailed(sku: String) {
+//        if (CacheUtil.getPreferenceString(IConfig.ADJUST_PAYMENT_FAILED, application) != null) {
+//            val adjustEvent = AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_PAYMENT_FAILED, application))
+//            adjustEvent.addCallbackParameter("user_id",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,application))
+//            Adjust.trackEvent(adjustEvent)
+//
+//        }
+        val bundle = Bundle()
+        bundle.putString(FirebaseAnalytics.Param.CURRENCY,"IDR")
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID,sku)
+        bundle.putString("user_id",CacheUtil.getPreferenceString(IConfig.SESSION_PIW,application))
+        firebaseAnalytics.logEvent("purchase_failed",bundle)
     }
 }

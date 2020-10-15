@@ -27,7 +27,7 @@ object DeviceUtil {
                 Manifest.permission.READ_PHONE_STATE
             ) === PackageManager.PERMISSION_GRANTED
         ) {
-            return manager.deviceId
+            return "manager.deviceId"
         } else {
             //            SessionManager.logout();
             Log.e("Get IMEI", "Tidak ada ijin untuk membuat id device")

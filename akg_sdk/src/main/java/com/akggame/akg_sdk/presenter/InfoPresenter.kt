@@ -7,9 +7,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.adjust.sdk.Adjust
-import com.adjust.sdk.AdjustConfig
-import com.adjust.sdk.LogLevel
+//import com.adjust.sdk.Adjust
+//import com.adjust.sdk.AdjustConfig
+//import com.adjust.sdk.LogLevel
 import com.akggame.akg_sdk.AKG_SDK
 import com.akggame.akg_sdk.IConfig
 import com.akggame.akg_sdk.IConfig.*
@@ -159,12 +159,12 @@ class InfoPresenter(val mIView: IView) {
     }
 
     private fun initAdjust(application: Application, appToken: String) {
-        val environment = AdjustConfig.ENVIRONMENT_PRODUCTION
-        val config = AdjustConfig(application, appToken, environment)
-        config.setLogLevel(LogLevel.VERBOSE); // enable all logs
-        Adjust.onCreate(config)
-        Log.d("Adjust", "Initiate")
-        application.registerActivityLifecycleCallbacks(AdjustLifecycleCallbacks())
+//        val environment = AdjustConfig.ENVIRONMENT_PRODUCTION
+//        val config = AdjustConfig(application, appToken, environment)
+//        config.setLogLevel(LogLevel.VERBOSE); // enable all logs
+//        Adjust.onCreate(config)
+//        Log.d("Adjust", "Initiate")
+//        application.registerActivityLifecycleCallbacks(AdjustLifecycleCallbacks())
     }
 
     private class AdjustLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
@@ -189,11 +189,11 @@ class InfoPresenter(val mIView: IView) {
         }
 
         override fun onActivityResumed(activity: Activity) {
-            Adjust.onResume()
+//            Adjust.onResume()
         }
 
         override fun onActivityPaused(activity: Activity) {
-            Adjust.onPause()
+//            Adjust.onPause()
         }
     }
 

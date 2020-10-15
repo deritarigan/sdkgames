@@ -19,8 +19,8 @@ import android.R
 import android.app.Activity
 import android.content.Intent
 import android.util.Log
-import com.adjust.sdk.Adjust
-import com.adjust.sdk.AdjustEvent
+//import com.adjust.sdk.Adjust
+//import com.adjust.sdk.AdjustEvent
 import com.akggame.akg_sdk.AKG_SDK
 import com.akggame.akg_sdk.IConfig
 import com.akggame.akg_sdk.ProductSDKCallback

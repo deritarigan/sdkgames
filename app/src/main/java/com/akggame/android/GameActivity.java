@@ -12,6 +12,7 @@ import android.os.Bundle;
 
 import com.akggame.akg_sdk.AKG_SDK;
 import com.akggame.akg_sdk.MenuSDKCallback;
+import com.akggame.akg_sdk.PAYMENT_TYPE;
 import com.akggame.akg_sdk.ProductSDKCallback;
 import com.akggame.akg_sdk.PurchaseSDKCallback;
 import com.akggame.akg_sdk.dao.pojo.PurchaseItem;
@@ -73,7 +74,7 @@ public class GameActivity extends AppCompatActivity implements MenuSDKCallback {
         btnPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AKG_SDK.INSTANCE.onSDKPayment(GameActivity.this);
+                AKG_SDK.INSTANCE.onSDKPayment(PAYMENT_TYPE.GOOGLE,GameActivity.this);
             }
         });
 

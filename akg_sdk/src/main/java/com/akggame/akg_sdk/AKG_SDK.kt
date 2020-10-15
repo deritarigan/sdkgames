@@ -11,10 +11,16 @@ import com.akggame.akg_sdk.ui.component.FloatingButton
 import com.akggame.akg_sdk.util.CacheUtil
 import com.android.billingclient.api.SkuDetails
 import com.akggame.akg_sdk.dao.*
+import com.akggame.akg_sdk.ui.activity.PaymentOttopayActivity
+
+enum class PAYMENT_TYPE {
+    GOOGLE, OTTOPAY
+}
 
 object AKG_SDK {
 
     private lateinit var menuCallback: MenuSDKCallback
+
     //    lateinit var activity: AppCompatActivity
     private lateinit var mFloatingButton: FloatingButton
     private val AkgDao = AkgDao()
@@ -36,12 +42,14 @@ object AKG_SDK {
 
     @JvmStatic
     fun registerAdjustOnAKG(gameProvider: String, application: Application) {
-        AkgDao.registerAdjust(gameProvider,application)
+//        AkgDao.registerAdjust(gameProvider, application)
+        CacheUtil.putPreferenceString(IConfig.SESSION_GAME, gameProvider, application)
+
     }
 
     @JvmStatic
     fun getProducts(application: Application, context: Context, callback: ProductSDKCallback) {
-        AkgDao.getProducts(application,context,callback)
+        AkgDao.getProducts(application, context, callback)
     }
 
     @JvmStatic
@@ -51,11 +59,11 @@ object AKG_SDK {
 
     @JvmStatic
     fun launchBilling(activity: Activity, skuDetails: SkuDetails, callback: PurchaseSDKCallback) {
-        AkgDao.launchBilling(activity,skuDetails,callback)
+        AkgDao.launchBilling(activity, skuDetails, callback)
     }
 
     @JvmStatic
-    fun setRelauchDialog(activity: AppCompatActivity,callback : RelaunchSDKCallback) {
+    fun setRelauchDialog(activity: AppCompatActivity, callback: RelaunchSDKCallback) {
         AkgDao.callRelaunchDialog(activity, callback)
     }
 
@@ -72,18 +80,27 @@ object AKG_SDK {
         menuSDKCallback: MenuSDKCallback
     ) {
         menuCallback = menuSDKCallback
-        AkgDao.setFloatingButtonListener(activity,floatingButton,context,menuSDKCallback)
-        mFloatingButton = AkgDao.setFloatingButtonItem(floatingButton,activity)
+        AkgDao.setFloatingButtonListener(activity, floatingButton, context, menuSDKCallback)
+        mFloatingButton = AkgDao.setFloatingButtonItem(floatingButton, activity)
     }
 
     @JvmStatic
     fun onLogin(activity: AppCompatActivity, gameName: String, loginSDKCallback: LoginSDKCallback) {
-        AkgDao.callLoginDialog(activity,gameName,loginSDKCallback)
+        AkgDao.callLoginDialog(activity, gameName, loginSDKCallback)
     }
 
     @JvmStatic
-    fun onSDKPayment(activity: AppCompatActivity) {
-        val intent = Intent(activity, PaymentActivity::class.java)
-        activity.startActivityForResult(intent, SDK_PAYMENT_CODE)
+    fun onSDKPayment(paymentType: PAYMENT_TYPE, activity: AppCompatActivity) {
+        when (paymentType) {
+            PAYMENT_TYPE.GOOGLE -> {
+                val intent = Intent(activity, PaymentActivity::class.java)
+                activity.startActivityForResult(intent, SDK_PAYMENT_CODE)
+            }
+            PAYMENT_TYPE.OTTOPAY -> {
+                val intent = Intent(activity, PaymentOttopayActivity::class.java)
+                activity.startActivityForResult(intent, SDK_PAYMENT_CODE)
+            }
+        }
+
     }
 }

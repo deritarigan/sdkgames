@@ -2,9 +2,10 @@ package com.akggame.akg_sdk.dao
 
 import android.app.Activity
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
-import com.adjust.sdk.Adjust
-import com.adjust.sdk.AdjustEvent
+//import com.adjust.sdk.Adjust
+//import com.adjust.sdk.AdjustEvent
 import com.akggame.akg_sdk.IConfig
 import com.akggame.akg_sdk.dao.api.model.request.FacebookAuthRequest
 import com.akggame.akg_sdk.presenter.LogoutPresenter
@@ -18,6 +19,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.GoogleApiClient
+import com.google.firebase.analytics.FirebaseAnalytics
 
 object SocmedDao {
 
@@ -62,24 +64,30 @@ object SocmedDao {
     }
 
     fun setAdjustEventLogin(isFirstLogin: Boolean, context: Context) {
-        if (CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN, context) != null) {
-            val adjustEvent =
-                AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN, context))
-            adjustEvent.addCallbackParameter(
+//        if (CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN, context) != null) {
+//            val adjustEvent =
+//                AdjustEvent(CacheUtil.getPreferenceString(IConfig.ADJUST_LOGIN, context))
+//            adjustEvent.addCallbackParameter(
+//                "user_id",
+//                CacheUtil.getPreferenceString(IConfig.SESSION_PIW, context)
+//            )
+//            if (isFirstLogin) {
+//                adjustEvent.addCallbackParameter("cost_type", "CPI")
+//                adjustEvent.addCallbackParameter("cost_amount", "1.0")
+//                adjustEvent.addCallbackParameter("device_id", DeviceUtil.getImei(context))
+//                adjustEvent.addCallbackParameter("game_name", CacheUtil.getPreferenceString(IConfig.SESSION_GAME, context))
+//            }
+//            Log.d("PIW ", CacheUtil.getPreferenceString(IConfig.SESSION_PIW, context))
+//            Adjust.trackEvent(adjustEvent)
+//        }
+        if (isFirstLogin) {
+            val bundle = Bundle()
+            val firebaseAnalytics =FirebaseAnalytics.getInstance(context)
+            bundle.putString(
                 "user_id",
                 CacheUtil.getPreferenceString(IConfig.SESSION_PIW, context)
             )
-            if (isFirstLogin) {
-                adjustEvent.addCallbackParameter("cost_type", "CPI")
-                adjustEvent.addCallbackParameter("cost_amount", "1.0")
-                adjustEvent.addCallbackParameter("device_id", DeviceUtil.getImei(context))
-                adjustEvent.addCallbackParameter(
-                    "game_name",
-                    CacheUtil.getPreferenceString(IConfig.SESSION_GAME, context)
-                )
-            }
-            Log.d("PIW ", CacheUtil.getPreferenceString(IConfig.SESSION_PIW, context))
-            Adjust.trackEvent(adjustEvent)
+            firebaseAnalytics.logEvent("firstLogin", bundle)
         }
     }
 

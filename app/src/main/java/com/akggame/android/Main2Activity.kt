@@ -9,6 +9,7 @@ import android.util.DisplayMetrics
 import android.widget.Toast
 import com.akggame.akg_sdk.AKG_SDK
 import com.akggame.akg_sdk.MenuSDKCallback
+import com.akggame.akg_sdk.PAYMENT_TYPE
 import com.akggame.akg_sdk.dao.pojo.PurchaseItem
 import kotlinx.android.synthetic.main.activity_main2.*
 
@@ -35,7 +36,11 @@ class Main2Activity : AppCompatActivity(),MenuSDKCallback {
         callBanner()
 
         btnPayment.setOnClickListener {
-            AKG_SDK.onSDKPayment(this)
+            AKG_SDK.onSDKPayment(PAYMENT_TYPE.GOOGLE,this)
+        }
+
+        btnPaymentOttoPay.setOnClickListener {
+            AKG_SDK.onSDKPayment(PAYMENT_TYPE.OTTOPAY,this)
         }
     }
 

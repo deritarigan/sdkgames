@@ -30,6 +30,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.content_dialog_login.*
 import kotlinx.android.synthetic.main.content_dialog_login.view.*
@@ -44,7 +45,9 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
     var mDismissed: Boolean = true
     var mShownByMe = false
     var onViewDestroyed = true
-
+    private val firebaseAnalytics by lazy {
+        FirebaseAnalytics.getInstance(requireContext())
+    }
 
     constructor(fm: FragmentManager?) : this() {
         myFragmentManager = fm
@@ -106,9 +109,14 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
         callbackManager = CallbackManager.Factory.create();
         mView.fbLoginButton.setFragment(this)
         mView.fbLoginButton.setPermissions(arrayListOf("email"))
-
+        val bundle = Bundle()
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID,"facebook")
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE,"games")
+        bundle.putString(FirebaseAnalytics.Param.CONTENT,CacheUtil.getPreferenceString(IConfig.SESSION_GAME,requireContext()))
+        firebaseAnalytics.logEvent("select_login",bundle)
         mView.btnBindFacebook.setOnClickListener {
             if (DeviceUtil.getImei(requireActivity()).isNotEmpty()) {
+
                 mView.fbLoginButton.performClick()
             }
         }
@@ -137,9 +145,14 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
      **/
     fun setGoogleLogin() {
         mGoogleSignInClient = SocmedDao.setGoogleSigninClient(requireContext())
-
+        val bundle = Bundle()
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID,"google")
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE,"games")
+        bundle.putString(FirebaseAnalytics.Param.CONTENT,CacheUtil.getPreferenceString(IConfig.SESSION_GAME,requireContext()))
+        firebaseAnalytics.logEvent("select_login",bundle)
         btnBindGoogle.setOnClickListener {
             if (DeviceUtil.getImei(requireActivity()).isNotEmpty()) {
+
                 val signInIntent = mGoogleSignInClient.getSignInIntent()
                 startActivityForResult(signInIntent, 101)
             }
@@ -166,7 +179,13 @@ class LoginDialogFragment() : BaseDialogFragment(), LoginIView {
         }
 
         mView.btnGuest.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("login_type","guest")
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE,"games")
+            bundle.putString(FirebaseAnalytics.Param.CONTENT,CacheUtil.getPreferenceString(IConfig.SESSION_GAME,requireContext()))
+            firebaseAnalytics.logEvent("select_login",bundle)
             if (DeviceUtil.getImei(requireActivity()).isNotEmpty()) {
+
                 val model = GuestLoginRequest(
                     "guest",
                     DeviceUtil.getImei(requireActivity()),
