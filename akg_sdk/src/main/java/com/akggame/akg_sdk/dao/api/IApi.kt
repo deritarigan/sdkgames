@@ -2,6 +2,7 @@ package com.akggame.akg_sdk.dao.api
 
 import com.akggame.akg_sdk.dao.api.model.request.*
 import com.akggame.akg_sdk.dao.api.model.response.*
+import com.clappingape.dplkagent.model.api.request.DepositRequest
 import retrofit2.http.*
 import  io.reactivex.Observable
 
@@ -61,4 +62,10 @@ interface IApi {
     @GET("/banners/android/{game-provider}")
     fun callGetBanner(@HeaderMap map: Map<String,String>,@Path("game-provider") gameProvider: String?):
             Observable<BannerResponse>
+
+    @POST("/deposit")
+    fun createDeposit(
+        @HeaderMap headers: Map<String, String>,
+        @Body data: DepositRequest
+    ): Observable<DepositResponse>
 }

@@ -20,13 +20,13 @@
         <activity android:name="com.akggame.akg_sdk.ui.activity.PaymentOttopayActivity"></activity>
         <activity android:name="com.akggame.akg_sdk.ui.activity.WebView" />
 
-        <receiver
-                android:name="com.adjust.sdk.AdjustReferrerReceiver"
-                android:exported="true">
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
+<!--        <receiver-->
+<!--                android:name="com.adjust.sdk.AdjustReferrerReceiver"-->
+<!--                android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.android.vending.INSTALL_REFERRER" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
 
         <activity
                 android:name="com.akggame.akg_sdk.ui.activity.PaymentActivity"

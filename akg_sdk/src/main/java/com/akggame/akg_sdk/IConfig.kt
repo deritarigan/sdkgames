@@ -32,6 +32,8 @@ interface IConfig {
         val ADJUST_REGISTER_SUCCESS = "register_success"
         val ADJUST_REGISTER_FAILED = "register_failed"
 
+        val DPLK_X_API_KEY: String = "Z89xN3LjZIABWRO2nLNTsbUVGYSAKcuTHFnrLWexZV99RguE49mmxlrqblH2"
+
         val monthLabels = arrayOf(
             "January_Januari",
             "February_Februari",

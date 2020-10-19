@@ -4,6 +4,7 @@ import android.content.Context
 import com.akggame.akg_sdk.dao.api.Api
 import com.akggame.akg_sdk.dao.api.model.request.*
 import com.akggame.akg_sdk.dao.api.model.response.*
+import com.clappingape.dplkagent.model.api.request.DepositRequest
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -22,13 +23,13 @@ class MainDao() {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun onGuestAuth(model:GuestLoginRequest,context: Context):Observable<PhoneAuthResponse>{
-        return Api.onGuestLogin(model,context)
+    fun onGuestAuth(model: GuestLoginRequest, context: Context): Observable<PhoneAuthResponse> {
+        return Api.onGuestLogin(model, context)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun onLogout(context: Context):Observable<BaseResponse>{
+    fun onLogout(context: Context): Observable<BaseResponse> {
         return Api.onLogout(context)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -46,69 +47,74 @@ class MainDao() {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun onSignUp(model:SignUpRequest):Observable<BaseResponse>{
+    fun onSignUp(model: SignUpRequest): Observable<BaseResponse> {
         return Api.onSignUp(model)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun onUpdatePassword(model:UpdatePasswordRequest):Observable<BaseResponse>{
+    fun onUpdatePassword(model: UpdatePasswordRequest): Observable<BaseResponse> {
         return Api.onUpdatePassword(model)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun onCheckCurrentUser(context: Context):Observable<CurrentUserResponse>{
+    fun onCheckCurrentUser(context: Context): Observable<CurrentUserResponse> {
         return Api.onGetCurrentUser(context)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun onChangePassword(body:ChangePasswordRequest,context: Context):Observable<BaseResponse>{
-        return Api.onChangePassword(body,context)
+    fun onChangePassword(body: ChangePasswordRequest, context: Context): Observable<BaseResponse> {
+        return Api.onChangePassword(body, context)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun onGetProduct(gameProvider:String?,context: Context):Observable<GameProductsResponse>{
-        return Api.onGetProduct(gameProvider,context)
+    fun onGetProduct(gameProvider: String?, context: Context): Observable<GameProductsResponse> {
+        return Api.onGetProduct(gameProvider, context)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun onBindProduct(body:BindSocMedRequest,context: Context):Observable<BaseResponse>{
-        return Api.onBindAccount(body,context)
+    fun onBindProduct(body: BindSocMedRequest, context: Context): Observable<BaseResponse> {
+        return Api.onBindAccount(body, context)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun onBindPhoneNumber(body:PhoneBindingRequest,context: Context):Observable<BaseResponse>{
-        return Api.onBindPhoneNumber(body,context)
+    fun onBindPhoneNumber(body: PhoneBindingRequest, context: Context): Observable<BaseResponse> {
+        return Api.onBindPhoneNumber(body, context)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun onPostOrder(body:PostOrderRequest,context: Context):Observable<BaseResponse>{
-        return Api.onPostOrder(body,context)
+    fun onPostOrder(body: PostOrderRequest, context: Context): Observable<BaseResponse> {
+        return Api.onPostOrder(body, context)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun onGetSDKVersion(context: Context):Observable<SDKVersionResponse>{
+    fun onGetSDKVersion(context: Context): Observable<SDKVersionResponse> {
         return Api.onCallGetSDKVersion(context)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun onGetSDKConfig(gameProvider: String?):Observable<SDKConfigResponse>{
+    fun onGetSDKConfig(gameProvider: String?): Observable<SDKConfigResponse> {
         return Api.onCallGetSDKConfig(gameProvider)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun onGetBanner(context: Context):Observable<BannerResponse>{
+    fun onGetBanner(context: Context): Observable<BannerResponse> {
         return Api.onGetBanner(context)
             .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun onCreateDeposit(context: Context, body: DepositRequest): Observable<DepositResponse> {
+        return Api.onCreateDeposit(body, context).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
